@@ -1,5 +1,5 @@
 import React from 'react'
-import { Mail, MapPin, Linkedin, Github, Heart } from 'lucide-react'
+import { Mail, MapPin, Linkedin, Github } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import './footer.scss'
 import Logo from '../Logo/Logo'
@@ -89,12 +89,8 @@ const Footer: React.FC = () => {
                     <p className="footer-copyright">© 2025 HirePilot. All rights reserved.</p>
                     <div className="footer-bottom-right">
                         <div className="legal-links">
-                            <Link to="/privacy">Privacy</Link>
-                            <span className="separator">•</span>
-                            <Link to="/terms">Terms</Link>
-                        </div>
-                        <div className="made-with">
-                            Made with <Heart size={12} className="heart-icon" /> in India
+                            <Link to="/privacy">Privacy Policy</Link>
+                            <Link to="/terms">Terms & Conditions</Link>
                         </div>
                     </div>
                 </div>

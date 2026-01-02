@@ -2,11 +2,12 @@ import { Search } from 'lucide-react'
 import './searchbar.scss'
 
 interface JobsSearchProps {
+  placeHolder: string
   value: string
   onChange: (value: string) => void
 }
 
-const SearchBar = ({ value, onChange }: JobsSearchProps) => {
+const SearchBar = ({ placeHolder, value, onChange }: JobsSearchProps) => {
   return (
     <div className="search-container">
       <div className="search-wrapper">
@@ -16,7 +17,7 @@ const SearchBar = ({ value, onChange }: JobsSearchProps) => {
         <input
           type="text"
           className="search-input"
-          placeholder="Search jobs by title, company, or skills..."
+          placeholder={placeHolder}
           value={value}
           onChange={(e) => onChange(e.target.value)}
         />

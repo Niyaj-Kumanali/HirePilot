@@ -152,18 +152,6 @@
     .separator { color: var(--border); }
   }
 
-  .made-with {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 12px;
-    color: var(--gray);
-    font-weight: 500;
-    .heart-icon { 
-      color: #ef4444; 
-      animation: heartbeat 1.5s ease-in-out infinite; 
-    }
-  }
 
   /* --- Responsive Breakpoints --- */
   @media (max-width: 1024px) {

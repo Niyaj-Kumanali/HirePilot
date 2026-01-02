@@ -1,6 +1,6 @@
-import { X, Filter, RotateCcw, ChevronDown } from 'lucide-react';
+import { X, Filter, RotateCcw } from 'lucide-react';
+import './JobsSidebar.scss';
 
-import './JobsSidebar.scss'
 interface JobsFiltersSidebarProps {
   jobTypes: string[];
   jobLevels: string[];
@@ -33,7 +33,7 @@ const JobsSidebar = ({
   onMobileClose,
 }: JobsFiltersSidebarProps) => {
   return (
-    <>
+    <div className="jobs-sidebar-outer-wrapper">
       {/* Mobile Backdrop */}
       <div
         className={`jobs-sidebar-backdrop ${mobileOpen ? 'visible' : ''}`}
@@ -44,40 +44,40 @@ const JobsSidebar = ({
         <div className="jobs-filter-header">
           <div className="jobs-filter-title">
             <div className="jobs-filter-icon-box">
-              <Filter size={20} />
+              <Filter size={18} strokeWidth={2.5} />
             </div>
             <div className="jobs-filter-title-text">
               <span className="jobs-filter-title-main">Filters</span>
               {activeFilters > 0 && (
-                <span className="jobs-filter-count">{activeFilters} active</span>
+                <span className="jobs-filter-count">{activeFilters} selected</span>
               )}
             </div>
           </div>
           <button className="jobs-close-mobile-btn" onClick={onMobileClose}>
-            <X size={22} />
+            <X size={20} />
           </button>
         </div>
 
         <div className="jobs-filter-body">
           <FilterGroup
             label="Job Type"
-            value={filterType}
+            activeValue={filterType}
             onChange={onFilterTypeChange}
             options={jobTypes}
             icon="💼"
           />
 
           <FilterGroup
-            label="Experience Level"
-            value={filterLevel}
+            label="Experience"
+            activeValue={filterLevel}
             onChange={onFilterLevelChange}
             options={jobLevels}
-            icon="📊"
+            icon="📈"
           />
 
           <FilterGroup
             label="Location"
-            value={filterLocation}
+            activeValue={filterLocation}
             onChange={onFilterLocationChange}
             options={locations}
             icon="📍"
@@ -85,44 +85,50 @@ const JobsSidebar = ({
         </div>
 
         <div className="jobs-filter-footer">
-          <button className="jobs-reset-btn" onClick={onReset}>
-            <RotateCcw size={16} />
-            <span>Reset All Filters</span>
+          <button 
+            className={`jobs-reset-btn ${activeFilters === 0 ? 'disabled' : ''}`} 
+            onClick={onReset}
+            disabled={activeFilters === 0}
+          >
+            <RotateCcw size={14} />
+            <span>Clear All</span>
           </button>
         </div>
       </aside>
-    </>
+    </div>
   );
 };
 
 interface FilterGroupProps {
   label: string;
-  value: string;
+  activeValue: string;
   onChange: (value: string) => void;
   options: string[];
-  icon?: string;
+  icon: string;
 }
 
-const FilterGroup = ({ label, value, onChange, options, icon }: FilterGroupProps) => (
+const FilterGroup = ({ label, activeValue, onChange, options, icon }: FilterGroupProps) => (
   <div className="jobs-filter-group">
-    <label className="jobs-filter-label">
-      {icon && <span className="jobs-filter-group-icon">{icon}</span>}
+    <div className="jobs-filter-label">
+      <span className="label-icon">{icon}</span>
       {label}
-    </label>
-    <div className="jobs-select-wrapper">
-      <select
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        className="jobs-custom-select"
+    </div>
+    <div className="jobs-filter-options">
+      <button
+        className={`filter-chip ${activeValue === '' ? 'active' : ''}`}
+        onClick={() => onChange('')}
       >
-        <option value="">All {label}s</option>
-        {options.map((option) => (
-          <option key={option} value={option}>
-            {option}
-          </option>
-        ))}
-      </select>
-      <ChevronDown className="jobs-select-chevron" size={18} />
+        All
+      </button>
+      {options.map((option) => (
+        <button
+          key={option}
+          className={`filter-chip ${activeValue === option ? 'active' : ''}`}
+          onClick={() => onChange(option)}
+        >
+          {option}
+        </button>
+      ))}
     </div>
   </div>
 );

@@ -1,8 +1,11 @@
 import { useState } from 'react';
-import { Star, Users, Clock, ChevronRight, Search, Filter, Zap, BookOpen, TrendingUp, Award } from 'lucide-react';
+import { Star, Users, Clock, ChevronRight, Filter, Zap, BookOpen, TrendingUp, Award } from 'lucide-react';
 import './courses.scss';
 import Training from '../Training/Traning';
 import AuthService from '../../api/auth';
+import VisualHeader from '../../components/VisualHeader/VisualHeader';
+import SearchBar from '../../components/SearchBar/SearchBar';
+
 
 const Courses = () => {
   const [activeTab, setActiveTab] = useState('all');
@@ -98,7 +101,7 @@ const Courses = () => {
       icon: Zap,
     },
   ];
-  
+
   const categories = [
     { id: 'all', label: 'All Courses' },
     { id: 'web-dev', label: 'Web Development' },
@@ -116,23 +119,23 @@ const Courses = () => {
     <div className="courses-wrapper">
       {/* Tabs Section */}
       {isAuthenticated &&
-      <section className="courses-tabs">
-        <div className="tabs-container">
-          <button
-            className={`tab-btn ${activeTab === 'all' ? 'active' : ''}`}
-            onClick={() => setActiveTab('all')}
-          >
-            Explore Courses
-          </button>
-           <button
-            className={`tab-btn ${activeTab === 'my-courses' ? 'active' : ''}`}
-            onClick={() => setActiveTab('my-courses')}
-          >
-            My Courses
-          </button>
-        </div>
-      </section>
-}
+        <section className="courses-tabs">
+          <div className="tabs-container">
+            <button
+              className={`tab-btn ${activeTab === 'all' ? 'active' : ''}`}
+              onClick={() => setActiveTab('all')}
+            >
+              Explore Courses
+            </button>
+            <button
+              className={`tab-btn ${activeTab === 'my-courses' ? 'active' : ''}`}
+              onClick={() => setActiveTab('my-courses')}
+            >
+              My Courses
+            </button>
+          </div>
+        </section>
+      }
 
       {/* EXPLORE COURSES TAB */}
       {activeTab === 'all' && (
@@ -140,24 +143,8 @@ const Courses = () => {
           {/* Hero Section */}
           <section className="courses-hero">
             <div className="courses-hero-content">
-              <h1 className="courses-hero-title">Unlock Your Potential</h1>
-              <p className="courses-hero-subtitle">
-                Learn from industry experts and advance your career with our comprehensive courses
-              </p>
-              
-              {/* Search Bar */}
-              <div className="search-container">
-                <div className="search-wrapper">
-                  <Search size={20} className="search-icon" />
-                  <input
-                    type="text"
-                    placeholder="Search courses..."
-                    className="search-input"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                  />
-                </div>
-              </div>
+              <VisualHeader title='Unlock Your' gradient_title='Potential' subtitle='Learn from industry experts and advance your career with our comprehensive courses' />
+              <SearchBar placeHolder="Search courses..." value={searchQuery} onChange={setSearchQuery} />
             </div>
           </section>
 
@@ -252,39 +239,6 @@ const Courses = () => {
                   <p>No courses found. Try adjusting your filters.</p>
                 </div>
               )}
-            </div>
-          </section>
-
-          {/* Stats Section */}
-          <section className="courses-stats">
-            <div className="stats-container">
-              <div className="stat-card">
-                <div className="stat-icon-lg">
-                  <Users size={32} />
-                </div>
-                <div className="stat-info">
-                  <h4 className="stat-value">50K+</h4>
-                  <p className="stat-label">Active Learners</p>
-                </div>
-              </div>
-              <div className="stat-card">
-                <div className="stat-icon-lg">
-                  <Award size={32} />
-                </div>
-                <div className="stat-info">
-                  <h4 className="stat-value">200+</h4>
-                  <p className="stat-label">Expert Instructors</p>
-                </div>
-              </div>
-              <div className="stat-card">
-                <div className="stat-icon-lg">
-                  <BookOpen size={32} />
-                </div>
-                <div className="stat-info">
-                  <h4 className="stat-value">150+</h4>
-                  <p className="stat-label">Quality Courses</p>
-                </div>
-              </div>
             </div>
           </section>
         </>

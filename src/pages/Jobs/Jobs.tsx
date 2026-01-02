@@ -9,23 +9,25 @@ import { LayoutGrid, Filter, Bookmark } from 'lucide-react';
 import EmptyState from '../../components/EmptyState/EmptyState';
 import JobCard from './JobCard/JobCard';
 
-type JobType = 'All' | Job['type'];
-type JobLevel = 'All' | Job['level'];
+type JobType = '' | Job['type'];
+type JobLevel = '' | Job['level'];
 
 const Jobs = () => {
   const [jobs, setJobs] = useState<Job[]>(jobList);
   const [searchTerm, setSearchTerm] = useState('');
-  const [filterType, setFilterType] = useState<JobType>('All');
-  const [filterLevel, setFilterLevel] = useState<JobLevel>('All');
-  const [filterLocation, setFilterLocation] = useState('All');
+  const [filterType, setFilterType] = useState<JobType>('');
+  const [filterLevel, setFilterLevel] = useState<JobLevel>('');
+  const [filterLocation, setFilterLocation] = useState('');
   const [selectedJob, setSelectedJob] = useState<Job | null>(null);
   const [openDialog, setOpenDialog] = useState(false);
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
 
   // Dynamic Options derived from data
-  const jobTypes = useMemo(() => ['All', ...Array.from(new Set(jobList.map(j => j.type)))], []);
-  const jobLevels = useMemo(() => ['All', ...Array.from(new Set(jobList.map(j => j.level)))], []);
-  const locations = useMemo(() => ['All', ...Array.from(new Set(jobList.map(j => j.location)))], []);
+  const jobTypes = useMemo(() => Array.from(new Set(jobList.map(j => j.type))), []);
+  const jobLevels = useMemo(() => Array.from(new Set(jobList.map(j => j.level))), []);
+  const locations = useMemo(() => Array.from(new Set(jobList.map(j => j.location))), []);
+
+  console.log(filterType)
 
   // Optimized Filtering Logic
   const filteredJobs = useMemo(() => {
@@ -35,9 +37,9 @@ const Jobs = () => {
         job.company.toLowerCase().includes(searchTerm.toLowerCase()) ||
         job.tags.some(tag => tag.toLowerCase().includes(searchTerm.toLowerCase()));
 
-      const matchesType = filterType === 'All' || job.type === filterType;
-      const matchesLevel = filterLevel === 'All' || job.level === filterLevel;
-      const matchesLocation = filterLocation === 'All' || job.location === filterLocation;
+      const matchesType = filterType === '' || job.type === filterType;
+      const matchesLevel = filterLevel === '' || job.level === filterLevel;
+      const matchesLocation = filterLocation === '' || job.location === filterLocation;
 
       return matchesSearch && matchesType && matchesLevel && matchesLocation;
     });
@@ -54,13 +56,13 @@ const Jobs = () => {
 
   const handleReset = () => {
     setSearchTerm('');
-    setFilterType('All');
-    setFilterLevel('All');
-    setFilterLocation('All');
+    setFilterType('');
+    setFilterLevel('');
+    setFilterLocation('');
   };
 
   const savedCount = jobs.filter(j => j.saved).length;
-  const activeFilters = [filterType, filterLevel, filterLocation].filter(f => f !== 'All').length;
+  const activeFilters = [filterType, filterLevel, filterLocation].filter(f => f !== '').length;
 
   return (
     <main className="jobs-page-wrapper">
@@ -85,7 +87,7 @@ const Jobs = () => {
         </header>
 
         <div className="jobs-search-section">
-          <JobsSearch value={searchTerm} onChange={setSearchTerm} />
+          <JobsSearch placeHolder="Search jobs by title, company, or skills..." value={searchTerm} onChange={setSearchTerm} />
         </div>
 
         <div className="jobs-layout">
