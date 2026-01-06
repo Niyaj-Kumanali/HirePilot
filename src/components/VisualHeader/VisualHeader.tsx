@@ -1,6 +1,5 @@
 import React from 'react'
 import './visualheader.scss'
-import { Sparkles } from 'lucide-react'
 
 interface VisualHeaderType {
     badge?: string,
@@ -14,7 +13,7 @@ const VisualHeader: React.FC<VisualHeaderType> = ({ badge, title, gradient_title
     return (
         <div className="visual-header" style={{ textAlign: align }}>
             {badge && <div className="visual-header-eyebrow">
-                <Sparkles className="sparkle-icon" size={14} />
+                <span className="badge-dot"></span>
                 <span>{badge}</span>
             </div>}
             <h2 className="visual-header-title">

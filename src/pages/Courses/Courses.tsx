@@ -1,10 +1,12 @@
 import { useState } from 'react';
-import { Star, Users, Clock, ChevronRight, Filter, Zap, BookOpen, TrendingUp, Award } from 'lucide-react';
+import { Filter, Zap, BookOpen, TrendingUp, Award } from 'lucide-react';
 import './courses.scss';
 import Training from '../Training/Traning';
 import AuthService from '../../api/auth';
 import VisualHeader from '../../components/VisualHeader/VisualHeader';
 import SearchBar from '../../components/SearchBar/SearchBar';
+import CourseCard from './CourseCard/CourseCard';
+import EmptyState from '../../components/EmptyState/EmptyState';
 
 
 const Courses = () => {
@@ -143,7 +145,7 @@ const Courses = () => {
           {/* Hero Section */}
           <section className="courses-hero">
             <div className="courses-hero-content">
-              <VisualHeader title='Unlock Your' gradient_title='Potential' subtitle='Learn from industry experts and advance your career with our comprehensive courses' />
+              <VisualHeader badge='Grow Your Skills' title='Unlock Your' gradient_title='Potential' subtitle='Learn from industry experts and advance your career with our comprehensive courses' />
               <SearchBar placeHolder="Search courses..." value={searchQuery} onChange={setSearchQuery} />
             </div>
           </section>
@@ -155,7 +157,7 @@ const Courses = () => {
                 {categories.map((category) => (
                   <button
                     key={category.id}
-                    className={`filter-btn ${selectedCategory === category.id ? 'active' : ''}`}
+                    className={`tab-btn ${selectedCategory === category.id ? 'active' : ''}`}
                     onClick={() => setSelectedCategory(category.id)}
                   >
                     {category.label}
@@ -184,59 +186,14 @@ const Courses = () => {
             <div className="courses-grid">
               {filteredCourses.length > 0 ? (
                 filteredCourses.map((course) => {
-                  const CourseIcon = course.icon;
                   return (
-                    <div key={course.id} className="course-card">
-                      <div className="course-image" style={{ background: course.image }}>
-                        <div className="course-badge">
-                          <span className="badge-level">{course.level}</span>
-                        </div>
-                        <div className="course-icon-wrapper">
-                          <CourseIcon size={48} className="course-icon" />
-                        </div>
-                      </div>
-
-                      <div className="course-content">
-                        <h3 className="course-title">{course.title}</h3>
-                        <p className="course-instructor">by {course.instructor}</p>
-
-                        <div className="course-stats">
-                          <div className="stat-item">
-                            <Star size={16} className="stat-icon" />
-                            <span className="stat-text">
-                              {course.rating}
-                              <span className="stat-light"> ({course.reviews})</span>
-                            </span>
-                          </div>
-                          <div className="stat-item">
-                            <Users size={16} className="stat-icon" />
-                            <span className="stat-text stat-light">{course.students.toLocaleString()}</span>
-                          </div>
-                        </div>
-
-                        <div className="course-meta">
-                          <div className="meta-item">
-                            <Clock size={14} className="meta-icon" />
-                            <span>{course.duration}</span>
-                          </div>
-                        </div>
-
-                        <div className="course-footer">
-                          <div className="price-container">
-                            <span className="price">${course.price}</span>
-                          </div>
-                          <button className="enroll-btn">
-                            Enroll Now
-                            <ChevronRight size={18} />
-                          </button>
-                        </div>
-                      </div>
-                    </div>
+                    <CourseCard key={course.id} {...course} />
                   );
                 })
               ) : (
                 <div className="no-courses">
-                  <p>No courses found. Try adjusting your filters.</p>
+                  {/* <p>No courses found. Try adjusting your filters.</p> */}
+                  <EmptyState />
                 </div>
               )}
             </div>

@@ -1,5 +1,6 @@
-import { X, Filter, RotateCcw } from 'lucide-react';
+import { X, Filter, RotateCcw} from 'lucide-react';
 import './JobsSidebar.scss';
+import { useRef, useEffect } from 'react';
 
 interface JobsFiltersSidebarProps {
   jobTypes: string[];
@@ -32,8 +33,26 @@ const JobsSidebar = ({
   mobileOpen,
   onMobileClose,
 }: JobsFiltersSidebarProps) => {
+  const menuRef = useRef<HTMLDivElement>(null)
+  
+    useEffect(() => {
+      const handleClickOutside = (event: MouseEvent) => {
+        if (
+          mobileOpen &&
+          menuRef.current &&
+          !menuRef.current.contains(event.target as Node)
+        ) {
+          onMobileClose()
+        }
+      }
+
+      console.log("inside useeffect", mobileOpen)
+  
+      document.addEventListener('mousedown', handleClickOutside)
+      return () => document.removeEventListener('mousedown', handleClickOutside)
+    }, [mobileOpen, onMobileClose])
   return (
-    <div className="jobs-sidebar-outer-wrapper">
+    <div className="jobs-sidebar-outer-wrapper" ref={menuRef}>
       {/* Mobile Backdrop */}
       <div
         className={`jobs-sidebar-backdrop ${mobileOpen ? 'visible' : ''}`}

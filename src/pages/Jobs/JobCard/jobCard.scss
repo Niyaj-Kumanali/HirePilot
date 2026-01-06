@@ -81,31 +81,6 @@
       }
     }
 
-    .jc-save-btn {
-      background: none;
-      border: none;
-      color: #cbd5e1;
-      cursor: pointer;
-      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-      padding: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 10px;
-      flex-shrink: 0;
-
-      &:hover {
-        color: var(--theme-color-primary);
-        background: rgba(168, 85, 247, 0.08);
-        transform: scale(1.15) rotate(15deg);
-      }
-
-      &.is-saved {
-        color: var(--theme-color-primary);
-        background: rgba(168, 85, 247, 0.1);
-        animation: popIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-      }
-    }
   }
 
   /* ===== DESCRIPTION ===== */

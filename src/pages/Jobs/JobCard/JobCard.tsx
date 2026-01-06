@@ -1,14 +1,13 @@
-import { MapPin, DollarSign, Clock, TrendingUp, Briefcase, Star, Bookmark, BookmarkCheck } from 'lucide-react';
+import { MapPin, DollarSign, Clock, TrendingUp, Briefcase, Star } from 'lucide-react';
 import type Job from '../../../types/job';
 import './jobCard.scss';
 
 interface JobCardProps {
     job: Job;
-    onSave: (jobId: number) => void;
     onOpen: (job: Job) => void;
 }
 
-const JobCard = ({ job, onSave, onOpen }: JobCardProps) => {
+const JobCard = ({ job, onOpen }: JobCardProps) => {
     // Helper for Type Badges
     const getTypeStyles = (type: Job['type']) => {
         const styles: Record<Job["type"], { bg: string; color: string }> = {
@@ -35,12 +34,6 @@ const JobCard = ({ job, onSave, onOpen }: JobCardProps) => {
                         <h3 className="jc-title">{job.title}</h3>
                         <span className="jc-company">{job.company}</span>
                     </div>
-                    <button
-                        className={`jc-save-btn ${job.saved ? 'is-saved' : ''}`}
-                        onClick={(e) => { e.stopPropagation(); onSave(job.id); }}
-                    >
-                        {job.saved ? <BookmarkCheck size={20} /> : <Bookmark size={20} />}
-                    </button>
                 </div>
 
                 <p className="jc-description">{job.description}</p>

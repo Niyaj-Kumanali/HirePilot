@@ -101,29 +101,6 @@ const JobDetails: React.FC<JobDetailsProps> = ({ open, job, onClose }) => {
               ))}
             </div>
           </section>
-
-          {/* Key Benefits */}
-          <section className="job-detail-section">
-            <h3 className="job-detail-section-title">Why Join Us</h3>
-            <div className="job-detail-benefits">
-              <div className="job-detail-benefit-item">
-                <span className="job-detail-benefit-icon">🚀</span>
-                <span>Work with cutting-edge technology</span>
-              </div>
-              <div className="job-detail-benefit-item">
-                <span className="job-detail-benefit-icon">👥</span>
-                <span>Collaborate with talented teams</span>
-              </div>
-              <div className="job-detail-benefit-item">
-                <span className="job-detail-benefit-icon">📈</span>
-                <span>Grow your professional skills</span>
-              </div>
-              <div className="job-detail-benefit-item">
-                <span className="job-detail-benefit-icon">💰</span>
-                <span>Competitive compensation package</span>
-              </div>
-            </div>
-          </section>
         </div>
 
         {/* Footer */}

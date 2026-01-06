@@ -58,6 +58,7 @@
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
+    flex-direction: column;
     gap: 16px;
 
     &-content {
@@ -227,38 +228,6 @@
         transform: translateY(-2px);
         box-shadow: 0 8px 16px rgba(168, 85, 247, 0.3);
       }
-    }
-  }
-
-  /* ===== BENEFITS SECTION ===== */
-  .job-detail-benefits {
-    display: grid;
-    gap: 12px;
-
-    .job-detail-benefit-item {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 14px 16px;
-      background: linear-gradient(135deg, #f8fafc 0%, #f0f4f8 100%);
-      border-radius: 12px;
-      border: 1px solid #e2e8f0;
-      font-weight: 500;
-      color: #475569;
-      font-size: 0.9rem;
-      transition: all 0.3s;
-
-      &:hover {
-        border-color: var(--theme-color-primary);
-        background: linear-gradient(135deg, #faf5ff 0%, #f5f3ff 100%);
-        color: var(--theme-color-primary);
-        transform: translateX(4px);
-      }
-    }
-
-    .job-detail-benefit-icon {
-      font-size: 1.3rem;
-      flex-shrink: 0;
     }
   }
 

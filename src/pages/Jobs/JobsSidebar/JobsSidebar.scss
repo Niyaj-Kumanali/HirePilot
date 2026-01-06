@@ -1,29 +1,55 @@
 .jobs-sidebar-outer-wrapper {
   // Encapsulation parent
   height: 100%;
+  
+
   .jobs-filter-sidebar {
     background: #ffffff;
     border: 1px solid #eef2f6;
-    border-radius: 24px;
+    border-bottom-left-radius: 16px;
+    border-bottom-right-radius: 16px;
     display: flex;
     flex-direction: column;
-    position: sticky;
-    top: 100px;
     height: fit-content;
-    max-height: calc(100vh - 140px);
-    width: 280px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
     transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
     z-index: 100;
+    position: fixed;
+    left: -320px;
+    top: 70px;
+    width: 300px;
+    max-height: calc(100vh - 70px);
+    box-shadow: 10px 0 40px rgba(0, 0, 0, 0.1);
+    
 
-    &:hover {
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-      transform: translateY(-2px);
+    &.open {
+      left: 0;
     }
+
+
+    
+    .jobs-sidebar-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.4);
+      backdrop-filter: blur(4px);
+      z-index: 99;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s;
+      
+
+      &.visible {
+        opacity: 1;
+        pointer-events: auto;
+      }
+    }
+
+
+
 
     /* Header Styling */
     .jobs-filter-header {
-      padding: 24px;
+      padding: 18px;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -61,7 +87,7 @@
       }
 
       .jobs-close-mobile-btn {
-        display: none;
+        display: block;
         background: #f1f5f9;
         border: none;
         padding: 6px;
@@ -90,7 +116,9 @@
           text-transform: uppercase;
           letter-spacing: 0.5px;
 
-          .label-icon { font-size: 1.1rem; }
+          .label-icon {
+            font-size: 1.1rem;
+          }
         }
 
         .jobs-filter-options {
@@ -123,7 +151,9 @@
               border-color: #7c3aed;
               box-shadow: 0 4px 12px rgba(124, 58, 237, 0.2);
 
-              .check-icon { color: white; }
+              .check-icon {
+                color: white;
+              }
             }
           }
         }
@@ -162,39 +192,6 @@
           opacity: 0.5;
           cursor: not-allowed;
         }
-      }
-    }
-  }
-
-  /* Responsive & Backdrop */
-  @media (max-width: 1024px) {
-    .jobs-filter-sidebar {
-      position: fixed;
-      left: -320px;
-      top: 0;
-      height: 100vh;
-      width: 300px;
-      max-height: none;
-      border-radius: 0 24px 24px 0;
-      box-shadow: 10px 0 40px rgba(0,0,0,0.1);
-
-      &.open { left: 0; }
-      .jobs-close-mobile-btn { display: block; }
-    }
-
-    .jobs-sidebar-backdrop {
-      position: fixed;
-      inset: 0;
-      background: rgba(15, 23, 42, 0.4);
-      backdrop-filter: blur(4px);
-      z-index: 99;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.3s;
-
-      &.visible {
-        opacity: 1;
-        pointer-events: auto;
       }
     }
   }

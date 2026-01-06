@@ -2,18 +2,19 @@ import { useState, useMemo } from 'react';
 import './jobs.scss';
 import type Job from '../../types/job';
 import { jobList } from '../../data/jobs';
-import JobsSearch from '../../components/SearchBar/SearchBar';
 import JobDetails from './JobDetails/JobDetails';
 import JobsSidebar from './JobsSidebar/JobsSidebar';
-import { LayoutGrid, Filter, Bookmark } from 'lucide-react';
+import { Filter } from 'lucide-react';
 import EmptyState from '../../components/EmptyState/EmptyState';
 import JobCard from './JobCard/JobCard';
+import VisualHeader from '../../components/VisualHeader/VisualHeader';
+import SearchBar from '../../components/SearchBar/SearchBar';
 
 type JobType = '' | Job['type'];
 type JobLevel = '' | Job['level'];
 
 const Jobs = () => {
-  const [jobs, setJobs] = useState<Job[]>(jobList);
+  const [jobs, _setJobs] = useState<Job[]>(jobList);
   const [searchTerm, setSearchTerm] = useState('');
   const [filterType, setFilterType] = useState<JobType>('');
   const [filterLevel, setFilterLevel] = useState<JobLevel>('');
@@ -27,7 +28,7 @@ const Jobs = () => {
   const jobLevels = useMemo(() => Array.from(new Set(jobList.map(j => j.level))), []);
   const locations = useMemo(() => Array.from(new Set(jobList.map(j => j.location))), []);
 
-  console.log(filterType)
+  console.log(mobileFiltersOpen)
 
   // Optimized Filtering Logic
   const filteredJobs = useMemo(() => {
@@ -45,9 +46,6 @@ const Jobs = () => {
     });
   }, [searchTerm, filterType, filterLevel, filterLocation, jobs]);
 
-  const handleSaveJob = (jobId: number) => {
-    setJobs(prev => prev.map(job => (job.id === jobId ? { ...job, saved: !job.saved } : job)));
-  };
 
   const handleOpenJob = (job: Job) => {
     setSelectedJob(job);
@@ -61,34 +59,23 @@ const Jobs = () => {
     setFilterLocation('');
   };
 
-  const savedCount = jobs.filter(j => j.saved).length;
   const activeFilters = [filterType, filterLevel, filterLocation].filter(f => f !== '').length;
 
+  
+
+
+    console.log(mobileFiltersOpen)
+
   return (
-    <main className="jobs-page-wrapper">
-      <div className="jobs-container">
+    <main className="jobs-page-wrapper" >
+      <div className="jobs-container" >
         <header className="jobs-header-container">
           <div className="header-visual-bg"></div>
 
           <div className="header-content">
-            <div className="header-badge">
-              <span className="badge-dot"></span>
-              New opportunities added today
-            </div>
-
-            <h1 className="jobs-title">
-              Find Your <span>Dream Job</span>
-            </h1>
-
-            <p className="jobs-subtitle">
-              Discover amazing opportunities and advance your career with HirePilot's curated job board for developers.
-            </p>
+            <VisualHeader badge='New opportunities added today' title='Find Your' gradient_title='Dream Job' subtitle="Discover amazing opportunities and advance your career with HirePilot's curated job board for developers."/>
           </div>
         </header>
-
-        <div className="jobs-search-section">
-          <JobsSearch placeHolder="Search jobs by title, company, or skills..." value={searchTerm} onChange={setSearchTerm} />
-        </div>
 
         <div className="jobs-layout">
 
@@ -110,27 +97,24 @@ const Jobs = () => {
           />
 
 
-          <section className="jobs-list-container">
+          <section className="jobs-list-container" >
             {/* List Toolbar */}
             <div className="list-toolbar">
               <div className="result-stats">
-                <LayoutGrid size={18} className="stats-icon" />
+                <Filter size={18} strokeWidth={2.5} className="stats-icon" onClick={() => setMobileFiltersOpen(prev => !prev)}/>
+                
                 <p className="stats-text">
                   Showing <span>{filteredJobs.length}</span> available position{filteredJobs.length !== 1 ? 's' : ''}
                 </p>
+                
               </div>
 
               <div className="toolbar-actions">
+                <SearchBar placeHolder="Search jobs by title, company, or skills..." value={searchTerm} onChange={setSearchTerm} />
                 <button className="mobile-filter-trigger" onClick={() => setMobileFiltersOpen(true)}>
                   <Filter size={16} />
                   <span>Filters</span>
                 </button>
-
-                <div className="saved-jobs-pill">
-                  <Bookmark size={16} fill={savedCount > 0 ? "#6366f1" : "none"} />
-                  <span className="pill-label">Saved</span>
-                  {savedCount > 0 && <span className="pill-badge">{savedCount}</span>}
-                </div>
               </div>
             </div>
 
@@ -142,7 +126,6 @@ const Jobs = () => {
                     <JobCard
                       key={job.id}
                       job={job}
-                      onSave={handleSaveJob}
                       onOpen={handleOpenJob}
                     />
                   ))}
