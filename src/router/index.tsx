@@ -7,9 +7,9 @@ import Dashboard from "../pages/Dashboard/Dashboard";
 import SignUp from "../pages/SignUp/SignUp";
 import SignIn from "../pages/SignIn/SignIn";
 import Training from "../pages/Training/Traning";
-import Setting from "../pages/Setting/Setting";
 import Courses from "../pages/Courses/Courses";
 import NotFound from "../pages/NotFound/NotFound";
+import Profile from "../pages/Profile/Profile";
 
 export const router = createBrowserRouter([
   {
@@ -41,7 +41,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "/profile",
-        element: <Setting />,
+        element: <Profile />,
       },
       {
         path: "/signup",

@@ -16,7 +16,7 @@ import {
 
 import './training.scss'
 import type { UserCourse } from '../../types/course';
-import courses from '../../data/courses';
+import { USER_COURSES } from '../../data/courses';
 import CourseCard from '../../components/UserCourseCard/UserCourseCard';
 
 type StatCardProps = {
@@ -114,7 +114,7 @@ const Training = () => {
         </div>
 
         <div className="course-grid">
-          {courses.map((course: UserCourse) => (
+          {USER_COURSES.map((course: UserCourse) => (
             <article
               key={course.id}
               className={`${hoveredCard === course.id ? 'active' : ''}`}

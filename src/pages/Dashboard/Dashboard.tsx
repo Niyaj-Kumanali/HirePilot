@@ -12,7 +12,7 @@ import {
 } from 'lucide-react'
 import './dashboard.scss'
 import { Link } from 'react-router-dom'
-import courses from '../../data/courses'
+import {USER_COURSES} from '../../data/courses'
 import UserCourseCard from '../../components/UserCourseCard/UserCourseCard'
 
 const Dashboard: React.FC = () => {
@@ -74,7 +74,7 @@ const Dashboard: React.FC = () => {
               <h3>Learning Goals Progress</h3>
             </div>
             <div className="goals-list">
-              {courses.map(item => (
+              {USER_COURSES.map(item => (
                 <div key={item.id} className="goal-row">
                   <div className="goal-info">
                     <span>{item.title}</span>
@@ -124,7 +124,7 @@ const Dashboard: React.FC = () => {
             </Link>
           </div>
           <div className="courses-grid">
-            {courses.map(course => (
+            {USER_COURSES.map(course => (
               <UserCourseCard {...course} key={course.id} />
             ))}
           </div>

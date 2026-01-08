@@ -6,7 +6,7 @@ import {
   Heart, Mail, Phone
 } from 'lucide-react';
 
-import profileImg from '../../../assets/Nawaz_profile_IMG.jpg'
+import profileImg from '../../assets/Nawaz_profile_IMG.jpg'
 import './profile.scss'
 import { Link } from 'react-router-dom';
 
