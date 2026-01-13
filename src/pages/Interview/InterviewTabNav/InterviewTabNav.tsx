@@ -1,5 +1,5 @@
 import { Calendar, Award, TrendingUp } from 'lucide-react';
-import './interviewTabNav.scss';
+import './interviewtabnav.scss';
 
 interface InterviewTabNavProps {
   activeTab: number;
