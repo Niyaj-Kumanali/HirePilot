@@ -1,19 +1,20 @@
-import { useState, useRef, useEffect } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import { Send, Phone, Video, Info, Search, MoreVertical, Paperclip, Smile, CheckCheck, MessageSquare } from 'lucide-react';
 import './messages.scss';
-import { conversationsData, messagesData } from '../../data/messagesData';
-import type { Conversation, Message } from '../../data/messagesData';
+import { useRealTimeChat } from '../../hooks/useRealTimeChat';
 
 const Messages = () => {
-    const [selectedChat, setSelectedChat] = useState<string>(conversationsData[0].id);
     const [newMessage, setNewMessage] = useState('');
-    const [conversations, setConversations] = useState<Conversation[]>(conversationsData);
-    const [messages, setMessages] = useState<Record<string, Message[]>>(messagesData);
+    const {
+        selectedChat,
+        setSelectedChat,
+        conversations,
+        sendMessage,
+        activeMessages,
+        activeConversation
+    } = useRealTimeChat('1');
 
     const chatEndRef = useRef<HTMLDivElement>(null);
-
-    const activeConversation = conversations.find(c => c.id === selectedChat);
-    const activeMessages = messages[selectedChat] || [];
 
     const scrollToBottom = () => {
         chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -25,26 +26,7 @@ const Messages = () => {
 
     const handleSendMessage = () => {
         if (!newMessage.trim()) return;
-
-        const newMsg: Message = {
-            id: `m-${Date.now()}`,
-            senderId: 'me',
-            text: newMessage,
-            timestamp: 'Just now',
-            isMe: true
-        };
-
-        setMessages(prev => ({
-            ...prev,
-            [selectedChat]: [...(prev[selectedChat] || []), newMsg]
-        }));
-
-        setConversations(prev => prev.map(c =>
-            c.id === selectedChat
-                ? { ...c, lastMessage: newMessage, lastMessageTime: 'Just now' }
-                : c
-        ));
-
+        sendMessage(newMessage);
         setNewMessage('');
     };
 
