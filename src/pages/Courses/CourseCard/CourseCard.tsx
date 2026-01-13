@@ -1,8 +1,9 @@
 import React, { useState, useCallback } from 'react';
-import { Star, Users, Clock, ChevronRight, Bookmark, PlayCircle } from 'lucide-react';
+import { Star, Users, Clock, ChevronRight, Bookmark, PlayCircle, Award } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import type { Course } from '../../../types/course';
 import './coursecard.scss';
+import { motion } from 'framer-motion';
 
 interface CourseCardProps {
     course: Course;
@@ -43,110 +44,101 @@ const CourseCard: React.FC<CourseCardProps> = ({ course, onEnroll, onWishlist })
     const handleEnroll = useCallback(async (e: React.MouseEvent) => {
         e.stopPropagation();
         setIsEnrolling(true);
-        try {
+        setTimeout(() => {
             onEnroll?.(id);
-        } finally {
             setIsEnrolling(false);
-        }
+        }, 1000);
     }, [id, onEnroll]);
 
     const isPopular = students > 50000;
 
     return (
-        <article
-            className="course-card"
-            role="article"
-            aria-label={`${title} course`}
+        <motion.article
+            className="course-card glass-panel"
+            whileHover={{ y: -8 }}
+            transition={{ duration: 0.3 }}
             onClick={handleNavigate}
         >
             {/* Image Container */}
-            <figure className="course-image-container">
+            <div className="course-image-container">
                 <img
                     src={image}
                     alt={title}
                     className="course-image"
                     loading="lazy"
-                    decoding="async"
                 />
 
-                {/* Overlays */}
-                <div className="image-overlay">
-                    <PlayCircle size={40} className="preview-icon" />
+                <div className="image-gradient-overlay"></div>
+
+                <div className="preview-overlay">
+                    <PlayCircle size={48} className="preview-icon" />
+                    <span>Preview Course</span>
                 </div>
 
-                {bestseller && <div className="bestseller-badge">Bestseller</div>}
-                {isPopular && <div className="popular-badge">Popular</div>}
-
-                <div className="course-badge">
-                    <span className="badge-level">{level}</span>
+                {/* Top Badges */}
+                <div className="top-badges">
+                    {bestseller && (
+                        <div className="badge bestseller">
+                            <Award size={12} />
+                            <span>Bestseller</span>
+                        </div>
+                    )}
+                    <div className="badge level">{level}</div>
                 </div>
 
                 {/* Wishlist Button */}
                 <button
                     className={`wishlist-btn ${isWishlisted ? 'wishlisted' : ''}`}
-                    aria-label={isWishlisted ? 'Remove from wishlist' : 'Add to wishlist'}
-                    aria-pressed={isWishlisted}
                     onClick={handleWishlist}
                     type="button"
                 >
-                    <Bookmark size={18} />
+                    <Bookmark size={18} fill={isWishlisted ? "currentColor" : "none"} />
                 </button>
-            </figure>
+            </div>
 
             {/* Content */}
-            <div className="course-content">
-                {/* Category */}
-                {category && <p className="course-category">{category}</p>}
+            <div className="course-card-body">
+                <div className="header-meta">
+                    <span className="course-category">{category}</span>
+                    {isPopular && <span className="popular-tag">Popular</span>}
+                </div>
 
-                {/* Header */}
-                <header className="course-header">
-                    <h3 className="course-title">{title}</h3>
-                    <p className="course-instructor">By {instructor}</p>
-                </header>
+                <h3 className="course-title">{title}</h3>
+                <p className="course-instructor">By {instructor}</p>
 
-                {/* Stats */}
-                <div className="course-stats">
-                    <div className="stat-item rating" aria-label={`${rating.toFixed(1)} out of 5 stars from ${reviews} reviews`}>
-                        <Star size={14} fill="#fbaf24" color="#fbaf24" className="stat-icon" />
-                        <span className="stat-text">
-                            {rating.toFixed(1)} <span className="stat-count">({reviews.toLocaleString()})</span>
-                        </span>
+                <div className="course-stats-row">
+                    <div className="stat-pill rating">
+                        <Star size={14} fill="#fbaf24" color="#fbaf24" />
+                        <span className="rating-val">{rating.toFixed(1)}</span>
+                        <span className="review-count">({reviews.toLocaleString()})</span>
                     </div>
-                    <div className="stat-item students" aria-label={`${students.toLocaleString()} students enrolled`}>
-                        <Users size={14} className="stat-icon" />
-                        <span>{students > 1000 ? `${(students / 1000).toFixed(1)}k` : students}</span>
+                    <div className="stat-pill students">
+                        <Users size={14} />
+                        <span>{students > 1000 ? `${(students / 1000).toFixed(1)}k` : students} students</span>
                     </div>
                 </div>
 
-                {/* Meta Info */}
-                <div className="course-meta">
-                    <div className="meta-item">
-                        <Clock size={14} aria-hidden="true" />
+                <div className="course-footer-row">
+                    <div className="duration">
+                        <Clock size={14} />
                         <span>{duration}</span>
                     </div>
+                    <div className="price-tag">
+                        <span className="currency">$</span>
+                        <span className="amount">{price}</span>
+                    </div>
                 </div>
 
-                {/* Footer */}
-                <footer className="course-footer">
-                    <div className="price-section">
-                        <div className="price-tag">
-                            <span className="currency">$</span>
-                            <span className="amount">{price}</span>
-                        </div>
-                    </div>
-                    <button
-                        className={`enroll-btn ${isEnrolling ? 'loading' : ''}`}
-                        onClick={handleEnroll}
-                        disabled={isEnrolling}
-                        aria-busy={isEnrolling}
-                        type="button"
-                    >
-                        <span>{isEnrolling ? 'Enrolling...' : 'Enroll Now'}</span>
-                        <ChevronRight size={18} className="btn-icon" aria-hidden="true" />
-                    </button>
-                </footer>
+                <button
+                    className={`enroll-action-btn ${isEnrolling ? 'loading' : ''}`}
+                    onClick={handleEnroll}
+                    disabled={isEnrolling}
+                >
+                    <span>{isEnrolling ? 'Enrolling...' : 'Enroll Now'}</span>
+                    <ChevronRight size={18} />
+                </button>
             </div>
-        </article>
+        </motion.article>
     );
 };
 

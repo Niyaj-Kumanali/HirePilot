@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppSelector } from '../../store/hooks';
 import './jobs.scss';
@@ -11,9 +11,12 @@ import EmptyState from '../../components/EmptyState/EmptyState';
 import JobCard from './JobCard/JobCard';
 import VisualHeader from '../../components/VisualHeader/VisualHeader';
 import SearchBar from '../../components/SearchBar/SearchBar';
+import Pagination from '../../components/Pagination/Pagination';
 
 type JobType = '' | Job['type'];
 type JobLevel = '' | Job['level'];
+
+const ITEMS_PER_PAGE = 5;
 
 const Jobs = () => {
   const [jobs, _setJobs] = useState<Job[]>(jobList);
@@ -24,6 +27,7 @@ const Jobs = () => {
   const [selectedJob, setSelectedJob] = useState<Job | null>(null);
   const [openDialog, setOpenDialog] = useState(false);
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
   const navigate = useNavigate();
   const isAuthenticated = useAppSelector(state => state.auth.isAuthenticated);
 
@@ -31,8 +35,6 @@ const Jobs = () => {
   const jobTypes = useMemo(() => Array.from(new Set(jobList.map(j => j.type))), []);
   const jobLevels = useMemo(() => Array.from(new Set(jobList.map(j => j.level))), []);
   const locations = useMemo(() => Array.from(new Set(jobList.map(j => j.location))), []);
-
-  console.log(mobileFiltersOpen)
 
   // Optimized Filtering Logic
   const filteredJobs = useMemo(() => {
@@ -49,6 +51,17 @@ const Jobs = () => {
       return matchesSearch && matchesType && matchesLevel && matchesLocation;
     });
   }, [searchTerm, filterType, filterLevel, filterLocation, jobs]);
+
+  // Reset to page 1 when filters change
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchTerm, filterType, filterLevel, filterLocation]);
+
+  const totalPages = Math.ceil(filteredJobs.length / ITEMS_PER_PAGE);
+  const paginatedJobs = filteredJobs.slice(
+    (currentPage - 1) * ITEMS_PER_PAGE,
+    currentPage * ITEMS_PER_PAGE
+  );
 
 
   const handleOpenJob = (job: Job) => {
@@ -103,7 +116,7 @@ const Jobs = () => {
                 <Filter size={18} strokeWidth={2.5} className="stats-icon" onClick={() => setMobileFiltersOpen(prev => !prev)} />
 
                 <p className="stats-text">
-                  Showing <span>{filteredJobs.length}</span> available position{filteredJobs.length !== 1 ? 's' : ''}
+                  Showing <span>{paginatedJobs.length}</span> of <span>{filteredJobs.length}</span> available position{filteredJobs.length !== 1 ? 's' : ''}
                 </p>
 
               </div>
@@ -119,16 +132,23 @@ const Jobs = () => {
 
             {/* Content Area */}
             <div className="jobs-grid-wrapper">
-              {filteredJobs.length > 0 ? (
-                <div className="jobs-stack">
-                  {filteredJobs.map(job => (
-                    <JobCard
-                      key={job.id}
-                      job={job}
-                      onOpen={handleOpenJob}
-                    />
-                  ))}
-                </div>
+              {paginatedJobs.length > 0 ? (
+                <>
+                  <div className="jobs-stack">
+                    {paginatedJobs.map(job => (
+                      <JobCard
+                        key={job.id}
+                        job={job}
+                        onOpen={handleOpenJob}
+                      />
+                    ))}
+                  </div>
+                  <Pagination
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    onPageChange={setCurrentPage}
+                  />
+                </>
               ) : (
                 <EmptyState
                   title="No jobs found"

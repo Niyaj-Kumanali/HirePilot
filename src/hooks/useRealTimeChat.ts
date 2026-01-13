@@ -16,6 +16,7 @@ export const useRealTimeChat = (initialSelectedChatId: string) => {
         return saved ? JSON.parse(saved) : messagesData;
     });
 
+    const [isTyping, setIsTyping] = useState(false);
     const [channel] = useState(() => new BroadcastChannel(CHANNEL_NAME));
 
     // Sync with LocalStorage
@@ -44,6 +45,10 @@ export const useRealTimeChat = (initialSelectedChatId: string) => {
                         ? { ...c, lastMessage: message.text, lastMessageTime: 'Just now', unreadCount: c.id !== selectedChat ? c.unreadCount + 1 : 0 }
                         : c
                 ));
+            } else if (type === 'TYPING_START' && payload.chatId === selectedChat) {
+                setIsTyping(true);
+            } else if (type === 'TYPING_STOP' && payload.chatId === selectedChat) {
+                setIsTyping(false);
             }
         };
 
@@ -79,7 +84,11 @@ export const useRealTimeChat = (initialSelectedChatId: string) => {
         });
 
         // Simulate Bot Response (If active chat is not 'me' sender based)
-        if (selectedChat === '1' || selectedChat === '2') {
+        if (selectedChat === 'conv-1' || selectedChat === 'conv-2' || selectedChat === 'conv-3') {
+            // Start typing
+            setIsTyping(true);
+            channel.postMessage({ type: 'TYPING_START', payload: { chatId: selectedChat } });
+
             setTimeout(() => {
                 const botMsg: Message = {
                     id: `b-${Date.now()}`,
@@ -93,6 +102,9 @@ export const useRealTimeChat = (initialSelectedChatId: string) => {
                     ...prev,
                     [selectedChat]: [...(prev[selectedChat] || []), botMsg]
                 }));
+
+                setIsTyping(false);
+                channel.postMessage({ type: 'TYPING_STOP', payload: { chatId: selectedChat } });
 
                 channel.postMessage({
                     type: 'NEW_MESSAGE',
@@ -108,6 +120,7 @@ export const useRealTimeChat = (initialSelectedChatId: string) => {
         conversations,
         messages,
         sendMessage,
+        isTyping,
         activeMessages: messages[selectedChat] || [],
         activeConversation: conversations.find(c => c.id === selectedChat)
     };

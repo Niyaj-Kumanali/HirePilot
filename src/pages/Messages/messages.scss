@@ -288,6 +288,36 @@
                     padding: 1rem;
                     position: relative;
 
+                    &.typing {
+                        padding: 0.8rem 1.2rem;
+                        background: rgba(255, 255, 255, 0.5);
+                        border: 1px solid rgba(226, 232, 240, 0.5);
+                    }
+
+                    .typing-dots {
+                        display: flex;
+                        gap: 4px;
+                        align-items: center;
+                        height: 20px;
+
+                        span {
+                            width: 6px;
+                            height: 6px;
+                            background: var(--theme-color-primary);
+                            border-radius: 50%;
+                            opacity: 0.4;
+                            animation: typing 1.4s infinite ease-in-out;
+
+                            &:nth-child(2) {
+                                animation-delay: 0.2s;
+                            }
+
+                            &:nth-child(3) {
+                                animation-delay: 0.4s;
+                            }
+                        }
+                    }
+
                     p {
                         font-size: 0.95rem;
                         line-height: 1.5;

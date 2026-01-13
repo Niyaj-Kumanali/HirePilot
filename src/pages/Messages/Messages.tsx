@@ -1,5 +1,6 @@
 import { useRef, useEffect, useState } from 'react';
 import { Send, Phone, Video, Info, Search, MoreVertical, Paperclip, Smile, CheckCheck, MessageSquare } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 import './messages.scss';
 import { useRealTimeChat } from '../../hooks/useRealTimeChat';
 
@@ -10,9 +11,10 @@ const Messages = () => {
         setSelectedChat,
         conversations,
         sendMessage,
+        isTyping,
         activeMessages,
         activeConversation
-    } = useRealTimeChat('1');
+    } = useRealTimeChat('conv-1');
 
     const chatEndRef = useRef<HTMLDivElement>(null);
 
@@ -22,7 +24,7 @@ const Messages = () => {
 
     useEffect(() => {
         scrollToBottom();
-    }, [activeMessages]);
+    }, [activeMessages, isTyping]);
 
     const handleSendMessage = () => {
         if (!newMessage.trim()) return;
@@ -98,22 +100,48 @@ const Messages = () => {
                             </header>
 
                             <div className="chat-messages">
-                                {activeMessages.map((msg) => (
-                                    <div key={msg.id} className={`message-row ${msg.isMe ? 'me' : 'them'}`}>
-                                        {!msg.isMe && (
-                                            <div className="msg-avatar">
-                                                {activeConversation.participants[0].name.charAt(0)}
+                                <AnimatePresence initial={false}>
+                                    {activeMessages.map((msg) => (
+                                        <motion.div
+                                            key={msg.id}
+                                            initial={{ opacity: 0, scale: 0.9, y: 10 }}
+                                            animate={{ opacity: 1, scale: 1, y: 0 }}
+                                            className={`message-row ${msg.isMe ? 'me' : 'them'}`}
+                                        >
+                                            {!msg.isMe && (
+                                                <div className="msg-avatar">
+                                                    {activeConversation.participants[0].name.charAt(0)}
+                                                </div>
+                                            )}
+                                            <div className="message-bubble">
+                                                <p>{msg.text}</p>
+                                                <div className="message-meta">
+                                                    <span className="time">{msg.timestamp}</span>
+                                                    {msg.isMe && <CheckCheck size={14} className="status-icon" />}
+                                                </div>
                                             </div>
-                                        )}
-                                        <div className="message-bubble">
-                                            <p>{msg.text}</p>
-                                            <div className="message-meta">
-                                                <span className="time">{msg.timestamp}</span>
-                                                {msg.isMe && <CheckCheck size={14} className="status-icon" />}
+                                        </motion.div>
+                                    ))}
+                                </AnimatePresence>
+
+                                {isTyping && (
+                                    <motion.div
+                                        initial={{ opacity: 0, y: 5 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        className="message-row them"
+                                    >
+                                        <div className="msg-avatar">
+                                            {activeConversation.participants[0].name.charAt(0)}
+                                        </div>
+                                        <div className="message-bubble typing">
+                                            <div className="typing-dots">
+                                                <span></span>
+                                                <span></span>
+                                                <span></span>
                                             </div>
                                         </div>
-                                    </div>
-                                ))}
+                                    </motion.div>
+                                )}
                                 <div ref={chatEndRef} />
                             </div>
 

@@ -15,11 +15,9 @@ import { userMenuActions } from "../../store/UserMenu/usermenu.slice";
 import profileImg from '../../assets/Nawaz_profile_IMG.jpg'
 
 const NAV_ITEMS = [
-  { label: "Home", path: "/", icon: Home },
   { label: "Jobs", path: "/jobs", icon: Briefcase },
   { label: "Courses", path: "/courses", icon: BookOpen },
   { label: "AI Interview", path: "/interview", icon: Zap },
-
 ];
 
 export default function Navbar() {
@@ -195,7 +193,7 @@ export default function Navbar() {
                         setTimeout(() => {
                           dispatch(authActions.logout());
                           handleUserMenuStatus()
-                          navigate("/")
+                          navigate("/landing")
                         }, 1000);
                       }}>
                         <LogOut size={16} />

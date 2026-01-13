@@ -112,12 +112,12 @@ const SignUp = () => {
       setIsLoading(false);
       setTimeout(() => setSuccessMessage(''), 3000);
       dispatch(authActions.login())
-      navigate("/")
+      navigate("/dashboard")
     }, 1500);
   };
 
   const handleAuthSubmit = () => {
-      setTimeout(() => {
+    setTimeout(() => {
       setSuccessMessage(
         `Welcome ! Your account has been created successfully.`
       );
@@ -134,7 +134,7 @@ const SignUp = () => {
       setIsLoading(false);
       setTimeout(() => setSuccessMessage(''), 3000);
       dispatch(authActions.login())
-      navigate("/")
+      navigate("/dashboard")
     }, 500);
   }
 

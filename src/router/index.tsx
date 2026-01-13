@@ -11,6 +11,8 @@ import CoursePage from "../pages/Courses/Course/Course";
 import NotFound from "../pages/NotFound/NotFound";
 import Profile from "../pages/Profile/Profile";
 import ProtectedRoute from "../components/ProtectedRoute/ProtectedRoute";
+import AuthRoute from "../components/ProtectedRoute/AuthRoute";
+import RootRoute from "../components/ProtectedRoute/RootRoute";
 import Notifications from "../pages/Notifications/Notifications";
 import Messages from "../pages/Messages/Messages";
 import Training from "../pages/Training/Traning";
@@ -21,13 +23,34 @@ export const router = createBrowserRouter([
     children: [
       {
         path: "/",
+        element: <RootRoute />,
+      },
+      {
+        path: "/landing",
         element: <Home />,
       },
-      // Protected routes
       {
         path: "/jobs",
         element: <Jobs />,
       },
+      // Auth routes (guest only)
+      {
+        path: "/signup",
+        element: (
+          <AuthRoute>
+            <SignUp />
+          </AuthRoute>
+        ),
+      },
+      {
+        path: "/signin",
+        element: (
+          <AuthRoute>
+            <SignIn />
+          </AuthRoute>
+        ),
+      },
+      // Protected routes
       {
         path: "/training",
         element: (
@@ -92,22 +115,10 @@ export const router = createBrowserRouter([
           </ProtectedRoute>
         ),
       },
-      {
-        path: "/signup",
-        element: <SignUp />,
-      },
-      {
-        path: "/signin",
-        element: <SignIn />,
-      },
-
     ]
-
-
   },
   {
     path: "*",
     element: <NotFound />
   }
-
 ]);
