@@ -11,7 +11,7 @@ $slate-200: #e2e8f0;
   min-height: 100vh;
   padding: 40px 0 40px;
   position: relative;
-  
+
 
   &::before {
     content: '';
@@ -56,11 +56,9 @@ $slate-200: #e2e8f0;
   }
 
   .jobs-layout {
-    // display: grid;
-    // grid-template-areas: "sidebar list";
-    // grid-template-columns: 280px 1fr;
-    // gap: 32px;
-    // align-items: start;
+    display: flex;
+    gap: 32px;
+    align-items: start;
     margin-top: 24px;
     position: relative;
   }
