@@ -8,12 +8,12 @@
         gap: 8px;
         padding: 8px 18px;
 
-        background: linear-gradient(135deg, #f5f3ff 0%, #faf5ff 100%);
-        border: 1px solid #e9d5ff;
+        background: var(--input-bg);
+        border: 1px solid var(--card-border);
         border-radius: 99px;
         font-size: 0.85rem;
         font-weight: 700;
-        color: #7c3aed;
+        color: var(--theme-color-primary);
         margin-bottom: 24px;
         animation: slideDown 0.6s ease-out;
         box-shadow: 0 4px 12px rgba(124, 58, 237, 0.15);
@@ -75,4 +75,3 @@
         }
     }
 }
-

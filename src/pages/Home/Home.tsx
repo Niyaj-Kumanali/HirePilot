@@ -1,6 +1,3 @@
-import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { useAppSelector } from "../../store/hooks";
 import CTA from "../../components/Sections/CTA/CTA";
 import Features from "../../components/Sections/Features/Features";
 import Hero from "../../components/Sections/Hero/Hero";
@@ -29,15 +26,6 @@ const itemVariants: Variants = {
 };
 
 const Home = () => {
-  const navigate = useNavigate();
-  const isAuthenticated = useAppSelector(state => state.auth.isAuthenticated);
-
-  useEffect(() => {
-    if (isAuthenticated) {
-      navigate("/dashboard", { replace: true });
-    }
-  }, [isAuthenticated, navigate]);
-
   return (
     <motion.div
       className="home-page"

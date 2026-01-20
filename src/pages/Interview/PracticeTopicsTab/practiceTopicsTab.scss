@@ -1,8 +1,8 @@
 .interview-practice-card {
-  background: white;
+  background: var(--card-bg);
   border-radius: 20px;
   padding: 28px;
-  border: 1px solid #e2e8f0;
+  border: 1px solid var(--glass-border);
   transition: all 0.3s;
   display: flex;
   flex-direction: column;
@@ -24,12 +24,12 @@
     font-size: 1.2rem;
     font-weight: 800;
     margin: 0 0 4px 0;
-    color: #0f172a;
+    color: var(--text-primary);
   }
 
   .interview-practice-category {
     font-size: 0.85rem;
-    color: #94a3b8;
+    color: var(--text-secondary);
     margin: 0;
     font-weight: 600;
   }
@@ -49,7 +49,7 @@
       justify-content: space-between;
       font-size: 0.8rem;
       font-weight: 700;
-      color: #475569;
+      color: var(--text-secondary);
       margin-bottom: 10px;
       text-transform: uppercase;
       letter-spacing: 0.05em;
@@ -57,7 +57,7 @@
 
     .interview-progress-track {
       height: 10px;
-      background: #f1f5f9;
+      background: var(--input-bg);
       border-radius: 6px;
       overflow: hidden;
 
@@ -75,7 +75,7 @@
     justify-content: space-between;
     align-items: center;
     padding-top: 16px;
-    border-top: 1px solid #f1f5f9;
+    border-top: 1px solid var(--glass-border);
     gap: 12px;
   }
 
@@ -92,14 +92,25 @@
     font-weight: 700;
     text-transform: uppercase;
 
-    &.hard { background: #fee2e2; color: #991b1b; }
-    &.medium { background: #fef3c7; color: #92400e; }
-    &.beginner { background: #dcfce7; color: #15803d; }
+    &.hard {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+
+    &.medium {
+      background: #fef3c7;
+      color: #92400e;
+    }
+
+    &.beginner {
+      background: #dcfce7;
+      color: #15803d;
+    }
   }
 
   .interview-duration-text {
     font-size: 0.85rem;
-    color: #64748b;
+    color: var(--text-secondary);
     font-weight: 600;
   }
 

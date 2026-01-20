@@ -1,7 +1,7 @@
 .interview-tab-navigation {
   display: flex;
   gap: 8px;
-  border-bottom: 2px solid #e2e8f0;
+  border-bottom: 2px solid var(--glass-border);
   margin-bottom: 32px;
   animation: slideDown 0.8s ease-out 0.3s both;
 
@@ -10,7 +10,7 @@
     border: none;
     padding: 14px 20px;
     font-weight: 700;
-    color: #64748b;
+    color: var(--text-secondary);
     cursor: pointer;
     position: relative;
     transition: all 0.3s;

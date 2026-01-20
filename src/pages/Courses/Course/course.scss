@@ -1,13 +1,14 @@
 .course-details-wrapper {
-    background: #f8fafc;
+    background: var(--background-color);
     min-height: 100vh;
     padding-bottom: 80px;
 
     .course-details-header {
-        background: #1c1d1f;
-        color: white;
+        background: var(--card-bg);
+        color: var(--text-primary);
         padding: 60px 0;
         margin-bottom: 40px;
+        border-bottom: 1px solid var(--card-border);
 
         .header-container {
             max-width: 1200px;
@@ -133,17 +134,17 @@
 
     .course-main-content {
         .course-section {
-            background: white;
+            background: var(--card-bg);
             border-radius: 12px;
             padding: 32px;
-            border: 1px solid #e2e8f0;
+            border: 1px solid var(--card-border);
             margin-bottom: 24px;
 
             h3 {
                 font-size: 1.5rem;
                 font-weight: 800;
                 margin-bottom: 24px;
-                color: #0f172a;
+                color: var(--text-primary);
             }
         }
 
@@ -160,7 +161,7 @@
                 display: flex;
                 gap: 12px;
                 font-size: 0.95rem;
-                color: #334155;
+                color: var(--text-secondary);
 
                 .check-icon {
                     color: #10b981;
@@ -173,14 +174,14 @@
         .description-section {
             p {
                 line-height: 1.8;
-                color: #475569;
+                color: var(--text-secondary);
                 font-size: 1rem;
             }
         }
 
         .curriculum-stats {
             font-size: 0.9rem;
-            color: #64748b;
+            color: var(--text-secondary);
             margin-bottom: 16px;
             font-weight: 500;
         }
@@ -192,11 +193,11 @@
 
             .module-item {
                 padding: 16px;
-                background: #f8fafc;
-                border: 1px solid #e2e8f0;
+                background: var(--input-bg);
+                border: 1px solid var(--input-border);
                 border-radius: 8px;
                 font-weight: 700;
-                color: #0f172a;
+                color: var(--text-primary);
                 display: flex;
                 align-items: center;
                 gap: 12px;
@@ -221,11 +222,11 @@
         }
 
         .enroll-card {
-            background: white;
+            background: var(--card-bg);
             border-radius: 16px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            box-shadow: var(--shadow-lg);
             overflow: hidden;
-            border: 1px solid #e2e8f0;
+            border: 1px solid var(--card-border);
 
             .course-preview {
                 position: relative;
@@ -266,13 +267,13 @@
                     .current-price {
                         font-size: 2rem;
                         font-weight: 800;
-                        color: #0f172a;
+                        color: var(--text-primary);
                     }
 
                     .original-price {
                         font-size: 1.2rem;
                         text-decoration: line-through;
-                        color: #64748b;
+                        color: var(--text-secondary);
                     }
                 }
 
@@ -297,7 +298,7 @@
                 .guarantee {
                     text-align: center;
                     font-size: 0.8rem;
-                    color: #64748b;
+                    color: var(--text-secondary);
                     margin-bottom: 24px;
                 }
 
@@ -306,7 +307,7 @@
                         font-size: 1rem;
                         font-weight: 800;
                         margin-bottom: 16px;
-                        color: #0f172a;
+                        color: var(--text-primary);
                     }
 
                     .include-item {
@@ -315,7 +316,7 @@
                         gap: 12px;
                         margin-bottom: 12px;
                         font-size: 0.9rem;
-                        color: #334155;
+                        color: var(--text-secondary);
 
                         svg {
                             color: #64748b;
@@ -338,7 +339,7 @@
 
     h2 {
         font-size: 2rem;
-        color: #0f172a;
+        color: var(--text-primary);
     }
 
     button {

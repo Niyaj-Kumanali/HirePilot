@@ -43,7 +43,7 @@ const Footer: React.FC = () => {
                     <div className="footer-section">
                         <h3 className="footer-section-title">Platform</h3>
                         <ul className="footer-links">
-                            <li><Link to="/landing">Home</Link></li>
+                            <li><Link to="/">Home</Link></li>
                             <li><Link to="/jobs">Job Board</Link></li>
                             <li><Link to="/interview">Mock Prep</Link></li>
                             <li><Link to="/courses">Courses</Link></li>

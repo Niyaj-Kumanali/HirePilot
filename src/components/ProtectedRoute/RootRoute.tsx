@@ -8,7 +8,7 @@ const RootRoute = () => {
         return <Navigate to="/dashboard" replace />;
     }
 
-    return <Navigate to="/landing" replace />;
+    return <Navigate to="/" replace />;
 };
 
 export default RootRoute;

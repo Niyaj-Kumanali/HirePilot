@@ -1,0 +1,70 @@
+.theme-toggle-single {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  padding: 8px;
+  border-radius: 12px;
+  background: var(--glass-bg, rgba(15, 23, 42, 0.05));
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid var(--glass-border, rgba(255, 255, 255, 0.1));
+  color: var(--text-secondary, #64748b);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+
+  &:hover {
+    background: var(--glass-bg-hover, rgba(15, 23, 42, 0.08));
+    transform: translateY(-2px);
+    color: var(--theme-primary, #6366f1);
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.15);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+
+  .icon-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: icon-scale 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .sun-icon {
+    color: #f59e0b;
+    filter: drop-shadow(0 0 4px rgba(245, 158, 11, 0.4));
+  }
+
+  .moon-icon {
+    color: #6366f1;
+    filter: drop-shadow(0 0 4px rgba(99, 102, 241, 0.4));
+  }
+}
+
+@keyframes icon-scale {
+  0% {
+    transform: scale(0) rotate(-90deg);
+    opacity: 0;
+  }
+
+  100% {
+    transform: scale(1) rotate(0);
+    opacity: 1;
+  }
+}
+
+[data-theme='dark'] {
+  .theme-toggle-single {
+    background: var(--glass-bg, rgba(255, 255, 255, 0.05));
+    border-color: var(--glass-border, rgba(255, 255, 255, 0.1));
+
+    &:hover {
+      background: var(--glass-bg-hover, rgba(255, 255, 255, 0.08));
+    }
+  }
+}

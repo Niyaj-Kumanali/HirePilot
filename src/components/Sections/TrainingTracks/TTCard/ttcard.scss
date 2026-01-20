@@ -1,7 +1,7 @@
   /* --- Track Card --- */
   .track-card {
-      background: #ffffff;
-      border: 1px solid #e2e8f0;
+      background: var(--card-bg);
+      border: 1px solid var(--glass-border);
       border-radius: 24px;
       padding: 30px;
       position: relative;
@@ -10,7 +10,7 @@
       justify-content: space-between;
       transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
       cursor: pointer;
-      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+      box-shadow: 0 4px 6px -1px var(--shadow-sm);
 
       @media (max-width: 768px) {
           padding: 30px;
@@ -34,7 +34,7 @@
       .track-icon-container {
           width: 56px;
           height: 56px;
-          background: #f1f5f9;
+          background: rgba(var(--theme-primary-rgb), 0.05);
           border-radius: 16px;
           display: flex;
           align-items: center;
@@ -60,11 +60,11 @@
           font-size: 1.5rem;
           font-weight: 700;
           margin-bottom: 12px;
-          color: #1e293b;
+          color: var(--text-primary);
       }
 
       .track-card-desc {
-          color: #64748b;
+          color: var(--text-secondary);
           line-height: 1.6;
           font-size: 1rem;
           margin-bottom: 32px;
@@ -105,9 +105,9 @@
           }
 
           &.coming-soon {
-              background: #f8fafc;
-              color: #64748b;
-              border: 1px solid #e2e8f0;
+              background: var(--glass-bg);
+              color: var(--text-secondary);
+              border: 1px solid var(--glass-border);
           }
       }
   }

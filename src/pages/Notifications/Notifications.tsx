@@ -1,122 +1,200 @@
-import { useState } from 'react';
-import { Bell, Briefcase, MessageSquare, BookOpen, Settings, CheckCircle2, Trash2 } from 'lucide-react';
-import './notifications.scss';
+import React, { useState, useMemo, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Bell, Briefcase, MessageSquare, BookOpen, Settings, CheckCircle2, Trash2, RotateCcw } from 'lucide-react';
 import VisualHeader from '../../components/VisualHeader/VisualHeader';
 import { notificationsData } from '../../data/notificationsData';
 import type { Notification } from '../../data/notificationsData';
+import './notifications.scss';
+import EmptyState from '../../components/EmptyState/EmptyState';
+import NotificationItem from './NotificationItem/NotificationItem';
 
-const Notifications = () => {
-    const [notifications, setNotifications] = useState<Notification[]>(notificationsData);
-    const [filter, setFilter] = useState<'all' | 'unread'>('all');
+const Notifications: React.FC = () => {
+  const [notifications, setNotifications] = useState<Notification[]>(notificationsData);
+  const [filter, setFilter] = useState<'all' | 'unread'>('all');
+  const [lastDeleted, setLastDeleted] = useState<Notification | null>(null);
+  const [showUndo, setShowUndo] = useState(false);
+  const [sortBy, setSortBy] = useState<'recent' | 'unread'>('recent');
 
-    const filteredNotifications = filter === 'all'
-        ? notifications
-        : notifications.filter(n => !n.isRead);
+  const filteredNotifications = useMemo(() => {
+    let filtered = filter === 'all' ? notifications : notifications.filter(n => !n.isRead);
 
-    const markAsRead = (id: string) => {
-        setNotifications(prev => prev.map(n => n.id === id ? { ...n, isRead: true } : n));
+    if (sortBy === 'unread') {
+      filtered = [...filtered].sort((_a, b) => (b.isRead ? -1 : 1));
+    }
+    return filtered;
+  }, [notifications, filter, sortBy]);
+
+  const unreadCount = useMemo(() => notifications.filter(n => !n.isRead).length, [notifications]);
+
+  const stats = useMemo(() => ({
+    total: notifications.length,
+    unread: unreadCount,
+  }), [notifications, unreadCount]);
+
+  const markAsRead = (id: string): void => {
+    setNotifications(prev => prev.map(n => n.id === id ? { ...n, isRead: true } : n));
+  };
+
+  const markAllAsRead = (): void => {
+    setNotifications(prev => prev.map(n => ({ ...n, isRead: true })));
+  };
+
+  const deleteNotification = (id: string): void => {
+    const target = notifications.find(n => n.id === id);
+    if (target) {
+      setLastDeleted(target);
+      setShowUndo(true);
+      setNotifications(prev => prev.filter(n => n.id !== id));
+    }
+  };
+
+  const undoDelete = (): void => {
+    if (lastDeleted) {
+      setNotifications(prev => [lastDeleted, ...prev]);
+      setShowUndo(false);
+      setLastDeleted(null);
+    }
+  };
+
+  const clearAll = (): void => {
+    setNotifications([]);
+  };
+
+  useEffect(() => {
+    if (showUndo) {
+      const timer = setTimeout(() => setShowUndo(false), 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [showUndo]);
+
+  const getIcon = (type: Notification['type']): React.ReactNode => {
+    const props = { size: 20 };
+    const iconMap: Record<Notification['type'], React.ReactNode> = {
+      job: <Briefcase {...props} className="icon-job" />,
+      message: <MessageSquare {...props} className="icon-message" />,
+      course: <BookOpen {...props} className="icon-course" />,
+      system: <Settings {...props} className="icon-system" />,
     };
+    return iconMap[type] || <Bell {...props} />;
+  };
 
-    const markAllAsRead = () => {
-        setNotifications(prev => prev.map(n => ({ ...n, isRead: true })));
-    };
+  return (
+    <div className="notifications-wrapper">
+      {/* Decorative Background */}
+      <div className="bg-elements">
+        <div className="blob blob-1" />
+        <div className="blob blob-2" />
+        <div className="blob blob-3" />
+      </div>
 
-    const deleteNotification = (id: string) => {
-        setNotifications(prev => prev.filter(n => n.id !== id));
-    };
+      <div className="notifications-container">
+        <VisualHeader
+          badge={`Activity Feed • ${stats.unread} New`}
+          title="Stay Updated"
+          gradient_title="with Alerts"
+          subtitle="Manage your notifications, track job updates, and course progress in one place."
+        />
 
-    const getIcon = (type: Notification['type']) => {
-        switch (type) {
-            case 'job': return <Briefcase size={20} className="icon-job" />;
-            case 'message': return <MessageSquare size={20} className="icon-message" />;
-            case 'course': return <BookOpen size={20} className="icon-course" />;
-            case 'system': return <Settings size={20} className="icon-system" />;
-            default: return <Bell size={20} />;
-        }
-    };
+        {/* Controls */}
+        <div className="notifications-controls">
+          <div className="filter-pill-group">
+            {(['all', 'unread'] as const).map((f) => (
+              <motion.button
+                key={f}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                className={`filter-pill ${filter === f ? 'active' : ''}`}
+                onClick={() => setFilter(f)}
+              >
+                {f.charAt(0).toUpperCase() + f.slice(1)}
+                <span className="badge">
+                  {f === 'all' ? stats.total : stats.unread}
+                </span>
+              </motion.button>
+            ))}
+          </div>
 
-    return (
-        <div className="notifications-wrapper">
-            <div className="notifications-container">
-                <header className="notifications-header">
-                    <VisualHeader
-                        badge="Activity Feed"
-                        title="Stay Updated"
-                        gradient_title="with Alerts"
-                        subtitle="Manage your notifications, job matches, and messages in one place."
-                    />
-                </header>
+          <div className="control-actions">
+            <select
+              className="sort-select"
+              value={sortBy}
+              onChange={(e) => setSortBy(e.target.value as 'recent' | 'unread')}
+            >
+              <option value="recent">Most Recent</option>
+              <option value="unread">Unread First</option>
+            </select>
 
-                <div className="notifications-controls card-glass">
-                    <div className="filter-tabs">
-                        <button
-                            className={`filter-btn ${filter === 'all' ? 'active' : ''}`}
-                            onClick={() => setFilter('all')}
-                        >
-                            All Notifications
-                            <span className="count">{notifications.length}</span>
-                        </button>
-                        <button
-                            className={`filter-btn ${filter === 'unread' ? 'active' : ''}`}
-                            onClick={() => setFilter('unread')}
-                        >
-                            Unread
-                            <span className="count">{notifications.filter(n => !n.isRead).length}</span>
-                        </button>
-                    </div>
-                    <button className="mark-all-btn" onClick={markAllAsRead}>
-                        <CheckCircle2 size={16} />
-                        Mark all as read
-                    </button>
-                </div>
+            <motion.button
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              className="btn-ghost"
+              onClick={markAllAsRead}
+              disabled={unreadCount === 0}
+            >
+              <CheckCircle2 size={16} /> Mark all read
+            </motion.button>
 
-                <div className="notifications-list">
-                    {filteredNotifications.length > 0 ? (
-                        filteredNotifications.map((notification) => (
-                            <div
-                                key={notification.id}
-                                className={`notification-card card-glass ${notification.isRead ? 'read' : 'unread'}`}
-                            >
-                                <div className="notification-icon-wrapper">
-                                    {getIcon(notification.type)}
-                                </div>
-                                <div className="notification-content">
-                                    <div className="notification-top">
-                                        <h3 className="notification-title">{notification.title}</h3>
-                                        <span className="notification-time">{notification.time}</span>
-                                    </div>
-                                    <p className="notification-desc">{notification.description}</p>
-                                    <div className="notification-actions">
-                                        {!notification.isRead && (
-                                            <button
-                                                className="action-btn read-btn"
-                                                onClick={() => markAsRead(notification.id)}
-                                            >
-                                                Mark as read
-                                            </button>
-                                        )}
-                                        <button
-                                            className="action-btn delete-btn"
-                                            onClick={() => deleteNotification(notification.id)}
-                                        >
-                                            <Trash2 size={14} />
-                                        </button>
-                                    </div>
-                                </div>
-                                {!notification.isRead && <div className="unread-dot"></div>}
-                            </div>
-                        ))
-                    ) : (
-                        <div className="empty-notifications card-glass">
-                            <Bell size={48} className="empty-icon" />
-                            <h3>All caught up!</h3>
-                            <p>No {filter === 'unread' ? 'unread' : ''} notifications at the moment.</p>
-                        </div>
-                    )}
-                </div>
-            </div>
+            <motion.button
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              className="btn-danger"
+              onClick={clearAll}
+              disabled={notifications.length === 0}
+            >
+              <Trash2 size={16} /> Clear all
+            </motion.button>
+          </div>
         </div>
-    );
+
+        {/* Notifications List */}
+        <div className="notifications-list">
+          {filteredNotifications.length === 0 ? (
+            <EmptyState
+              title="No notifications yet"
+              description={filter === 'unread' ? "You've read everything! Check 'All' for history." : "We'll notify you here when there's activity."}
+            />
+          ) : (
+            <AnimatePresence mode="popLayout" initial={false}>
+              {filteredNotifications.map((n) => (
+                <NotificationItem
+                  key={n.id}
+                  n={n}
+                  getIcon={getIcon}
+                  onDelete={deleteNotification}
+                  onRead={markAsRead}
+                />
+              ))}
+            </AnimatePresence>
+          )}
+        </div>
+
+        {/* Undo Toast */}
+        <AnimatePresence>
+          {showUndo && (
+            <motion.div
+              initial={{ y: 100, x: '-50%', opacity: 0 }}
+              animate={{ y: 0, x: '-50%', opacity: 1 }}
+              exit={{ y: 100, x: '-50%', opacity: 0 }}
+              transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+              className="undo-toast"
+            >
+              <span className="undo-text">Notification removed from your feed</span>
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={undoDelete}
+                className="undo-btn"
+              >
+                <RotateCcw size={14} /> Undo Action
+              </motion.button>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
+    </div>
+  );
 };
+
+
 
 export default Notifications;

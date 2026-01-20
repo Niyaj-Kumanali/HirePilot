@@ -13,19 +13,19 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        background: rgba(255, 255, 255, 0.5);
-        border: 1px solid rgba(255, 255, 255, 0.8);
+        background: var(--input-bg);
+        border: 1px solid var(--card-border);
         backdrop-filter: blur(8px);
-        color: #475569;
+        color: var(--text-secondary);
         cursor: pointer;
         transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
         &:hover:not(:disabled) {
-            background: rgba(255, 255, 255, 0.9);
+            background: var(--card-bg);
             border-color: var(--theme-color-primary);
             color: var(--theme-color-primary);
             transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+            box-shadow: var(--shadow-md);
         }
 
         &:disabled {
@@ -38,9 +38,9 @@
         display: flex;
         gap: 8px;
         padding: 6px;
-        background: rgba(255, 255, 255, 0.3);
+        background: var(--input-bg);
         border-radius: 16px;
-        border: 1px solid rgba(255, 255, 255, 0.5);
+        border: 1px solid var(--card-border);
         backdrop-filter: blur(4px);
 
         .pagination-number {
@@ -52,14 +52,14 @@
             justify-content: center;
             background: transparent;
             border: none;
-            color: #64748b;
+            color: var(--text-secondary);
             font-weight: 700;
             font-size: 0.9rem;
             cursor: pointer;
             transition: all 0.2s;
 
             &:hover {
-                background: rgba(255, 255, 255, 0.6);
+                background: var(--input-border);
                 color: var(--theme-color-primary);
             }
 

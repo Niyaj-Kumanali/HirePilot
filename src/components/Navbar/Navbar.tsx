@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import {
   Home, Briefcase, BookOpen, BarChart3,
   LogOut, Menu, X, Bell,
-  MessageSquare, Zap
+  MessageSquare, Zap, Sun, Moon
 } from "lucide-react";
 import Logo from "../Logo/Logo";
 import './navbar.scss'
@@ -13,8 +13,10 @@ import { authActions } from "../../store/auth/auth.slice";
 import { getUserMenuState } from "../../utility/userMenu";
 import { userMenuActions } from "../../store/UserMenu/usermenu.slice";
 import profileImg from '../../assets/Nawaz_profile_IMG.jpg'
+import ThemeToggle from "../ThemeToggle/ThemeToggle";
 
 const NAV_ITEMS = [
+  { label: "Home", path: "/", icon: Home },
   { label: "Jobs", path: "/jobs", icon: Briefcase },
   { label: "Courses", path: "/courses", icon: BookOpen },
   { label: "AI Interview", path: "/interview", icon: Zap },
@@ -72,9 +74,9 @@ export default function Navbar() {
     <header className="navbar-header">
       <div className="navbar-container">
         {/* Logo Section */}
-        <Link className="navbar-logo" to={"/"}>
+        <div className="navbar-logo">
           <Logo />
-        </Link>
+        </div>
 
         {/* Desktop Navigation */}
         <nav className="navbar-nav-desktop">
@@ -140,6 +142,8 @@ export default function Navbar() {
                 )}
               </div>
               <div className="user-profile-wrapper">
+                  <ThemeToggle />
+
 
                 {/* User Avatar & Dropdown */}
                 <div className="user-menu" ref={menuRef}>
@@ -193,7 +197,7 @@ export default function Navbar() {
                         setTimeout(() => {
                           dispatch(authActions.logout());
                           handleUserMenuStatus()
-                          navigate("/landing")
+                          navigate("/")
                         }, 1000);
                       }}>
                         <LogOut size={16} />

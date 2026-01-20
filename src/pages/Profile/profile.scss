@@ -1,13 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap');
 
 .profile-page-wrapper {
-  --glass-bg: rgba(255, 255, 255, 0.7);
-  --glass-stroke: rgba(255, 255, 255, 0.4);
-  --accent: #6366f1;
-  --accent-dark: #4f46e5;
-  --text-main: #0f172a;
-  --text-muted: #64748b;
-  --bg-page: #f8fafc;
+  --accent: var(--theme-color-primary, #6366f1);
+  --accent-dark: var(--theme-color-secondary, #4f46e5);
+  --text-main: var(--text-primary);
+  --text-muted: var(--text-secondary);
+  --bg-page: var(--background-color);
 
   min-height: 100vh;
   background: var(--bg-page);
@@ -60,11 +58,11 @@
     }
 
     .sidebar-card {
-      background: white;
+      background: var(--card-bg);
       border-radius: 24px;
       padding: 32px;
-      border: 1px solid #e2e8f0;
-      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+      border: 1px solid var(--card-border);
+      box-shadow: var(--shadow-sm);
     }
 
     .profile-main-card {
@@ -103,8 +101,8 @@
           right: -5px;
           width: 40px;
           height: 40px;
-          background: white;
-          border: 1px solid #e2e8f0;
+          background: var(--card-bg);
+          border: 1px solid var(--card-border);
           border-radius: 12px;
           display: flex;
           align-items: center;
@@ -128,7 +126,7 @@
           width: 14px;
           height: 14px;
           background: #10b981;
-          border: 3px solid white;
+          border: 3px solid var(--card-bg);
           border-radius: 50%;
         }
       }
@@ -152,7 +150,7 @@
         align-items: center;
         gap: 6px;
         padding: 6px 12px;
-        background: #f1f5f9;
+        background: var(--input-bg);
         border-radius: 100px;
         font-size: 0.8rem;
         font-weight: 600;
@@ -165,8 +163,8 @@
         gap: 32px;
         margin: 24px 0;
         padding: 16px 0;
-        border-top: 1px solid #f1f5f9;
-        border-bottom: 1px solid #f1f5f9;
+        border-top: 1px solid var(--card-border);
+        border-bottom: 1px solid var(--card-border);
 
         .stat-item {
           display: flex;
@@ -188,7 +186,7 @@
       }
 
       .completion-card {
-        background: #f8fafc;
+        background: var(--input-bg);
         padding: 16px;
         border-radius: 16px;
         margin-bottom: 24px;
@@ -203,7 +201,7 @@
 
         .completion-bar {
           height: 6px;
-          background: #e2e8f0;
+          background: var(--input-border);
           border-radius: 10px;
           overflow: hidden;
 
@@ -268,9 +266,9 @@
         }
 
         .share-btn {
-          background: white;
+          background: var(--card-bg);
           color: var(--text-main);
-          border: 2px solid #e2e8f0;
+          border: 2px solid var(--card-border);
 
           &:hover {
             border-color: var(--accent);
@@ -311,9 +309,9 @@
           display: flex;
           align-items: center;
           justify-content: center;
-          background: #f8fafc;
+          background: var(--input-bg);
           color: var(--text-muted);
-          border: 1px solid #e2e8f0;
+          border: 1px solid var(--card-border);
           transition: all 0.2s;
 
           &:hover {
@@ -408,10 +406,10 @@
       gap: 20px;
 
       .metric-card {
-        background: white;
+        background: var(--card-bg);
         padding: 24px;
         border-radius: 20px;
-        border: 1px solid #f1f5f9;
+        border: 1px solid var(--card-border);
 
         .metric-info {
           display: flex;
@@ -449,7 +447,7 @@
 
         .metric-bar {
           height: 6px;
-          background: #f1f5f9;
+          background: var(--input-bg);
           border-radius: 10px;
           overflow: hidden;
 
@@ -474,7 +472,7 @@
         top: 10px;
         bottom: 10px;
         width: 2px;
-        background: #e2e8f0;
+        background: var(--card-border);
       }
 
       .timeline-item {
@@ -491,7 +489,7 @@
           top: 6px;
           width: 12px;
           height: 12px;
-          background: white;
+          background: var(--card-bg);
           border: 3px solid var(--accent);
           border-radius: 50%;
         }
@@ -543,8 +541,8 @@
       gap: 12px;
 
       .skill-tag {
-        background: white;
-        border: 1px solid #e2e8f0;
+        background: var(--card-bg);
+        border: 1px solid var(--card-border);
         padding: 10px 16px;
         border-radius: 100px;
         display: flex;
@@ -578,7 +576,7 @@
           font-size: 0.75rem;
           font-weight: 600;
           color: var(--text-muted);
-          background: #f1f5f9;
+          background: var(--input-bg);
           padding: 2px 8px;
           border-radius: 4px;
         }
@@ -621,16 +619,16 @@
         textarea {
           padding: 14px 18px;
           border-radius: 14px;
-          border: 2px solid #e2e8f0;
-          background: #f8fafc;
+          border: 2px solid var(--input-border);
+          background: var(--input-bg);
           font-size: 0.95rem;
           transition: all 0.2s;
 
           &:focus {
             outline: none;
             border-color: var(--accent);
-            background: white;
-            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+            background: var(--card-bg);
+            box-shadow: 0 0 0 4px rgba(var(--theme-secondary-rgb), 0.1);
           }
         }
       }
@@ -668,7 +666,7 @@
       .cancel-btn {
         background: transparent;
         color: var(--text-muted);
-        border: 2px solid #e2e8f0;
+        border: 2px solid var(--input-border);
 
         &:hover {
           background: #f1f5f9;
@@ -691,7 +689,7 @@
     padding: 20px;
 
     .image-modal-content {
-      background: white;
+      background: var(--card-bg);
       width: 100%;
       max-width: 400px;
       border-radius: 24px;
@@ -700,7 +698,7 @@
 
       header {
         padding: 20px 24px;
-        border-bottom: 1px solid #f1f5f9;
+        border-bottom: 1px solid var(--card-border);
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -732,9 +730,9 @@
         .option {
           width: 100%;
           padding: 16px;
-          border: 1px solid #e2e8f0;
+          border: 1px solid var(--card-border);
           border-radius: 16px;
-          background: white;
+          background: var(--card-bg);
           display: flex;
           align-items: center;
           gap: 16px;

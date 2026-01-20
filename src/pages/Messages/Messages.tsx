@@ -34,7 +34,7 @@ const Messages = () => {
 
     return (
         <div className="messages-wrapper">
-            <div className="messages-container card-glass">
+            <div className="messages-container">
                 {/* Sidebar */}
                 <aside className="messages-sidebar">
                     <div className="sidebar-header">
@@ -92,10 +92,10 @@ const Messages = () => {
                                     </div>
                                 </div>
                                 <div className="chat-actions">
-                                    <button className="action-btn"><Phone size={20} /></button>
-                                    <button className="action-btn"><Video size={20} /></button>
-                                    <button className="action-btn"><Info size={20} /></button>
-                                    <button className="action-btn"><MoreVertical size={20} /></button>
+                                    <button className="action-btn" title="Phone call"><Phone size={20} /></button>
+                                    <button className="action-btn" title="Video call"><Video size={20} /></button>
+                                    <button className="action-btn" title="Info"><Info size={20} /></button>
+                                    <button className="action-btn" title="More options"><MoreVertical size={20} /></button>
                                 </div>
                             </header>
 
@@ -147,7 +147,7 @@ const Messages = () => {
 
                             <footer className="chat-input-area">
                                 <div className="input-actions">
-                                    <button className="icon-btn"><Paperclip size={20} /></button>
+                                    <button className="icon-btn" title="Attach file"><Paperclip size={20} /></button>
                                 </div>
                                 <div className="input-wrapper">
                                     <input
@@ -157,12 +157,13 @@ const Messages = () => {
                                         onChange={(e) => setNewMessage(e.target.value)}
                                         onKeyDown={(e) => e.key === 'Enter' && handleSendMessage()}
                                     />
-                                    <button className="smile-btn"><Smile size={20} /></button>
+                                    <button className="smile-btn" title="Emoji"><Smile size={20} /></button>
                                 </div>
                                 <button
                                     className="send-btn"
                                     onClick={handleSendMessage}
                                     disabled={!newMessage.trim()}
+                                    title="Send message"
                                 >
                                     <Send size={20} />
                                 </button>

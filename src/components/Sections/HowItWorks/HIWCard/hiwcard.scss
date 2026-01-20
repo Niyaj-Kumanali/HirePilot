@@ -1,7 +1,7 @@
   /* --- Individual Step Card --- */
   .hiw-card {
-    background: #ffffff;
-    border: 1px solid #e2e8f0;
+    background: var(--card-bg);
+    border: 1px solid var(--glass-border);
     padding: 40px 24px;
     border-radius: 28px;
     text-align: center;
@@ -10,7 +10,7 @@
     width: 100%;
     max-width: 260px;
     height: 300px;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 4px 6px -1px var(--shadow-sm);
 
     @media (max-width: 768px) {
       max-width: 100%;
@@ -50,19 +50,19 @@
       align-items: center;
       justify-content: center;
       margin: 0 auto 28px;
-      background: #f1f5f9;
-      color: #6366f1;
+      background: rgba(var(--theme-primary-rgb), 0.05);
+      color: var(--theme-color-secondary);
     }
 
     .hiw-card-title {
       font-weight: 700;
       font-size: 1.3rem;
       margin-bottom: 14px;
-      color: var(--text-color-dark);
+      color: var(--text-primary);
     }
 
     .hiw-card-desc {
-      color: var(--sub-text-color);
+      color: var(--text-secondary);
       line-height: 1.6;
       font-size: 0.95rem;
     }

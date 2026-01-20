@@ -10,10 +10,11 @@
     position: absolute;
     inset: 0;
     background-image:
-      linear-gradient(rgba(0, 0, 0, 0.03) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(0, 0, 0, 0.03) 1px, transparent 1px);
+      linear-gradient(var(--glass-border) 1px, transparent 1px),
+      linear-gradient(90deg, var(--glass-border) 1px, transparent 1px);
     background-size: 40px 40px;
     mask-image: radial-gradient(circle at center, black, transparent 80%);
+    -webkit-mask-image: radial-gradient(circle at center, black, transparent 80%);
   }
 
   .cta-container {
@@ -56,8 +57,8 @@
           display: inline-flex;
           align-items: center;
           gap: 10px;
-          background-color: #1e293b;
-          color: white;
+          background-color: var(--text-primary);
+          color: var(--card-bg);
           border: none;
           padding: 14px 28px;
           border-radius: 8px;
@@ -68,7 +69,7 @@
           width: fit-content;
 
           &:hover {
-            background-color: #0f172a;
+            background-color: var(--text-secondary);
             transform: translateY(-2px);
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
           }

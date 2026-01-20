@@ -6,20 +6,22 @@
   min-height: 90vh;
   display: flex;
   align-items: center;
-  /* Use hardcoded hex if variables aren't defined elsewhere */
-  background: linear-gradient(135deg, var(--theme-color-primary) 0%, var(--theme-color-secondary) 100%);
+  background: var(--background-color);
   overflow: hidden;
+
+  /* Atmospheric gradient that sits on top of background-color */
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 20% 50%, rgba(var(--theme-primary-rgb), 0.15) 0%, transparent 50%),
+      radial-gradient(circle at 80% 80%, rgba(var(--theme-secondary-rgb), 0.15) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 0;
+  }
 }
 
-/* Subtle overlay effects */
-.hero-wrapper::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at 20% 50%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
-    radial-gradient(circle at 80% 80%, rgba(138, 43, 226, 0.2) 0%, transparent 50%);
-  pointer-events: none;
-}
+/* Removed the old before as it's merged into .hero-wrapper for better layering */
 
 .hero-wrapper::after {
   content: "";
@@ -27,9 +29,10 @@
   bottom: 0;
   left: 0;
   right: 0;
-  height: 150px;
-  background: linear-gradient(to top, rgba(255, 255, 255, 0.1) 0%, transparent 100%);
+  height: 200px;
+  background: linear-gradient(to top, var(--background-color) 0%, transparent 100%);
   pointer-events: none;
+  z-index: 1;
 }
 
 /* Container and content positioning */
@@ -44,7 +47,7 @@
 
 .hero-content {
   text-align: center;
-  color: white;
+  color: var(--text-primary);
   padding: 48px 0;
 }
 
@@ -54,14 +57,14 @@
   align-items: center;
   gap: 8px;
   margin-bottom: 24px;
-  background-color: rgba(255, 255, 255, 0.15);
+  background-color: var(--glass-bg);
   backdrop-filter: blur(10px);
-  color: #ffffff;
+  color: var(--text-primary);
   font-weight: 600;
   font-size: 0.9rem;
   padding: 10px 20px;
   border-radius: 50px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid var(--glass-border);
 }
 
 .hero-badge-icon {
@@ -74,7 +77,7 @@
   font-weight: 800;
   margin-bottom: 16px;
   line-height: 1.1;
-  color: #ffffff;
+  color: var(--text-primary);
 }
 
 /* Subtitle */
@@ -83,7 +86,7 @@
   max-width: 700px;
   margin: 0 auto 32px auto;
   line-height: 1.6;
-  color: rgba(255, 255, 255, 0.9);
+  color: var(--text-secondary);
   font-weight: 400;
 }
 
@@ -101,13 +104,13 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: var(--glass-bg);
   backdrop-filter: blur(10px);
   padding: 12px 20px;
   border-radius: 50px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid var(--glass-border);
   transition: all 0.3s ease;
-  color: #ffffff;
+  color: var(--text-primary);
 }
 
 .hero-feature-pill:hover {
@@ -153,31 +156,32 @@
 }
 
 .btn-secondary {
-  background-color: #ffffff;
-  color: #4f46e5;
+  background-color: var(--card-bg);
+  color: var(--theme-color-primary);
+  border: 1px solid var(--card-border);
 }
 
 .btn-secondary:hover {
-  background-color: #f3f4f6;
+  background-color: var(--input-bg);
   transform: translateY(-2px);
 }
 
 .btn-transparent {
   background-color: transparent;
-  color: #ffffff;
-  border: 1px solid rgba(255, 255, 255, 0.5);
+  color: var(--text-primary);
+  border: 1.5px solid var(--theme-color-primary);
 }
 
 .btn-transparent:hover {
-  background-color: rgba(255, 255, 255, 0.1);
-  border-color: #ffffff;
+  background-color: rgba(var(--theme-primary-rgb), 0.1);
+  border-color: var(--theme-color-primary);
 }
 
 /* Floating circles */
 .hero-float-circle {
   position: absolute;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(var(--theme-primary-rgb), 0.05);
   pointer-events: none;
 }
 
@@ -263,14 +267,14 @@
   .mouse {
     width: 26px;
     height: 42px;
-    border: 2px solid rgba(255, 255, 255, 0.5);
+    border: 2px solid var(--text-secondary);
     border-radius: 20px;
     position: relative;
 
     .wheel {
       width: 4px;
       height: 8px;
-      background: white;
+      background: var(--text-primary);
       border-radius: 2px;
       position: absolute;
       top: 8px;
@@ -289,8 +293,8 @@
       display: block;
       width: 10px;
       height: 10px;
-      border-bottom: 2px solid rgba(255, 255, 255, 0.5);
-      border-right: 2px solid rgba(255, 255, 255, 0.5);
+      border-bottom: 2px solid var(--text-secondary);
+      border-right: 2px solid var(--text-secondary);
       transform: rotate(45deg);
       margin: -4px;
       animation: arrow-bounce 2s infinite;

@@ -1,6 +1,6 @@
 .courses-page-wrapper {
   min-height: 100vh;
-  background: #f8fafc;
+  background: var(--background-color);
   padding-bottom: 80px;
   position: relative;
   overflow-x: hidden;
@@ -21,13 +21,13 @@
   .bg-glow-1 {
     top: -100px;
     right: -100px;
-    background: radial-gradient(circle, rgba(99, 102, 241, 0.2), transparent);
+    background: radial-gradient(circle, rgba(var(--theme-primary-rgb), 0.2), transparent);
   }
 
   .bg-glow-2 {
     bottom: -100px;
     left: -100px;
-    background: radial-gradient(circle, rgba(168, 85, 247, 0.2), transparent);
+    background: radial-gradient(circle, rgba(var(--theme-secondary-rgb), 0.2), transparent);
   }
 
   /* HERO SECTION */
@@ -41,70 +41,6 @@
       max-width: 1000px;
       margin: 0 auto;
 
-      .search-filter-bar {
-        margin-top: 56px;
-        display: flex;
-        gap: 16px;
-        padding: 12px;
-        max-width: 800px;
-        margin-left: auto;
-        margin-right: auto;
-
-        @media (max-width: 768px) {
-          flex-direction: column;
-          padding: 8px;
-        }
-
-        .search-box {
-          flex: 1;
-        }
-
-        .sort-dropdown {
-          position: relative;
-          min-width: 220px;
-          display: flex;
-          align-items: center;
-          background: rgba(255, 255, 255, 0.5);
-          border-radius: 12px;
-          padding: 0 16px;
-          border: 1px solid rgba(255, 255, 255, 0.8);
-          transition: all 0.3s ease;
-
-          &:hover {
-            background: rgba(255, 255, 255, 0.8);
-            border-color: var(--theme-color-primary);
-          }
-
-          .filter-icon {
-            color: #64748b;
-            margin-right: 8px;
-          }
-
-          select {
-            flex: 1;
-            height: 50px;
-            background: transparent;
-            border: none;
-            color: #1e293b;
-            font-weight: 600;
-            appearance: none;
-            cursor: pointer;
-            outline: none;
-            font-size: 0.95rem;
-
-            option {
-              background: white;
-              color: #1e293b;
-            }
-          }
-
-          .arrow {
-            color: #94a3b8;
-            pointer-events: none;
-            margin-left: 8px;
-          }
-        }
-      }
     }
   }
 
@@ -150,16 +86,16 @@
       .category-chip {
         padding: 10px 24px;
         border-radius: 100px;
-        border: 1px solid rgba(0, 0, 0, 0.05);
-        background: rgba(255, 255, 255, 0.5);
-        color: #64748b;
+        border: 1px solid var(--glass-border);
+        background: var(--glass-bg);
+        color: var(--text-secondary);
         font-weight: 700;
         font-size: 0.9rem;
         cursor: pointer;
         transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
         &:hover {
-          background: white;
+          background: var(--card-bg);
           border-color: var(--theme-color-primary);
           color: var(--theme-color-primary);
           transform: translateY(-2px);
@@ -169,7 +105,7 @@
           background: var(--theme-color-primary);
           color: white;
           border-color: var(--theme-color-primary);
-          box-shadow: 0 8px 16px rgba(99, 102, 241, 0.25);
+          box-shadow: 0 8px 16px rgba(var(--theme-primary-rgb), 0.25);
         }
       }
     }
@@ -178,7 +114,7 @@
       display: flex;
       align-items: center;
       gap: 12px;
-      color: #334155;
+      color: var(--text-secondary);
       font-size: 0.95rem;
 
       b {
@@ -187,6 +123,53 @@
 
       .sparkle-icon {
         color: #fbbf24;
+      }
+
+      .sort-dropdown {
+        position: relative;
+        min-width: 220px;
+        display: flex;
+        align-items: center;
+        background: var(--input-bg);
+        border-radius: 12px;
+        padding: 0px 24px;
+        border: 1px solid var(--input-border);
+        transition: all 0.3s ease;
+        max-height: 50px;
+
+        &:hover {
+          background: var(--card-bg);
+          border-color: var(--theme-color-primary);
+        }
+
+        .filter-icon {
+          color: var(--text-secondary);
+          margin-right: 8px;
+        }
+
+        select {
+          flex: 1;
+          height: 50px;
+          background: transparent;
+          border: none;
+          color: var(--text-primary);
+          font-weight: 600;
+          appearance: none;
+          cursor: pointer;
+          outline: none;
+          font-size: 0.95rem;
+
+          option {
+            background: var(--card-bg);
+            color: var(--text-primary);
+          }
+        }
+
+        .arrow {
+          color: var(--text-secondary);
+          pointer-events: none;
+          margin-left: 8px;
+        }
       }
     }
   }

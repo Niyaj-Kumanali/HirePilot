@@ -15,7 +15,7 @@ import AuthRoute from "../components/ProtectedRoute/AuthRoute";
 import RootRoute from "../components/ProtectedRoute/RootRoute";
 import Notifications from "../pages/Notifications/Notifications";
 import Messages from "../pages/Messages/Messages";
-import Training from "../pages/Training/Traning";
+import Training from "../pages/Training/Training";
 
 export const router = createBrowserRouter([
   {
@@ -23,10 +23,6 @@ export const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <RootRoute />,
-      },
-      {
-        path: "/landing",
         element: <Home />,
       },
       {

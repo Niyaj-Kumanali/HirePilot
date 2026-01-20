@@ -1,13 +1,63 @@
 :root {
-  --theme-color-primary: #a855f7;
-  --theme-color-secondary: #6366f1;
+  /* Core Theme Colors (Shared) */
+  --theme-primary-rgb: 168, 85, 247;
+  --theme-secondary-rgb: 99, 102, 241;
+  --theme-color-primary: rgb(var(--theme-primary-rgb));
+  --theme-color-secondary: rgb(var(--theme-secondary-rgb));
+}
+
+[data-theme="light"] {
+  --background-color: linear-gradient(135deg, #f5f3ff 0%, #faf5ff 100%);
+  --text-primary: #1e293b;
+  --text-secondary: #64748b;
+  --text-light: #f8fafc;
+
+  --card-bg: white;
+  --card-border: rgba(255, 255, 255, 0.6);
+  --glass-bg: rgba(255, 255, 255, 0.7);
+
+  --input-bg: white;
+  --input-border: #e2e8f0;
+
   --theme-color-light: #f8fafc;
   --text-color-light: #f8fafc;
-  --text-color-dark-shadow: rgba(0, 0, 0, 0.3);
   --text-color-dark: #1e293b;
-  --text-color-light-shadow: rgba(255, 255, 255, 0.3);
   --sub-text-color: #64748b;
-  --background-color: linear-gradient(135deg, #f5f3ff 0%, #faf5ff 100%);
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+[data-theme="dark"] {
+  --background-color: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+  --text-primary: #f8fafc;
+  --text-secondary: #94a3b8;
+  --text-light: #f8fafc;
+
+  --card-bg: #1e293b;
+  --card-border: rgba(148, 163, 184, 0.1);
+  --glass-bg: rgba(30, 41, 59, 0.7);
+
+  --input-bg: #1e293b;
+  --input-border: #334155;
+
+  --theme-color-light: #1e293b;
+  --text-color-light: #f8fafc;
+  --text-color-dark: #f8fafc;
+  --sub-text-color: #94a3b8;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
+}
+
+body {
+  background: var(--background-color);
+  color: var(--text-primary);
+  transition: background 0.3s ease, color 0.3s ease;
 }
 
 .glass-panel {
@@ -28,7 +78,7 @@ body,
 html {
   font-family: Inter, system-ui, Arial, sans-serif;
   background: var(--background-color);
-  color: #111827;
+  color: var(--text-primary);
 }
 
 a {

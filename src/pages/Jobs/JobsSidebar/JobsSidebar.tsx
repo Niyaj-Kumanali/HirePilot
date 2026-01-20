@@ -67,7 +67,7 @@ const JobsSidebar = ({
         }}
         transition={{
           type: 'tween',
-          ease: [0.4, 0, 0.2, 1], // Standard Material Design ease
+          ease: [0.4, 0, 0.2, 1],
           duration: 0.35
         }}
       >

@@ -88,6 +88,17 @@ const Jobs = () => {
         <header className="jobs-header-container">
           <VisualHeader badge='New opportunities added today' title='Find Your' gradient_title='Dream Job' subtitle="Discover amazing opportunities and advance your career with HirePilot's curated job board for developers." />
         </header>
+                    <div className="list-toolbar">
+
+
+              <div className="toolbar-actions">
+                <SearchBar placeHolder="Search jobs by title, company, or skills..." value={searchTerm} onChange={setSearchTerm} />
+                <button className="mobile-filter-trigger" onClick={() => setMobileFiltersOpen(true)}>
+                  <Filter size={16} />
+                  <span>Filters</span>
+                </button>
+              </div>
+            </div>
 
         <div className="jobs-layout">
 
@@ -108,27 +119,12 @@ const Jobs = () => {
             onMobileClose={() => setMobileFiltersOpen(false)}
           />
 
+          
+
 
           <section className="jobs-list-container" >
             {/* List Toolbar */}
-            <div className="list-toolbar">
-              <div className="result-stats">
-                <Filter size={18} strokeWidth={2.5} className="stats-icon" onClick={() => setMobileFiltersOpen(prev => !prev)} />
 
-                <p className="stats-text">
-                  Showing <span>{paginatedJobs.length}</span> of <span>{filteredJobs.length}</span> available position{filteredJobs.length !== 1 ? 's' : ''}
-                </p>
-
-              </div>
-
-              <div className="toolbar-actions">
-                <SearchBar placeHolder="Search jobs by title, company, or skills..." value={searchTerm} onChange={setSearchTerm} />
-                <button className="mobile-filter-trigger" onClick={() => setMobileFiltersOpen(true)}>
-                  <Filter size={16} />
-                  <span>Filters</span>
-                </button>
-              </div>
-            </div>
 
             {/* Content Area */}
             <div className="jobs-grid-wrapper">

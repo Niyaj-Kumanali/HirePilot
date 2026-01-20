@@ -21,17 +21,18 @@
     margin-bottom: 30px;
 
     .es-floating-icon {
-      color: #6366f1;
+      color: var(--theme-color-secondary);
       animation: es-float 3s ease-in-out infinite;
     }
 
     .es-shadow {
       width: 48px;
       height: 6px;
-      background: rgba(15, 23, 42, 0.08);
+      background: rgba(var(--theme-primary-rgb), 0.1);
       border-radius: 50%;
       margin-top: 12px;
       animation: es-pulse 3s ease-in-out infinite;
+      filter: blur(4px);
     }
   }
 
@@ -39,15 +40,14 @@
   .es-title {
     font-size: 1.25rem;
     font-weight: 700;
-    color: #0f172a;
+    color: var(--text-primary);
     margin: 0 0 12px 0;
   }
 
   .es-desc {
     font-size: 0.9375rem;
     line-height: 1.6;
-    color: #64748b;
+    color: var(--text-secondary);
     margin: 0 0 32px 0;
   }
 }
-

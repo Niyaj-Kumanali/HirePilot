@@ -94,23 +94,13 @@ const Courses = () => {
           />
 
           <motion.div
-            className="search-filter-bar glass-panel"
+            className="search-filter-bar"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3, duration: 0.6 }}
           >
             <div className="search-box">
               <SearchBar placeHolder="What do you want to learn today?" value={searchQuery} onChange={setSearchQuery} />
-            </div>
-            <div className="sort-dropdown">
-              <Filter size={18} className="filter-icon" />
-              <select value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
-                <option value="popular">Most Popular</option>
-                <option value="newest">Newest First</option>
-                <option value="price-low">Price: Low to High</option>
-                <option value="price-high">Price: High to Low</option>
-              </select>
-              <ChevronDown className="arrow" size={16} />
             </div>
           </motion.div>
         </motion.div>
@@ -120,7 +110,7 @@ const Courses = () => {
       <div className="courses-container">
         {/* Category Filters */}
         <motion.div
-          className="filters-section glass-panel"
+          className="filters-section"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
@@ -137,8 +127,16 @@ const Courses = () => {
             ))}
           </div>
           <div className="results-info">
-            <Sparkles size={16} className="sparkle-icon" />
-            <span>Showing <b>{paginatedCourses.length}</b> of <b>{filteredCourses.length}</b> courses</span>
+            <div className="sort-dropdown">
+              <Filter size={18} className="filter-icon" />
+              <select value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
+                <option value="popular">Most Popular</option>
+                <option value="newest">Newest First</option>
+                <option value="price-low">Price: Low to High</option>
+                <option value="price-high">Price: High to Low</option>
+              </select>
+              <ChevronDown className="arrow" size={16} />
+            </div>
           </div>
         </motion.div>
 
