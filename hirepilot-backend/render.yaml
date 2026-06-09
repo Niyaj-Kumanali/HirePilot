@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: hirepilot-backend
+    runtime: docker
+    repo: https://github.com/anomalyco/HirePilot
+    region: oregon
+    plan: free
+    dockerfilePath: ./hirepilot-backend/Dockerfile
+    envVars:
+      - key: DATABASE_URL
+        sync: false
+      - key: DATABASE_USERNAME
+        sync: false
+      - key: DATABASE_PASSWORD
+        sync: false
+      - key: JWT_ISSUER_URI
+        sync: false
+      - key: JWT_JWKS_URI
+        sync: false
