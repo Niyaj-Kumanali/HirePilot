@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo, useEffect, useDeferredValue } from 'react';
 import type Job from '../types/job';
 import { jobList as defaultJobList } from '../data/jobs';
 
@@ -12,6 +12,8 @@ interface UseJobFiltersProps {
 
 export const useJobFilters = ({ jobs = defaultJobList, itemsPerPage = 5 }: UseJobFiltersProps = {}) => {
     const [searchTerm, setSearchTerm] = useState('');
+    const deferredSearchTerm = useDeferredValue(searchTerm);
+    const isFilterStale = searchTerm !== deferredSearchTerm;
     const [filterType, setFilterType] = useState<JobType>('');
     const [filterLevel, setFilterLevel] = useState<JobLevel>('');
     const [filterLocation, setFilterLocation] = useState('');
@@ -27,9 +29,9 @@ export const useJobFilters = ({ jobs = defaultJobList, itemsPerPage = 5 }: UseJo
     const filteredJobs = useMemo(() => {
         return jobs.filter((job: Job) => {
             const matchesSearch =
-                job.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                job.company.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                job.tags.some((tag: string) => tag.toLowerCase().includes(searchTerm.toLowerCase()));
+                job.title.toLowerCase().includes(deferredSearchTerm.toLowerCase()) ||
+                job.company.toLowerCase().includes(deferredSearchTerm.toLowerCase()) ||
+                job.tags.some((tag: string) => tag.toLowerCase().includes(deferredSearchTerm.toLowerCase()));
 
             const matchesType = filterType === '' || job.type === filterType;
             const matchesLevel = filterLevel === '' || job.level === filterLevel;
@@ -37,7 +39,7 @@ export const useJobFilters = ({ jobs = defaultJobList, itemsPerPage = 5 }: UseJo
 
             return matchesSearch && matchesType && matchesLevel && matchesLocation;
         });
-    }, [searchTerm, filterType, filterLevel, filterLocation, jobs]);
+    }, [deferredSearchTerm, filterType, filterLevel, filterLocation, jobs]);
 
     // Reset to page 1 when filters change
     useEffect(() => {
@@ -78,6 +80,7 @@ export const useJobFilters = ({ jobs = defaultJobList, itemsPerPage = 5 }: UseJo
         paginatedJobs,
         totalPages,
         handleReset,
-        activeFiltersCount
+        activeFiltersCount,
+        isFilterStale,
     };
 };

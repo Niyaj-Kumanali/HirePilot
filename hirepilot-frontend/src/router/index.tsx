@@ -1,21 +1,23 @@
+import { lazy } from "react";
 import { createBrowserRouter } from "react-router-dom";
 import App from "../App";
 import Home from "../pages/Home/Home";
-import Interview from "../pages/Interview/Interview";
-import Jobs from "../pages/Jobs/Jobs";
-import SignUp from "../pages/SignUp/SignUp";
-import SignIn from "../pages/SignIn/SignIn";
 import NotFound from "../pages/NotFound/NotFound";
-import Profile from "../pages/Profile/Profile";
 import GuardRoute from "../components/ui/GuardRoute";
-import Notifications from "../pages/Notifications/Notifications";
-import Messages from "../pages/Messages/Messages";
-import AboutUs from "../pages/AboutUs/AboutUs";
-import PrivacyPolicy from "../pages/PrivacyPolicy/PrivacyPolicy";
-import TermsConditions from "../pages/TermsConditions/TermsConditions";
-import TrainingSession from "../pages/Interview/TrainingSession/TrainingSession";
 
 import MainLayout from "../Layout/MainLayout/MainLayout";
+
+const Interview = lazy(() => import("../pages/Interview/Interview"));
+const Jobs = lazy(() => import("../pages/Jobs/Jobs"));
+const SignUp = lazy(() => import("../pages/SignUp/SignUp"));
+const SignIn = lazy(() => import("../pages/SignIn/SignIn"));
+const Profile = lazy(() => import("../pages/Profile/Profile"));
+const Notifications = lazy(() => import("../pages/Notifications/Notifications"));
+const Messages = lazy(() => import("../pages/Messages/Messages"));
+const AboutUs = lazy(() => import("../pages/AboutUs/AboutUs"));
+const PrivacyPolicy = lazy(() => import("../pages/PrivacyPolicy/PrivacyPolicy"));
+const TermsConditions = lazy(() => import("../pages/TermsConditions/TermsConditions"));
+const TrainingSession = lazy(() => import("../pages/Interview/TrainingSession/TrainingSession"));
 
 /**
  * Global router configuration for HirePilot.
