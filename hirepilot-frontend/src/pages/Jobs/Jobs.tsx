@@ -130,7 +130,7 @@ const Jobs = () => {
         </div>
       }
     >
-      <header className="text-center py-3 md:py-5 space-y-3">
+      <header className="text-center py-6 md:py-8 space-y-3">
         <div className="w-[200px] h-7 mx-auto rounded-full animate-pulse bg-gray-200 dark:bg-[#2a2d35]" />
         <div className="w-[300px] h-10 mx-auto rounded animate-pulse bg-gray-200 dark:bg-[#2a2d35]" />
         <div className="w-[400px] h-5 mx-auto rounded animate-pulse bg-gray-200 dark:bg-[#2a2d35]" />
@@ -144,6 +144,7 @@ const Jobs = () => {
 
   return (
     <PageLayout
+      sidebarWidth={sidebarFullContent ? 300 : 72}
       sidebar={
         <JobsSidebar
           filters={filterConfigs}
@@ -159,7 +160,7 @@ const Jobs = () => {
         />
       }
     >
-      <header className="text-center py-3 md:py-5">
+      <header className="text-center py-6 md:py-8">
         <VisualHeader
           badge='New opportunities added today'
           title='Find Your'
@@ -184,7 +185,7 @@ const Jobs = () => {
         <div>
           {paginatedJobs.length > 0 ? (
             <>
-              <div className="flex flex-col gap-2">
+              <div className="flex flex-col gap-3">
                 {paginatedJobs.map((job: Job) => (
                   <JobCard key={job.id} job={job} onOpen={handleOpenJob} />
                 ))}

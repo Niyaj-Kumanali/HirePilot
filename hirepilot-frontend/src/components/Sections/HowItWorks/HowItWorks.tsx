@@ -31,7 +31,7 @@ const steps = [
 
 const HowItWorks = () => {
   return (
-    <section className="min-h-[calc(100vh-70px)] flex items-center py-12 md:py-8 relative overflow-hidden">
+    <section className="min-h-[calc(100vh-70px)] flex items-center py-16 md:py-20 relative overflow-hidden">
       <div className="mx-auto w-full max-w-7xl px-4 relative z-1">
         <div className="mb-6 text-center">
           <VisualHeader

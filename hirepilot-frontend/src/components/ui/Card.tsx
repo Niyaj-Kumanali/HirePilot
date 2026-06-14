@@ -18,7 +18,7 @@ const Card: React.FC<CardProps> = ({ children, className = '', onClick, ...props
         'shadow-card',
         'transition-all duration-300 ease-out-expo',
         isClickable
-          ? 'cursor-pointer hover:-translate-y-1 hover:bg-white/90 dark:hover:bg-[#1a1d23]/90 hover:border-primary/30 hover:shadow-card-hover'
+          ? 'cursor-pointer hover:bg-white/90 dark:hover:bg-[#1a1d23]/90 hover:border-primary/30 hover:shadow-card-hover'
           : 'cursor-default',
         className,
       ].join(' ')}

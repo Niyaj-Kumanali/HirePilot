@@ -43,7 +43,7 @@ const Interview = () => {
   }, [location.state, handleStartTraining]);
 
   return (
-    <div className="min-h-screen py-5 relative">
+    <div className="min-h-screen py-6 md:py-8 relative">
       <div className="mx-auto w-full max-w-7xl px-4 relative z-1">
         <header className="text-center py-3 md:py-5">
           <VisualHeader

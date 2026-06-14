@@ -13,7 +13,7 @@ const PageLayout: React.FC<PageLayoutProps> = ({
 }) => {
   return (
     <main className="min-h-screen relative before:fixed before:inset-0 before:bg-[radial-gradient(circle_at_20%_50%,rgba(168,85,247,0.08)_0%,transparent_50%),radial-gradient(circle_at_80%_80%,rgba(99,102,241,0.08)_0%,transparent_50%)] before:pointer-events-none before:z-0">
-      <div className="relative z-1 pr-2 md:pr-2 lg:pr-2 pl-2 md:pl-0 lg:pl-0">
+      <div className="relative z-1 px-3 md:px-4">
         <div className="grid grid-cols-1 lg:grid-cols-[auto_1fr] gap-4 items-start">
           {sidebar && (
             <div

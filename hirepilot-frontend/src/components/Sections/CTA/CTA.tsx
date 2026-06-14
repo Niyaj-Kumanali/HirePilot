@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 
 const CTA = () => {
   return (
-    <section className="min-h-[calc(100vh-70px)] flex items-center py-12 md:py-8 relative overflow-hidden">
+    <section className="min-h-[calc(100vh-70px)] flex items-center py-16 md:py-20 relative overflow-hidden">
       {/* Gradient overlay */}
       <div className="absolute inset-0 pointer-events-none z-0 bg-gradient-to-b from-transparent via-primary/[0.02] to-transparent dark:via-primary/[0.03]" />
 

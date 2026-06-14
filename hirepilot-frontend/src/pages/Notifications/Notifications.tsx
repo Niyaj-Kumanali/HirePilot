@@ -116,7 +116,7 @@ const Notifications: React.FC = () => {
   ];
 
   return (
-    <div className="min-h-screen py-8 md:py-10 relative overflow-x-hidden">
+    <div className="min-h-screen py-10 md:py-14 relative overflow-x-hidden">
       <div className="mx-auto w-full max-w-5xl px-4 relative z-1">
         <div className="mb-6">
           <VisualHeader

@@ -228,16 +228,13 @@ const JobsSidebar = ({
 
   return (
     <>
-      {/* Desktop Sidebar — sticky within grid */}
+      {/* Desktop Sidebar — width controlled by PageLayout */}
       <div
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
-        className="hidden lg:block sticky top-[70px] transition-[width] duration-200 ease-out"
-        style={{ width: showFullContent ? '300px' : '72px' }}
+        className="min-h-[calc(100vh-70px)] rounded-b-2xl border border-black/[0.04] dark:border-white/[0.06] bg-white/80 dark:bg-[#1a1d23]/80 backdrop-blur-xl shadow-lg shadow-black/[0.02] dark:shadow-black/[0.2] overflow-hidden"
       >
-        <div className="min-h-[calc(100vh-70px)] rounded-b-2xl border border-black/[0.04] dark:border-white/[0.06] bg-white/80 dark:bg-[#1a1d23]/80 backdrop-blur-xl shadow-lg shadow-black/[0.02] dark:shadow-black/[0.2] overflow-hidden">
-          {sidebarContent}
-        </div>
+        {sidebarContent}
       </div>
 
       {/* Mobile Drawer Overlay */}

@@ -30,7 +30,7 @@ const MainLayout = () => {
     return (
         <div className="flex flex-col min-h-screen">
             <Navbar />
-            <main className="flex-1 flex flex-col min-h-[calc(100vh-70px)] pb-6">
+            <main className="flex-1 flex flex-col min-h-[calc(100vh-70px)] pb-8">
                 <Suspense fallback={<PageFallback />}>
                     <PageTransition key={location.pathname}>
                         <Outlet />

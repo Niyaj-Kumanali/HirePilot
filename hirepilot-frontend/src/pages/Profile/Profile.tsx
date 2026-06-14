@@ -72,7 +72,7 @@ const Profile = () => {
   }
 
   return (
-    <div className="min-h-screen py-4">
+    <div className="min-h-screen py-6 md:py-8">
       <div className="max-w-[1400px] mx-auto px-2 md:px-4">
         {isEditing ? (
           <EditProfile profileData={profileData} setIsEditing={setIsEditing} />
