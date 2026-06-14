@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { authActions } from '../../store/auth/auth.slice';
 import { useAppDispatch } from '../../store/hooks';
 import { AUTH_SERVICE } from '../../api/services/authApi';
+import TextField from '../../components/TextField/TextField';
 
 const SignUp = () => {
   const [formData, setFormData] = useState({
@@ -126,15 +127,20 @@ const SignUp = () => {
     return 100;
   };
 
-  const inputClass = (field: string) => `
-    w-full pl-10 pr-3 py-2.5 rounded-xl text-sm
-    bg-white dark:bg-[#0f172a]
-    border ${errors[field] ? 'border-[#c5221f]' : 'border-[#e0e0e0] dark:border-[#3c4043]'}
-    text-[#202124] dark:text-[#e8eaed]
-    placeholder:text-[#5f6368] dark:placeholder:text-[#9aa0a6]
-    outline-none focus:border-primary focus:ring-2 focus:ring-primary/20
-    transition-all
-  `;
+  const handleSocialAuth = () => {
+    setIsLoading(true);
+    setErrors({});
+    setTimeout(() => {
+      setSuccessMessage('Welcome! Account created successfully.');
+      setFormData({ firstName: '', lastName: '', email: '', phone: '', password: '', confirmPassword: '' });
+      setAgreedToTerms(false);
+      setPasswordStrength('');
+      setIsLoading(false);
+      setTimeout(() => setSuccessMessage(''), 3000);
+      dispatch(authActions.login());
+      navigate('/');
+    }, 500);
+  };
 
   return (
     <div className="min-h-screen bg-[#fafafa] dark:bg-[#0f172a] flex items-center justify-center p-2.5 relative before:fixed before:inset-0 before:bg-[radial-gradient(circle_at_20%_50%,rgba(168,85,247,0.08)_0%,transparent_50%),radial-gradient(circle_at_80%_80%,rgba(99,102,241,0.08)_0%,transparent_50%)] before:pointer-events-none before:z-0">
@@ -166,55 +172,76 @@ const SignUp = () => {
           <form onSubmit={handleSubmit} className="flex flex-col gap-2.25">
             {/* Name Fields Row */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-1.75">
-              <div>
-                <label className="text-sm font-bold mb-1 block text-[#202124] dark:text-[#e8eaed]">First Name</label>
-                <div className="relative">
-                  <User size={20} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#5f6368] dark:text-[#9aa0a6]" />
-                  <input type="text" name="firstName" placeholder="John" value={formData.firstName} onChange={handleInputChange} className={inputClass('firstName')} />
-                </div>
-                {errors.firstName && <p className="text-xs mt-1 text-[#c5221f] dark:text-[#f28b82]">{errors.firstName}</p>}
-              </div>
-              <div>
-                <label className="text-sm font-bold mb-1 block text-[#202124] dark:text-[#e8eaed]">Last Name</label>
-                <div className="relative">
-                  <User size={20} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#5f6368] dark:text-[#9aa0a6]" />
-                  <input type="text" name="lastName" placeholder="Doe" value={formData.lastName} onChange={handleInputChange} className={inputClass('lastName')} />
-                </div>
-                {errors.lastName && <p className="text-xs mt-1 text-[#c5221f] dark:text-[#f28b82]">{errors.lastName}</p>}
-              </div>
+              <TextField
+                label="First Name"
+                name="firstName"
+                placeholder="John"
+                value={formData.firstName}
+                onChange={handleInputChange}
+                error={errors.firstName}
+                iconLeft={<User size={20} />}
+                fullWidth
+              />
+              <TextField
+                label="Last Name"
+                name="lastName"
+                placeholder="Doe"
+                value={formData.lastName}
+                onChange={handleInputChange}
+                error={errors.lastName}
+                iconLeft={<User size={20} />}
+                fullWidth
+              />
             </div>
 
             {/* Email */}
-            <div>
-              <label className="text-sm font-bold mb-1 block text-[#202124] dark:text-[#e8eaed]">Email Address</label>
-              <div className="relative">
-                <Mail size={20} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#5f6368] dark:text-[#9aa0a6]" />
-                <input type="email" name="email" placeholder="john@example.com" value={formData.email} onChange={handleInputChange} className={inputClass('email')} />
-              </div>
-              {errors.email && <p className="text-xs mt-1 text-[#c5221f] dark:text-[#f28b82]">{errors.email}</p>}
-            </div>
+            <TextField
+              label="Email Address"
+              type="email"
+              name="email"
+              placeholder="john@example.com"
+              value={formData.email}
+              onChange={handleInputChange}
+              error={errors.email}
+              iconLeft={<Mail size={20} />}
+              fullWidth
+            />
 
             {/* Phone */}
-            <div>
-              <label className="text-sm font-bold mb-1 block text-[#202124] dark:text-[#e8eaed]">Phone Number (Optional)</label>
-              <div className="relative">
-                <Phone size={20} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#5f6368] dark:text-[#9aa0a6]" />
-                <input type="tel" name="phone" placeholder="+1 (555) 123-4567" value={formData.phone} onChange={handleInputChange} className={inputClass('phone')} />
-              </div>
-              {errors.phone && <p className="text-xs mt-1 text-[#c5221f] dark:text-[#f28b82]">{errors.phone}</p>}
-            </div>
+            <TextField
+              label="Phone Number (Optional)"
+              type="tel"
+              name="phone"
+              placeholder="+1 (555) 123-4567"
+              value={formData.phone}
+              onChange={handleInputChange}
+              error={errors.phone}
+              iconLeft={<Phone size={20} />}
+              fullWidth
+            />
 
             {/* Password */}
             <div>
-              <label className="text-sm font-bold mb-1 block text-[#202124] dark:text-[#e8eaed]">Password</label>
-              <div className="relative">
-                <Lock size={20} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#5f6368] dark:text-[#9aa0a6]" />
-                <input type={showPassword ? 'text' : 'password'} name="password" placeholder="••••••••" value={formData.password} onChange={handleInputChange} className={`${inputClass('password')} pr-10`} />
-                <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-3 top-1/2 -translate-y-1/2 text-[#5f6368] dark:text-[#9aa0a6]">
-                  {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
-                </button>
-              </div>
-              {errors.password && <p className="text-xs mt-1 text-[#c5221f] dark:text-[#f28b82]">{errors.password}</p>}
+              <TextField
+                label="Password"
+                type={showPassword ? 'text' : 'password'}
+                name="password"
+                placeholder="••••••••"
+                value={formData.password}
+                onChange={handleInputChange}
+                error={errors.password}
+                iconLeft={<Lock size={20} />}
+                iconRight={
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="flex items-center justify-center text-[#5f6368] dark:text-[#9aa0a6]"
+                  >
+                    {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                  </button>
+                }
+                fullWidth
+              />
               {formData.password && (
                 <div className="mt-1 flex items-center gap-1">
                   <div className="flex-1 h-1 rounded-full bg-[#e0e0e0] dark:bg-[#3c4043] overflow-hidden">
@@ -231,15 +258,26 @@ const SignUp = () => {
 
             {/* Confirm Password */}
             <div>
-              <label className="text-sm font-bold mb-1 block text-[#202124] dark:text-[#e8eaed]">Confirm Password</label>
-              <div className="relative">
-                <Lock size={20} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#5f6368] dark:text-[#9aa0a6]" />
-                <input type={showConfirmPassword ? 'text' : 'password'} name="confirmPassword" placeholder="••••••••" value={formData.confirmPassword} onChange={handleInputChange} className={`${inputClass('confirmPassword')} pr-10`} />
-                <button type="button" onClick={() => setShowConfirmPassword(!showConfirmPassword)} className="absolute right-3 top-1/2 -translate-y-1/2 text-[#5f6368] dark:text-[#9aa0a6]">
-                  {showConfirmPassword ? <EyeOff size={20} /> : <Eye size={20} />}
-                </button>
-              </div>
-              {errors.confirmPassword && <p className="text-xs mt-1 text-[#c5221f] dark:text-[#f28b82]">{errors.confirmPassword}</p>}
+              <TextField
+                label="Confirm Password"
+                type={showConfirmPassword ? 'text' : 'password'}
+                name="confirmPassword"
+                placeholder="••••••••"
+                value={formData.confirmPassword}
+                onChange={handleInputChange}
+                error={errors.confirmPassword}
+                iconLeft={<Lock size={20} />}
+                iconRight={
+                  <button
+                    type="button"
+                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                    className="flex items-center justify-center text-[#5f6368] dark:text-[#9aa0a6]"
+                  >
+                    {showConfirmPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                  </button>
+                }
+                fullWidth
+              />
             </div>
 
             {/* Terms Checkbox */}
@@ -298,7 +336,7 @@ const SignUp = () => {
           {/* OAuth Buttons */}
           <div className="grid grid-cols-2 gap-1.5 mb-3">
             <button
-              onClick={() => setIsLoading(true)}
+              onClick={handleSocialAuth}
               className="flex items-center justify-center gap-2 py-1.75 rounded-xl font-bold text-sm border-2 border-[#e0e0e0] dark:border-[#3c4043] text-[#202124] dark:text-[#e8eaed] bg-transparent hover:border-2 hover:-translate-y-0.5 hover:bg-primary/5 transition-all"
             >
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -310,7 +348,7 @@ const SignUp = () => {
               <span className="hidden sm:inline">Google</span>
             </button>
             <button
-              onClick={() => setIsLoading(true)}
+              onClick={handleSocialAuth}
               className="flex items-center justify-center gap-2 py-1.75 rounded-xl font-bold text-sm border-2 border-[#e0e0e0] dark:border-[#3c4043] text-[#202124] dark:text-[#e8eaed] bg-transparent hover:border-2 hover:-translate-y-0.5 hover:bg-primary/5 transition-all"
             >
               <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">

@@ -4,6 +4,7 @@ import { currentUserActions } from '../../../store/CurrentUser/currentuser.slice
 import type { CurrentUserState, Experience, Skill } from '../../../store/CurrentUser/currentuser.types';
 import { useAppDispatch } from '../../../store/hooks';
 import Button from '../../../components/Button/Button';
+import TextField from '../../../components/TextField/TextField';
 
 interface EditProfileProps {
     profileData: CurrentUserState;
@@ -66,7 +67,6 @@ const EditProfile: React.FC<EditProfileProps> = ({ profileData, setIsEditing }) 
         setIsEditing(false);
     };
 
-    const inputClass = "w-full px-3 py-2 text-sm rounded-xl border border-black/10 dark:border-white/10 bg-transparent text-gray-900 dark:text-gray-100 outline-none focus:border-primary transition-all";
     const labelClass = "text-xs font-bold text-gray-500 dark:text-gray-400 mb-1 block";
 
     return (
@@ -84,38 +84,56 @@ const EditProfile: React.FC<EditProfileProps> = ({ profileData, setIsEditing }) 
 
             {/* Basic Info */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-4">
-                <div>
-                    <label className={labelClass}>First Name</label>
-                    <input className={inputClass} value={editData.firstName} onChange={(e) => handleInputChange('firstName', e.target.value)} />
-                </div>
-                <div>
-                    <label className={labelClass}>Last Name</label>
-                    <input className={inputClass} value={editData.lastName} onChange={(e) => handleInputChange('lastName', e.target.value)} />
-                </div>
-                <div className="md:col-span-2">
-                    <label className={labelClass}>Headline</label>
-                    <input className={inputClass} value={editData.headline} onChange={(e) => handleInputChange('headline', e.target.value)} placeholder="e.g. Senior Full Stack Developer" />
-                </div>
-                <div className="md:col-span-2">
-                    <label className={labelClass}>Professional Bio</label>
-                    <textarea className={`${inputClass} min-h-[100px] resize-y`} value={editData.bio} onChange={(e) => handleInputChange('bio', e.target.value)} rows={4} />
-                </div>
-                <div>
-                    <label className={labelClass}>Email</label>
-                    <input className={inputClass} type="email" value={editData.email} onChange={(e) => handleInputChange('email', e.target.value)} />
-                </div>
-                <div>
-                    <label className={labelClass}>Phone</label>
-                    <input className={inputClass} value={editData.phone} onChange={(e) => handleInputChange('phone', e.target.value)} />
-                </div>
-                <div>
-                    <label className={labelClass}>Github URL</label>
-                    <input className={inputClass} value={editData.github} onChange={(e) => handleInputChange('github', e.target.value)} />
-                </div>
-                <div>
-                    <label className={labelClass}>LinkedIn URL</label>
-                    <input className={inputClass} value={editData.linkedin} onChange={(e) => handleInputChange('linkedin', e.target.value)} />
-                </div>
+              <TextField
+                label="First Name"
+                value={editData.firstName}
+                onChange={(e) => handleInputChange('firstName', e.target.value)}
+                fullWidth
+              />
+              <TextField
+                label="Last Name"
+                value={editData.lastName}
+                onChange={(e) => handleInputChange('lastName', e.target.value)}
+                fullWidth
+              />
+              <div className="md:col-span-2">
+                <TextField
+                  label="Headline"
+                  value={editData.headline}
+                  onChange={(e) => handleInputChange('headline', e.target.value)}
+                  placeholder="e.g. Senior Full Stack Developer"
+                  fullWidth
+                />
+              </div>
+              <div className="md:col-span-2">
+                <label className="text-xs font-bold text-gray-500 dark:text-gray-400 mb-1 block">Professional Bio</label>
+                <textarea className="w-full px-3 py-2 text-sm rounded-xl border border-black/10 dark:border-white/10 bg-transparent text-gray-900 dark:text-gray-100 outline-none focus:border-primary transition-all min-h-[100px] resize-y" value={editData.bio} onChange={(e) => handleInputChange('bio', e.target.value)} rows={4} />
+              </div>
+              <TextField
+                label="Email"
+                type="email"
+                value={editData.email}
+                onChange={(e) => handleInputChange('email', e.target.value)}
+                fullWidth
+              />
+              <TextField
+                label="Phone"
+                value={editData.phone}
+                onChange={(e) => handleInputChange('phone', e.target.value)}
+                fullWidth
+              />
+              <TextField
+                label="Github URL"
+                value={editData.github}
+                onChange={(e) => handleInputChange('github', e.target.value)}
+                fullWidth
+              />
+              <TextField
+                label="LinkedIn URL"
+                value={editData.linkedin}
+                onChange={(e) => handleInputChange('linkedin', e.target.value)}
+                fullWidth
+              />
             </div>
 
             <hr className="my-4 border-black/10 dark:border-white/10" />

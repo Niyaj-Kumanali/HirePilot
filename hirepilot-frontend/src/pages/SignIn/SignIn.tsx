@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '../../store/hooks';
 import { authActions } from '../../store/auth/auth.slice';
 import { AUTH_SERVICE } from '../../api/services/authApi';
+import TextField from '../../components/TextField/TextField';
 
 const SignIn = () => {
   const [email, setEmail] = useState('');
@@ -62,6 +63,21 @@ const SignIn = () => {
     })
   };
 
+  const handleSocialAuth = () => {
+    setIsLoading(true);
+    setErrors({});
+
+    setTimeout(() => {
+      setSuccessMessage('Welcome back! Signed in with Google');
+      setEmail('');
+      setPassword('');
+      setIsLoading(false);
+      setTimeout(() => setSuccessMessage(''), 3000);
+      dispatch(authActions.login());
+      navigate('/');
+    }, 500);
+  };
+
   return (
     <div className="min-h-screen bg-[#fafafa] dark:bg-[#0f172a] flex items-center justify-center p-2.5 relative before:fixed before:inset-0 before:bg-[radial-gradient(circle_at_20%_50%,rgba(168,85,247,0.08)_0%,transparent_50%),radial-gradient(circle_at_80%_80%,rgba(99,102,241,0.08)_0%,transparent_50%)] before:pointer-events-none before:z-0">
       <div className="w-full max-w-[480px] relative z-1">
@@ -94,31 +110,19 @@ const SignIn = () => {
           {/* Form */}
           <form onSubmit={handleSubmit} className="flex flex-col gap-2.5">
             {/* Email Field */}
-            <div>
-              <label className="text-sm font-bold mb-1 block text-[#202124] dark:text-[#e8eaed]">Email Address</label>
-              <div className="relative">
-                <Mail size={20} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#5f6368] dark:text-[#9aa0a6]" />
-                <input
-                  type="email"
-                  placeholder="you@example.com"
-                  value={email}
-                  onChange={(e) => {
-                    setEmail(e.target.value);
-                    if (errors.email || errors.submit) setErrors({ ...errors, email: undefined, submit: undefined });
-                  }}
-                  className={`
-                    w-full pl-10 pr-3 py-2.5 rounded-xl text-sm
-                    bg-white dark:bg-[#0f172a]
-                    border ${errors.email ? 'border-[#c5221f]' : 'border-[#e0e0e0] dark:border-[#3c4043]'}
-                    text-[#202124] dark:text-[#e8eaed]
-                    placeholder:text-[#5f6368] dark:placeholder:text-[#9aa0a6]
-                    outline-none focus:border-primary focus:ring-2 focus:ring-primary/20
-                    transition-all
-                  `}
-                />
-              </div>
-              {errors.email && <p className="text-xs mt-1 text-[#c5221f] dark:text-[#f28b82]">{errors.email}</p>}
-            </div>
+            <TextField
+              label="Email Address"
+              type="email"
+              placeholder="you@example.com"
+              value={email}
+              onChange={(e) => {
+                setEmail(e.target.value);
+                if (errors.email || errors.submit) setErrors({ ...errors, email: undefined, submit: undefined });
+              }}
+              error={errors.email}
+              iconLeft={<Mail size={20} />}
+              fullWidth
+            />
 
             {/* Password Field */}
             <div>
@@ -128,35 +132,27 @@ const SignIn = () => {
                   Forgot password?
                 </Link>
               </div>
-              <div className="relative">
-                <Lock size={20} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#5f6368] dark:text-[#9aa0a6]" />
-                <input
-                  type={showPassword ? 'text' : 'password'}
-                  placeholder="••••••••"
-                  value={password}
-                  onChange={(e) => {
-                    setPassword(e.target.value);
-                    if (errors.password || errors.submit) setErrors({ ...errors, password: undefined, submit: undefined });
-                  }}
-                  className={`
-                    w-full pl-10 pr-10 py-2.5 rounded-xl text-sm
-                    bg-white dark:bg-[#0f172a]
-                    border ${errors.password ? 'border-[#c5221f]' : 'border-[#e0e0e0] dark:border-[#3c4043]'}
-                    text-[#202124] dark:text-[#e8eaed]
-                    placeholder:text-[#5f6368] dark:placeholder:text-[#9aa0a6]
-                    outline-none focus:border-primary focus:ring-2 focus:ring-primary/20
-                    transition-all
-                  `}
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-[#5f6368] dark:text-[#9aa0a6]"
-                >
-                  {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
-                </button>
-              </div>
-              {errors.password && <p className="text-xs mt-1 text-[#c5221f] dark:text-[#f28b82]">{errors.password}</p>}
+              <TextField
+                type={showPassword ? 'text' : 'password'}
+                placeholder="••••••••"
+                value={password}
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                  if (errors.password || errors.submit) setErrors({ ...errors, password: undefined, submit: undefined });
+                }}
+                error={errors.password}
+                iconLeft={<Lock size={20} />}
+                iconRight={
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="flex items-center justify-center text-[#5f6368] dark:text-[#9aa0a6]"
+                  >
+                    {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                  </button>
+                }
+                fullWidth
+              />
             </div>
 
             {/* Submit Button */}
@@ -196,7 +192,7 @@ const SignIn = () => {
           {/* OAuth Buttons */}
           <div className="grid grid-cols-2 gap-1.5 mb-3">
             <button
-              onClick={() => setIsLoading(true)}
+              onClick={handleSocialAuth}
               className="
                 flex items-center justify-center gap-2
                 py-1.75 rounded-xl font-bold text-sm
@@ -216,7 +212,7 @@ const SignIn = () => {
               <span className="hidden sm:inline">Google</span>
             </button>
             <button
-              onClick={() => setIsLoading(true)}
+              onClick={handleSocialAuth}
               className="
                 flex items-center justify-center gap-2
                 py-1.75 rounded-xl font-bold text-sm

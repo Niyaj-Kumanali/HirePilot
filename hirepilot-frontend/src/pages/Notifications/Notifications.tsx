@@ -1,6 +1,7 @@
 import React, { useState, useMemo, useEffect } from 'react';
-import { Bell, Briefcase, MessageSquare, Settings, CheckCircle2, Trash2, RotateCcw, ChevronDown } from 'lucide-react';
+import { Bell, Briefcase, MessageSquare, Settings, CheckCircle2, Trash2, RotateCcw } from 'lucide-react';
 import VisualHeader from '../../components/VisualHeader/VisualHeader';
+import Dropdown from '../../components/Dropdown/Dropdown';
 import type { Notification } from '../../data/notificationsData';
 import EmptyState from '../../components/EmptyState/EmptyState';
 import NotificationItem from './NotificationItem/NotificationItem';
@@ -15,7 +16,6 @@ const Notifications: React.FC = () => {
   const [showUndo, setShowUndo] = useState(false);
   const [sortBy, setSortBy] = useState<'recent' | 'unread'>('recent');
   const [actionLoading, setActionLoading] = useState(false);
-  const [sortOpen, setSortOpen] = useState(false);
 
   const { notifications, loading, hasFetched } = useAppSelector(state => state.notification);
   const dispatch = useAppDispatch();
@@ -166,31 +166,12 @@ const Notifications: React.FC = () => {
           {/* Actions */}
           <div className="flex items-center gap-2">
             {/* Sort Dropdown */}
-            <div className="relative">
-              <button
-                onClick={() => setSortOpen(!sortOpen)}
-                className="flex items-center gap-1 px-3 py-1.5 rounded-xl font-semibold text-sm bg-white/60 dark:bg-[#1a1d23]/60 border border-black/10 dark:border-white/10 text-gray-700 dark:text-gray-300 hover:border-primary transition-all"
-              >
-                {sortOptions.find(o => o.value === sortBy)?.label}
-                <ChevronDown size={16} className={`transition-transform ${sortOpen ? 'rotate-180' : ''}`} />
-              </button>
-              {sortOpen && (
-                <div className="absolute top-full right-0 mt-1 z-10 w-40 rounded-xl border border-primary/20 bg-white/95 dark:bg-[#1a1d23]/90 backdrop-blur-[12px] shadow-[0_12px_32px_rgba(168,85,247,0.15)] animate-[slideDown_0.2s_ease-out]">
-                  {sortOptions.map(opt => (
-                    <button
-                      key={opt.value}
-                      onClick={() => { setSortBy(opt.value); setSortOpen(false); }}
-                      className={`
-                        w-full text-left px-3 py-2 text-sm font-semibold transition-all
-                        ${sortBy === opt.value ? 'bg-primary/10 text-primary' : 'text-gray-700 dark:text-gray-300 hover:bg-primary/8'}
-                      `}
-                    >
-                      {opt.label}
-                    </button>
-                  ))}
-                </div>
-              )}
-            </div>
+            <Dropdown
+              options={sortOptions}
+              value={sortBy}
+              onChange={(val) => setSortBy(val as 'recent' | 'unread')}
+              className="w-40"
+            />
 
             <button
               onClick={handleMarkAllAsRead}
