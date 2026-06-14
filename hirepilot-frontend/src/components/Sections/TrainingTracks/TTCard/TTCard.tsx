@@ -27,10 +27,12 @@ const TTCard: React.FC<TTCardType> = ({ color, tag, icon, title, desc }) => {
             className="
                 relative flex flex-col justify-between
                 p-4 md:p-5 rounded-2xl h-full no-underline
-                border border-[#e0e0e0] dark:border-[#3c4043]
-                bg-white dark:bg-[#1a1d23]
-                shadow-sm
-                transition-all duration-400 ease-[cubic-bezier(0.4,0,0.2,1)]
+                bg-white/80 dark:bg-[#1a1d23]/80
+                backdrop-blur-md
+                border border-white/60 dark:border-white/10
+                shadow-card
+                transition-all duration-300 ease-out-expo
+                hover:-translate-y-0.5 hover:shadow-card-hover
                 group
             "
         >

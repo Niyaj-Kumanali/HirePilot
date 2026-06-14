@@ -6,7 +6,7 @@ function App() {
   const mode = useAppSelector(state => state.theme.mode);
 
   useEffect(() => {
-    document.documentElement.setAttribute('data-theme', mode);
+    document.documentElement.classList.toggle('dark', mode === 'dark');
   }, [mode]);
 
   return (

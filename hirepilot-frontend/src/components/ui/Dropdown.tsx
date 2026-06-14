@@ -72,7 +72,7 @@ const Dropdown = ({
           error
             ? 'border-red-500'
             : 'border-[#e0e0e0] dark:border-[#3c4043] hover:border-primary',
-          open && !error && 'border-primary shadow-[0_0_0_4px_rgba(168,85,247,0.1)]',
+          open && !error && 'border-primary',
           selected ? 'text-[#202124] dark:text-[#e8eaed]' : 'text-[#5f6368] dark:text-[#9aa0a6]',
           disabled && 'opacity-50 cursor-not-allowed',
         ].join(' ')}

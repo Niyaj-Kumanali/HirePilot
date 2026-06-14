@@ -12,12 +12,12 @@ const HIWCard: React.FC<HIWCardType> = ({ step, Icon, title, desc }) => {
         <div
             className="
                 relative p-4 md:p-5 rounded-2xl w-full h-full mx-auto
-                border border-[#e0e0e0] dark:border-[#3c4043]
-                bg-white dark:bg-[#1a1d23]
-                shadow-sm
-                transition-all duration-300
-                hover:shadow-[0_4px_12px_rgba(168,85,247,0.12)]
-                hover:-translate-y-0.5
+                bg-white/80 dark:bg-[#1a1d23]/80
+                backdrop-blur-md
+                border border-white/60 dark:border-white/10
+                shadow-card
+                transition-all duration-300 ease-out-expo
+                hover:-translate-y-0.5 hover:shadow-card-hover
                 flex flex-row md:flex-col
                 items-center md:items-center
                 text-left md:text-center

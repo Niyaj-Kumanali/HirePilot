@@ -12,12 +12,13 @@ const Card: React.FC<CardProps> = ({ children, className = '', onClick, ...props
       onClick={onClick}
       className={[
         'relative overflow-hidden rounded-[20px] border p-6',
-        'bg-white/70 dark:bg-[#1a1d23]/70',
-        'backdrop-blur-[12px]',
+        'bg-white/80 dark:bg-[#1a1d23]/80',
+        'backdrop-blur-md',
         'border-white/60 dark:border-white/10',
-        'transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]',
+        'shadow-card',
+        'transition-all duration-300 ease-out-expo',
         isClickable
-          ? 'cursor-pointer hover:-translate-y-1 hover:bg-white dark:hover:bg-[#1a1d23] hover:border-primary hover:shadow-lg'
+          ? 'cursor-pointer hover:-translate-y-1 hover:bg-white/90 dark:hover:bg-[#1a1d23]/90 hover:border-primary/30 hover:shadow-card-hover'
           : 'cursor-default',
         className,
       ].join(' ')}

@@ -13,7 +13,7 @@ const ThemeToggle: React.FC = () => {
       onClick={() => dispatch(toggleTheme())}
       aria-label={`Cycle theme. Current: ${themeMode}.`}
       title={`Theme: ${themeMode.charAt(0).toUpperCase() + themeMode.slice(1)}`}
-      className="w-10 h-10 rounded-full flex items-center justify-center bg-white/5 backdrop-blur-sm border-none text-gray-500 dark:text-gray-400 transition-all duration-300 hover:bg-white/10 hover:text-primary hover:shadow-[0_4px_12px_rgba(168,85,247,0.15)] active:translate-y-0"
+      className="w-10 h-10 rounded-full flex items-center justify-center bg-white/5 backdrop-blur-sm border-none text-gray-500 dark:text-gray-400 transition-all duration-300 ease-out-expo hover:bg-white/10 hover:text-primary hover:shadow-button active:translate-y-0"
     >
       {isDark ? (
         <Sun size={20} className="text-amber-400" style={{ filter: 'drop-shadow(0 0 4px rgba(251,191,36,0.4))' }} />

@@ -28,7 +28,7 @@ const VisualHeader: React.FC<VisualHeaderProps> = ({
             'border border-[#e0e0e0] dark:border-[#3c4043]',
             'text-[0.85rem] font-bold text-primary',
             'mb-4 uppercase',
-            'shadow-[0_4px_12px_rgba(168,85,247,0.15)]',
+            'shadow-button',
             'animate-[slideDown_0.6s_ease-out]',
           ].join(' ')}
         >

@@ -16,7 +16,7 @@ const sizeClasses: Record<string, string> = {
 
 const variantClasses: Record<string, string> = {
     primary:
-        'bg-gradient-to-br from-[#a855f7] to-[#7e22ce] text-white shadow-[0_4px_12px_rgba(168,85,247,0.25)] hover:shadow-[0_6px_16px_rgba(168,85,247,0.35)] hover:-translate-y-0.5 active:translate-y-0',
+        'bg-gradient-to-br from-[#a855f7] to-[#7e22ce] text-white shadow-button hover:shadow-button-hover hover:-translate-y-0.5 active:translate-y-0',
     secondary:
         'bg-transparent text-gray-800 dark:text-gray-200 border border-gray-300 dark:border-gray-600 hover:border-primary hover:text-primary hover:bg-primary/5',
     ghost:

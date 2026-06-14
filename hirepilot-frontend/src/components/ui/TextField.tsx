@@ -62,8 +62,8 @@ const TextField = ({
             iconLeft ? 'pl-10' : 'px-4',
             iconRight ? 'pr-10' : '',
             error
-              ? 'border-red-500 focus:border-red-500 focus:shadow-[0_0_0_4px_rgba(239,68,68,0.1)]'
-              : 'border-[#e0e0e0] dark:border-[#3c4043] focus:border-primary focus:shadow-[0_0_0_4px_rgba(168,85,247,0.1)]',
+              ? 'border-red-500 focus:border-red-500'
+              : 'border-[#e0e0e0] dark:border-[#3c4043] focus:border-primary',
             disabled && 'opacity-50 cursor-not-allowed bg-gray-50 dark:bg-[#252830]',
             className,
           ].join(' ')}
