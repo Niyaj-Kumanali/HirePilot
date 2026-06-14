@@ -40,36 +40,17 @@ const BRAND_DESCRIPTION =
 
 const Footer = () => {
     return (
-        <footer
-            className="
-                relative overflow-hidden
-                bg-white dark:bg-[#1a1d23]
-                border-t border-[#e0e0e0] dark:border-[#3c4043]
-                py-5 md:py-8 mt-auto
-                before:absolute before:top-0 before:left-0 before:right-0 before:h-[120px]
-                before:bg-gradient-to-b before:from-primary/5 before:to-transparent
-                before:pointer-events-none
-            "
-        >
-            <div className="mx-auto w-full max-w-7xl px-4">
-                <div className="grid grid-cols-12 gap-4 md:gap-6">
-                    {/* Brand Section */}
+        <footer className="relative overflow-hidden border-t border-black/[0.04] dark:border-white/[0.06] bg-white/80 dark:bg-[#1a1d23]/80 backdrop-blur-xl mt-auto">
+            <div className="mx-auto w-full max-w-7xl px-4 py-10 md:py-14">
+                <div className="grid grid-cols-12 gap-6 md:gap-10">
+                    {/* Brand */}
                     <div className="col-span-12 md:col-span-5">
-                        <div className="flex flex-col gap-2">
+                        <div className="flex flex-col gap-3">
                             <Logo />
-
-                            <div
-                                className="w-10 h-1 rounded-full"
-                                style={{
-                                    background: 'linear-gradient(90deg, #a855f7, #6366f1)',
-                                }}
-                            />
-
                             <p className="text-sm max-w-[360px] leading-relaxed text-[#5f6368] dark:text-[#9aa0a6]">
                                 {BRAND_DESCRIPTION}
                             </p>
-
-                            <div className="flex flex-row gap-1">
+                            <div className="flex gap-2 mt-1">
                                 {SOCIAL_LINKS.map(({ icon: Icon, label, to }) => (
                                     <a
                                         key={label}
@@ -78,19 +59,9 @@ const Footer = () => {
                                         rel="noopener noreferrer"
                                         aria-label={label}
                                         title={label}
-                                        className="
-                                            w-10 h-10 flex items-center justify-center rounded-lg
-                                            border border-[#e0e0e0]/60 dark:border-[#3c4043]/60
-                                            bg-[#f5f5f5]/60 dark:bg-[#0f172a]/60
-                                            backdrop-blur-[6px]
-                                            text-[#5f6368] dark:text-[#9aa0a6]
-                                            transition-all duration-300
-                                            hover:bg-primary hover:text-white
-                                            hover:-translate-y-[3px]
-                                            hover:shadow-[0_10px_24px_rgba(168,85,247,0.3)]
-                                        "
+                                        className="w-9 h-9 flex items-center justify-center rounded-xl border border-black/[0.04] dark:border-white/[0.06] bg-white/50 dark:bg-[#0f172a]/50 text-[#5f6368] dark:text-[#9aa0a6] transition-all duration-200 hover:bg-primary hover:text-white hover:-translate-y-0.5 hover:shadow-button"
                                     >
-                                        <Icon size={16} />
+                                        <Icon size={15} />
                                     </a>
                                 ))}
                             </div>
@@ -99,25 +70,14 @@ const Footer = () => {
 
                     {/* Platform */}
                     <div className="col-span-6 md:col-span-3">
-                        <div className="flex flex-col gap-2">
-                            <span className="text-xs tracking-[1.5px] font-bold text-[#5f6368] dark:text-[#9aa0a6] uppercase">
-                                PLATFORM
-                            </span>
-
-                            <div className="flex flex-col gap-1.5">
+                        <div className="flex flex-col gap-3">
+                            <span className="text-xs tracking-[1.5px] font-bold text-[#5f6368] dark:text-[#9aa0a6] uppercase">Platform</span>
+                            <div className="flex flex-col gap-2">
                                 {PLATFORM_LINKS.map(({ label, to }) => (
                                     <Link
                                         key={label}
                                         to={to}
-                                        className="
-                                            text-sm text-[#5f6368] dark:text-[#9aa0a6] no-underline
-                                            transition-all duration-200 w-fit
-                                            relative inline-block
-                                            after:content-[''] after:absolute after:left-0 after:-bottom-0.5
-                                            after:w-0 after:h-[2px] after:bg-primary
-                                            after:transition-all after:duration-250 after:ease
-                                            hover:text-primary hover:after:w-full
-                                        "
+                                        className="text-sm text-[#5f6368] dark:text-[#9aa0a6] no-underline transition-all duration-200 w-fit hover:text-primary"
                                     >
                                         {label}
                                     </Link>
@@ -128,32 +88,17 @@ const Footer = () => {
 
                     {/* Contact */}
                     <div className="col-span-6 md:col-span-4">
-                        <div className="flex flex-col gap-2">
-                            <span className="text-xs tracking-[1.5px] font-bold text-[#5f6368] dark:text-[#9aa0a6] uppercase">
-                                CONTACT
-                            </span>
-
-                            <div className="flex flex-col gap-2">
-                                <div className="flex flex-row gap-1.5 items-start">
-                                    <Mail size={16} className="mt-0.5 flex-shrink-0 text-[#5f6368] dark:text-[#9aa0a6]" />
-                                    <a
-                                        href={`mailto:${CONTACT_INFO.email}`}
-                                        className="
-                                            text-sm text-[#5f6368] dark:text-[#9aa0a6] no-underline break-all
-                                            transition-all duration-200 w-fit
-                                            relative inline-block
-                                            after:content-[''] after:absolute after:left-0 after:-bottom-0.5
-                                            after:w-0 after:h-[2px] after:bg-primary
-                                            after:transition-all after:duration-250 after:ease
-                                            hover:text-primary hover:after:w-full
-                                        "
-                                    >
+                        <div className="flex flex-col gap-3">
+                            <span className="text-xs tracking-[1.5px] font-bold text-[#5f6368] dark:text-[#9aa0a6] uppercase">Contact</span>
+                            <div className="flex flex-col gap-2.5">
+                                <div className="flex items-center gap-2">
+                                    <Mail size={14} className="shrink-0 text-[#5f6368] dark:text-[#9aa0a6]" />
+                                    <a href={`mailto:${CONTACT_INFO.email}`} className="text-sm text-[#5f6368] dark:text-[#9aa0a6] no-underline transition-all duration-200 hover:text-primary">
                                         {CONTACT_INFO.email}
                                     </a>
                                 </div>
-
-                                <div className="flex flex-row gap-1.5 items-start">
-                                    <MapPin size={16} className="mt-0.5 flex-shrink-0 text-[#5f6368] dark:text-[#9aa0a6]" />
+                                <div className="flex items-center gap-2">
+                                    <MapPin size={14} className="shrink-0 text-[#5f6368] dark:text-[#9aa0a6]" />
                                     <span className="text-sm text-[#5f6368] dark:text-[#9aa0a6]">
                                         {CONTACT_INFO.location}
                                     </span>
@@ -163,28 +108,18 @@ const Footer = () => {
                     </div>
                 </div>
 
-                <hr className="my-5 opacity-40 border-[#e0e0e0] dark:border-[#3c4043]" />
+                <hr className="my-6 border-black/[0.04] dark:border-white/[0.06]" />
 
-                {/* Bottom Section */}
                 <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
                     <span className="text-xs text-[#5f6368] dark:text-[#9aa0a6]">
-                        &copy; {new Date().getFullYear()} HirePilot.
+                        &copy; {new Date().getFullYear()} HirePilot. All rights reserved.
                     </span>
-
-                    <div className="flex flex-row gap-3">
+                    <div className="flex gap-4">
                         {LEGAL_LINKS.map(({ label, to }) => (
                             <Link
                                 key={label}
                                 to={to}
-                                className="
-                                    text-xs text-[#5f6368] dark:text-[#9aa0a6] no-underline
-                                    transition-all duration-200 w-fit
-                                    relative inline-block
-                                    after:content-[''] after:absolute after:left-0 after:-bottom-0.5
-                                    after:w-0 after:h-[2px] after:bg-primary
-                                    after:transition-all after:duration-250 after:ease
-                                    hover:text-primary hover:after:w-full
-                                "
+                                className="text-xs text-[#5f6368] dark:text-[#9aa0a6] no-underline transition-all duration-200 hover:text-primary"
                             >
                                 {label}
                             </Link>

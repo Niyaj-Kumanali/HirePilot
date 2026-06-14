@@ -30,7 +30,7 @@ const VideoGrid = ({
                     bg-[#fafafa]/50 dark:bg-[#0f172a]/50
                     border-2 rounded-2xl overflow-hidden transition-colors duration-300
                 "
-                style={{ borderColor: isSpeaking ? '#a855f7' : '#e0e0e0' }}
+                style={{ borderColor: isSpeaking ? '#a855f7' : 'rgba(255,255,255,0.6)' }}
             >
                 <div className="flex flex-col items-center gap-2">
                     {isLoading && (

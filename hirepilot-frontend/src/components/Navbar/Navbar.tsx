@@ -5,7 +5,7 @@ import {
   Zap,
 } from "lucide-react";
 import Logo from "../Logo/Logo";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAppSelector } from "../../store/hooks";
 import MobileDrawer from "./MobileDrawer/MobileDrawer";
 import NotificationSection from "./NotificationSection/NotificationSection";
@@ -22,6 +22,7 @@ export default function Navbar() {
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const isAuthenticated = useAppSelector(state => state.auth.isAuthenticated);
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleNavigation = (path: string) => {
     setIsMobileOpen(false);
@@ -31,14 +32,12 @@ export default function Navbar() {
   };
 
   return (
-    <header className="sticky top-0 z-50 border-b border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900">
+    <header className="sticky top-0 z-50 border-b border-black/[0.04] dark:border-white/[0.06] bg-white/80 dark:bg-[#1a1d23]/80 backdrop-blur-xl">
       <div className="mx-auto w-full max-w-7xl px-4">
-        <div className="flex h-17.5 items-center justify-between">
-          <div className="flex items-center">
-            <Logo />
-          </div>
+        <div className="flex h-16 items-center justify-between">
+          <Logo />
 
-          <div className="hidden md:flex flex-row items-center gap-3">
+          <nav className="hidden md:flex items-center gap-1">
             {NAV_ITEMS.map((item) => {
               const Icon = item.icon;
               const isActive = location.pathname === item.path;
@@ -46,19 +45,20 @@ export default function Navbar() {
                 <Link
                   key={item.label}
                   to={item.path}
-                  className={`flex items-center gap-2 px-5 min-h-8 text-sm font-semibold transition-all duration-300 ease-in-out ${isActive
-                    ? "text-primary border-b-2 border-primary"
-                    : "text-gray-600 dark:text-gray-300 hover:text-primary border-b-2 border-transparent"
-                    }`}
+                  className={`flex items-center gap-2 px-4 py-2 text-sm font-semibold rounded-xl transition-all duration-200 ${
+                    isActive
+                      ? "bg-primary/10 text-primary shadow-sm"
+                      : "text-[#5f6368] dark:text-[#9aa0a6] hover:text-primary hover:bg-primary/5"
+                  }`}
                 >
-                  <Icon size={18} />
+                  <Icon size={16} />
                   {item.label}
                 </Link>
               );
             })}
-          </div>
+          </nav>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1.5">
             <ThemeToggle />
 
             {isAuthenticated ? (
@@ -67,12 +67,18 @@ export default function Navbar() {
                 <UserProfileSection />
               </>
             ) : (
-              <div className="hidden sm:flex items-center gap-3">
-                <Link to="/signin" className="inline-flex items-center justify-center px-5 py-2.5 text-sm font-medium text-gray-700 dark:text-gray-300 rounded-full hover:text-primary hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-200">
+              <div className="hidden sm:flex items-center gap-2">
+                <Link
+                  to="/signin"
+                  className="inline-flex items-center justify-center px-4 py-2 text-sm font-semibold text-[#5f6368] dark:text-[#9aa0a6] rounded-xl hover:text-primary hover:bg-primary/5 transition-all duration-200"
+                >
                   Sign In
                 </Link>
 
-                <Link to="/signup" className="inline-flex items-center justify-center px-6 py-2.5 text-sm font-semibold text-white bg-primary rounded-full shadow-lg shadow-primary/20 hover:bg-primary/90 hover:scale-105 transition-all duration-200">
+                <Link
+                  to="/signup"
+                  className="inline-flex items-center justify-center px-5 py-2 text-sm font-bold rounded-xl bg-gradient-to-br from-[#a855f7] to-[#7e22ce] text-white shadow-button hover:shadow-button-hover hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200"
+                >
                   Get Started
                 </Link>
               </div>
@@ -80,10 +86,10 @@ export default function Navbar() {
 
             <button
               onClick={() => setIsMobileOpen(!isMobileOpen)}
-              className="md:hidden flex items-center justify-center min-h-10 min-w-10 p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-200 transition-colors"
+              className="md:hidden flex items-center justify-center w-10 h-10 rounded-xl hover:bg-primary/5 text-[#5f6368] dark:text-[#9aa0a6] transition-colors"
               aria-label="Toggle mobile menu"
             >
-              {isMobileOpen ? <X size={24} /> : <MenuIcon size={24} />}
+              {isMobileOpen ? <X size={20} /> : <MenuIcon size={20} />}
             </button>
           </div>
         </div>

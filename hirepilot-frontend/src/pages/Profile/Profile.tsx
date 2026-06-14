@@ -64,7 +64,7 @@ const Profile = () => {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center gap-2 bg-white dark:bg-[#0f172a]">
+      <div className="min-h-screen flex flex-col items-center justify-center gap-2">
         <Loading />
         <p className="text-sm font-semibold text-gray-500 dark:text-gray-400">Loading your profile...</p>
       </div>
@@ -72,7 +72,7 @@ const Profile = () => {
   }
 
   return (
-    <div className="min-h-screen bg-white dark:bg-[#0f172a] py-4">
+    <div className="min-h-screen py-4">
       <div className="max-w-[1400px] mx-auto px-2 md:px-4">
         {isEditing ? (
           <EditProfile profileData={profileData} setIsEditing={setIsEditing} />

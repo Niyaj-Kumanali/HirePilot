@@ -12,7 +12,7 @@ const InterviewTabNav = ({ activeTab, setActiveTab }: InterviewTabNavProps) => {
   ];
 
   return (
-    <div className="border-b border-[#e0e0e0] dark:border-[#3c4043] mb-3">
+    <div className="border-b border-white/60 dark:border-white/10 mb-3">
       <div className="flex overflow-x-auto">
         {tabs.map(({ id, label, icon: Icon }) => (
           <button

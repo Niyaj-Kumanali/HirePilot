@@ -4,15 +4,10 @@ import { Link } from "react-router-dom";
 import type { LucideIcon } from "lucide-react";
 
 interface MobileDrawerProps {
-    /** Whether the drawer is currently open. */
     isMobileOpen: boolean;
-    /** Callback to change the open state of the drawer. */
     setIsMobileOpen: (open: boolean) => void;
-    /** Navigation handler that also closes the drawer. */
     handleNavigation: (path: string) => void;
-    /** Authentication status of the current user. */
     isAuthenticated: boolean;
-    /** List of navigation items to display in the drawer. */
     NAV_ITEMS: { label: string; path: string; icon: LucideIcon }[];
 }
 
@@ -20,30 +15,33 @@ const MobileDrawer: React.FC<MobileDrawerProps> = ({ isMobileOpen, setIsMobileOp
     return (
         <div
             className={`fixed inset-0 z-50 transition-opacity duration-300 ${
-                isMobileOpen ? "opacity-100 visible" : "opacity-0 invisible"
+                isMobileOpen ? "opacity-100 visible" : "opacity-0 invisible pointer-events-none"
             }`}
         >
             <div
-                className="absolute inset-0 bg-black/50"
+                className="absolute inset-0 bg-black/30 backdrop-blur-sm"
                 onClick={() => setIsMobileOpen(false)}
             />
             <div
-                className={`absolute top-0 right-0 h-full w-[250px] bg-white shadow-xl transition-transform duration-300 ease-in-out ${
+                className={`absolute top-0 right-0 h-full w-[280px] bg-white/90 dark:bg-[#1a1d23]/90 backdrop-blur-xl border-l border-black/[0.04] dark:border-white/[0.06] shadow-xl transition-transform duration-300 ease-out-expo ${
                     isMobileOpen ? "translate-x-0" : "translate-x-full"
                 }`}
                 role="presentation"
             >
-                <ul className="py-2">
+                <div className="p-4 border-b border-black/[0.04] dark:border-white/[0.06]">
+                    <span className="text-xs font-bold tracking-widest text-[#5f6368] dark:text-[#9aa0a6] uppercase">Navigation</span>
+                </div>
+                <ul className="py-2 px-2 space-y-0.5">
                     {NAV_ITEMS.map((item) => {
                         const Icon = item.icon;
                         return (
                             <li key={item.label}>
                                 <button
-                                    className="w-full flex items-center justify-start px-6 py-3 text-gray-800 hover:bg-gray-100 transition-colors uppercase font-medium text-sm"
+                                    className="w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-[#202124] dark:text-[#e8eaed] hover:bg-primary/5 hover:text-primary transition-all duration-200 font-semibold text-sm"
                                     onClick={() => handleNavigation(item.path)}
                                 >
-                                    <span className="mr-3 flex items-center justify-center">
-                                        <Icon size={20} />
+                                    <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-primary/5 text-secondary">
+                                        <Icon size={18} />
                                     </span>
                                     {item.label}
                                 </button>
@@ -51,22 +49,21 @@ const MobileDrawer: React.FC<MobileDrawerProps> = ({ isMobileOpen, setIsMobileOp
                         )
                     })}
                 </ul>
-                <hr className="border-t border-gray-200" />
                 {!isAuthenticated && (
-                    <div className="p-4 flex flex-col gap-2">
+                    <div className="p-4 border-t border-black/[0.04] dark:border-white/[0.06] flex flex-col gap-2">
                         <Link
                             to="/signin"
-                            className="w-full flex items-center justify-center py-1.5 px-4 border border-primary text-primary rounded hover:bg-primary/10 transition-colors uppercase font-medium text-sm"
+                            className="w-full flex items-center justify-center py-2.5 px-4 rounded-xl border border-primary/30 text-primary font-bold text-sm hover:bg-primary/5 transition-all duration-200"
                             onClick={() => setIsMobileOpen(false)}
                         >
                             Sign In
                         </Link>
                         <Link
                             to="/signup"
-                            className="w-full flex items-center justify-center py-1.5 px-4 bg-primary text-white rounded hover:bg-primary/90 transition-colors shadow uppercase font-medium text-sm"
+                            className="w-full flex items-center justify-center py-2.5 px-4 rounded-xl bg-gradient-to-br from-[#a855f7] to-[#7e22ce] text-white font-bold text-sm shadow-button hover:shadow-button-hover transition-all duration-200"
                             onClick={() => setIsMobileOpen(false)}
                         >
-                            Sign Up
+                            Get Started
                         </Link>
                     </div>
                 )}

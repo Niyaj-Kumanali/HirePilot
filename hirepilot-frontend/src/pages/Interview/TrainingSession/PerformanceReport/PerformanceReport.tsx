@@ -12,7 +12,7 @@ const PerformanceReport = ({ report, position, onClose }: PerformanceReportProps
 
     return (
         <div className="fixed inset-0 z-[9999] p-3 overflow-auto flex items-center justify-center" style={{ backgroundColor: 'rgba(15,23,42,0.95)' }}>
-            <div className="max-w-[700px] w-full bg-white dark:bg-[#1a1d23] rounded-2xl border border-[#e0e0e0] dark:border-[#3c4043] shadow-2xl p-4">
+            <div className="max-w-[700px] w-full bg-white/80 dark:bg-[#1a1d23]/80 backdrop-blur-md rounded-2xl border border-white/60 dark:border-white/10 shadow-modal p-4">
                 {/* Header */}
                 <div className="flex flex-col gap-2 items-center mb-4">
                     <div className="w-20 h-20 rounded-full flex items-center justify-center" style={{ backgroundColor: 'rgba(30,126,52,0.1)' }}>
@@ -25,11 +25,10 @@ const PerformanceReport = ({ report, position, onClose }: PerformanceReportProps
                 </div>
 
                 {/* Score Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-[200px_1fr] gap-4 mb-4 p-3 rounded-2xl bg-[#fafafa]/50 dark:bg-[#0f172a]/50">
+                <div className="grid grid-cols-1 md:grid-cols-[200px_1fr] gap-4 mb-4 p-3 rounded-2xl bg-white/40 dark:bg-[#1a1d23]/40 backdrop-blur-sm border border-white/60 dark:border-white/10">
                     <div className="flex items-center justify-center">
                         <div
-                            className="w-[150px] h-[150px] rounded-full border-8 border-primary flex flex-col items-center justify-center"
-                            style={{ backgroundColor: 'rgba(168,85,247,0.1)' }}
+                            className="w-[150px] h-[150px] rounded-full border-8 border-primary flex flex-col items-center justify-center bg-primary/5"
                         >
                             <span className="text-5xl font-extrabold text-primary">{report.overallScore}</span>
                             <span className="text-xs font-semibold text-[#5f6368] dark:text-[#9aa0a6]">Overall Score</span>
@@ -42,7 +41,7 @@ const PerformanceReport = ({ report, position, onClose }: PerformanceReportProps
                                 <span className="text-sm font-semibold text-[#202124] dark:text-[#e8eaed]">Communication</span>
                                 <span className="text-sm font-bold text-primary">{report.communicationScore}%</span>
                             </div>
-                            <div className="h-2 rounded-full overflow-hidden" style={{ backgroundColor: 'rgba(168,85,247,0.1)' }}>
+                            <div className="h-2 rounded-full overflow-hidden bg-primary/10">
                                 <div className="h-full rounded-full bg-primary" style={{ width: `${report.communicationScore}%` }} />
                             </div>
                         </div>
@@ -51,7 +50,7 @@ const PerformanceReport = ({ report, position, onClose }: PerformanceReportProps
                                 <span className="text-sm font-semibold text-[#202124] dark:text-[#e8eaed]">Technical Knowledge</span>
                                 <span className="text-sm font-bold text-primary">{report.technicalScore}%</span>
                             </div>
-                            <div className="h-2 rounded-full overflow-hidden" style={{ backgroundColor: 'rgba(168,85,247,0.1)' }}>
+                            <div className="h-2 rounded-full overflow-hidden bg-primary/10">
                                 <div className="h-full rounded-full bg-primary" style={{ width: `${report.technicalScore}%` }} />
                             </div>
                         </div>
@@ -59,7 +58,7 @@ const PerformanceReport = ({ report, position, onClose }: PerformanceReportProps
                 </div>
 
                 {/* Feedback Section */}
-                <div className="mb-4 p-3 rounded-xl" style={{ backgroundColor: 'rgba(30,126,52,0.05)' }}>
+                <div className="mb-4 p-3 rounded-xl border border-white/60 dark:border-white/10 bg-white/40 dark:bg-[#1a1d23]/40 backdrop-blur-sm">
                     <div className="flex items-center gap-1.5 mb-2">
                         <CheckCircle size={20} color="#1e7e34" />
                         <h4 className="text-lg font-bold text-[#202124] dark:text-[#e8eaed]">Professional Feedback</h4>
@@ -68,7 +67,7 @@ const PerformanceReport = ({ report, position, onClose }: PerformanceReportProps
                 </div>
 
                 {/* Tips Section */}
-                <div className="mb-4 p-3 rounded-xl" style={{ backgroundColor: 'rgba(2,136,209,0.05)' }}>
+                <div className="mb-4 p-3 rounded-xl border border-white/60 dark:border-white/10 bg-white/40 dark:bg-[#1a1d23]/40 backdrop-blur-sm">
                     <div className="flex items-center gap-1.5 mb-2">
                         <TrendingUp size={20} color="#0288d1" />
                         <h4 className="text-lg font-bold text-[#202124] dark:text-[#e8eaed]">Actionable Tips</h4>
@@ -86,11 +85,7 @@ const PerformanceReport = ({ report, position, onClose }: PerformanceReportProps
                 {/* Action Button */}
                 <button
                     onClick={onClose}
-                    className="
-                        w-full py-1.5 rounded-xl font-bold text-sm
-                        bg-gradient-to-r from-primary to-secondary text-white
-                        transition-all
-                    "
+                    className="w-full py-1.5 rounded-xl font-bold text-sm bg-gradient-to-r from-primary to-secondary text-white shadow-button transition-all hover:-translate-y-0.5"
                 >
                     Return to Dashboard
                 </button>

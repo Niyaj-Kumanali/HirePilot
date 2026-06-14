@@ -70,7 +70,7 @@ const EditProfile: React.FC<EditProfileProps> = ({ profileData, setIsEditing }) 
     const labelClass = "text-xs font-bold text-gray-500 dark:text-gray-400 mb-1 block";
 
     return (
-        <div className="p-4 rounded-2xl border border-black/10 dark:border-white/10 bg-white dark:bg-[#1a1d23] shadow-sm">
+        <div className="p-4 rounded-2xl border border-white/60 dark:border-white/10 bg-white/80 dark:bg-[#1a1d23]/80 backdrop-blur-md shadow-card">
             {/* Header */}
             <div className="mb-4">
                 <div className="flex items-center gap-1.5 mb-1">

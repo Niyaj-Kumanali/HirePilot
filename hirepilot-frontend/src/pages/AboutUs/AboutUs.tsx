@@ -40,7 +40,7 @@ const AboutUs: React.FC = () => {
 
                 <div className="flex flex-col gap-6">
                     {/* Mission Section */}
-                    <div className="bg-white dark:bg-[#1a1d23] p-4 rounded-2xl border border-[#e0e0e0] dark:border-[#3c4043]">
+                    <div className="bg-white/80 dark:bg-[#1a1d23]/80 backdrop-blur-md border border-white/60 dark:border-white/10 p-4 rounded-2xl shadow-card">
                         <div className="flex flex-col gap-2 items-center text-center">
                             <div className="w-16 h-16 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
                                 <Target size={32} />
@@ -63,7 +63,7 @@ const AboutUs: React.FC = () => {
                             { icon: Rocket, value: '5k+', label: 'Interviews Conducted' },
                             { icon: Trophy, value: '2k+', label: 'Successful Placements' },
                         ].map(({ icon: Icon, value, label }, i) => (
-                            <div key={i} className="bg-white dark:bg-[#1a1d23] p-4 text-center rounded-2xl border border-[#e0e0e0] dark:border-[#3c4043]">
+                            <div key={i} className="bg-white/80 dark:bg-[#1a1d23]/80 backdrop-blur-md border border-white/60 dark:border-white/10 p-4 text-center rounded-2xl shadow-card">
                                 <div className="flex flex-col gap-2 items-center">
                                     <div className="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
                                         <Icon size={28} />
@@ -108,7 +108,7 @@ const AboutUs: React.FC = () => {
                                     description: 'Go from candidate to hire faster with our data-driven matching system and role-specific preparation.',
                                 },
                             ].map(({ icon: Icon, title, description }, i) => (
-                                <div key={i} className="bg-white dark:bg-[#1a1d23] p-4 rounded-2xl border border-[#e0e0e0] dark:border-[#3c4043]">
+                                <div key={i} className="bg-white/80 dark:bg-[#1a1d23]/80 backdrop-blur-md border border-white/60 dark:border-white/10 p-4 rounded-2xl shadow-card">
                                     <div className="flex flex-col gap-2">
                                         <Icon size={24} className="text-primary" />
                                         <h4 className="text-lg font-bold text-[#202124] dark:text-[#e8eaed]">
@@ -124,7 +124,7 @@ const AboutUs: React.FC = () => {
                     </div>
 
                     {/* Story Section */}
-                    <div className="bg-white dark:bg-[#1a1d23] p-4 rounded-2xl border border-[#e0e0e0] dark:border-[#3c4043]">
+                    <div className="bg-white/80 dark:bg-[#1a1d23]/80 backdrop-blur-md border border-white/60 dark:border-white/10 p-4 rounded-2xl shadow-card">
                         <div className="flex flex-col gap-2 items-center text-center">
                             <h3 className="text-2xl font-bold text-[#202124] dark:text-[#e8eaed]">
                                 The Inspiration

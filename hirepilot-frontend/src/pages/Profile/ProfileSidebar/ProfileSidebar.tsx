@@ -30,7 +30,7 @@ const ProfileSidebar = ({
                 {/* Avatar Section */}
                 <div className="flex justify-center mb-3">
                     <div className="relative">
-                        <div className="w-[120px] h-[120px] rounded-full border-4 border-white dark:border-[#1a1d23] shadow-[0_4px_12px_rgba(0,0,0,0.1)] overflow-hidden">
+                        <div className="w-[120px] h-[120px] rounded-full border-4 border-white dark:border-[#1a1d23] shadow-card overflow-hidden">
                             {profileImg ? (
                                 <img src={profileImg} alt="profile" className="w-full h-full object-cover" />
                             ) : (

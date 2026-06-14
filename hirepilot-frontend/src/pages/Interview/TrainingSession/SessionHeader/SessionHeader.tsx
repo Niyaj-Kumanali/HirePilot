@@ -29,7 +29,7 @@ const SessionHeader = ({
                 flex justify-between items-center p-3
                 bg-white/80 dark:bg-[#1a1d23]/80
                 backdrop-blur-[12px]
-                border-b border-[#e0e0e0] dark:border-[#3c4043]
+                border-b border-white/60 dark:border-white/10
             "
         >
             <div className="flex flex-col gap-1">
@@ -48,7 +48,7 @@ const SessionHeader = ({
                 className="
                     flex items-center gap-2 px-3 py-1.5 rounded-xl
                     bg-white/80 dark:bg-[#1a1d23]/80
-                    border border-[#e0e0e0] dark:border-[#3c4043]
+                    border border-white/60 dark:border-white/10
                 "
             >
                 <Timer size={18} color={isWarning ? '#f59e0b' : '#a855f7'} />

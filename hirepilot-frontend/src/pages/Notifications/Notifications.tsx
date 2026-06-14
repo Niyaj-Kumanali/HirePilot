@@ -116,11 +116,7 @@ const Notifications: React.FC = () => {
   ];
 
   return (
-    <div className="min-h-screen py-8 md:py-10 bg-white dark:bg-[#0f172a] relative overflow-x-hidden">
-      {/* Decorative Background */}
-      <div className="absolute w-[400px] md:w-[600px] lg:w-[800px] h-[400px] md:h-[600px] lg:h-[800px] blur-[120px] z-0 opacity-10 rounded-full top-[-200px] right-[-100px] bg-secondary pointer-events-none" />
-      <div className="absolute w-[300px] md:w-[500px] h-[300px] md:h-[500px] blur-[120px] z-0 opacity-10 rounded-full top-[-200px] left-[-100px] bg-primary pointer-events-none" />
-
+    <div className="min-h-screen py-8 md:py-10 relative overflow-x-hidden">
       <div className="mx-auto w-full max-w-5xl px-4 relative z-1">
         <div className="mb-6">
           <VisualHeader
@@ -134,7 +130,7 @@ const Notifications: React.FC = () => {
         {/* Controls */}
         <div className="flex flex-col md:flex-row justify-between items-stretch md:items-center gap-3 mb-4">
           {/* Filter Tabs */}
-          <div className="flex gap-1 p-0.5 rounded-3xl backdrop-blur-[10px] border border-black/10 dark:border-white/10 bg-white/50 dark:bg-[#1a1d23]/50 w-fit">
+          <div className="flex gap-1 p-0.5 rounded-3xl backdrop-blur-[10px] border border-white/60 dark:border-white/10 bg-white/50 dark:bg-[#1a1d23]/50 w-fit">
             {(['all', 'unread'] as const).map((f) => (
               <button
                 key={f}
@@ -226,11 +222,11 @@ const Notifications: React.FC = () => {
         {/* Undo Snackbar */}
         {showUndo && (
           <div className="fixed bottom-6 md:bottom-10 left-1/2 -translate-x-1/2 z-50 animate-[slideDown_0.3s_ease-out]">
-            <div className="flex items-center gap-2 px-4 py-3 rounded-2xl border border-black/10 dark:border-white/10 bg-white dark:bg-[#1a1d23] shadow-[0_8px_24px_rgba(0,0,0,0.12)]">
-              <span className="text-sm font-semibold text-gray-900 dark:text-gray-100">Notification removed</span>
+            <div className="flex items-center gap-2 px-4 py-3 rounded-2xl border border-white/60 dark:border-white/10 bg-white/80 dark:bg-[#1a1d23]/80 backdrop-blur-md shadow-glass">
+              <span className="text-sm font-semibold text-[#202124] dark:text-[#e8eaed]">Notification removed</span>
               <button
                 onClick={undoDelete}
-                className="flex items-center gap-1 px-3 py-1 rounded-xl bg-primary text-white text-[0.8rem] font-bold hover:bg-primary-dark transition-all"
+                className="flex items-center gap-1 px-3 py-1 rounded-xl bg-primary text-white text-[0.8rem] font-bold hover:bg-primary-dark transition-all shadow-button"
               >
                 <RotateCcw size={14} />
                 Undo

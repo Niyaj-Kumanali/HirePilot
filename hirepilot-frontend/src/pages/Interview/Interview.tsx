@@ -43,7 +43,7 @@ const Interview = () => {
   }, [location.state, handleStartTraining]);
 
   return (
-    <div className="min-h-screen py-5 relative before:fixed before:inset-0 before:bg-[radial-gradient(circle_at_20%_50%,rgba(168,85,247,0.08)_0%,transparent_50%),radial-gradient(circle_at_80%_80%,rgba(99,102,241,0.08)_0%,transparent_50%)] before:pointer-events-none before:z-0">
+    <div className="min-h-screen py-5 relative">
       <div className="mx-auto w-full max-w-7xl px-4 relative z-1">
         <header className="text-center py-3 md:py-5">
           <VisualHeader

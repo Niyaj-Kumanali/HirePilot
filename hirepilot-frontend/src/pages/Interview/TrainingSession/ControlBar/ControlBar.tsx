@@ -39,7 +39,7 @@ const ControlBar = ({
                 flex justify-between items-center p-3 gap-3
                 bg-white/80 dark:bg-[#1a1d23]/80
                 backdrop-blur-[12px]
-                border-t border-[#e0e0e0] dark:border-[#3c4043]
+                border-t border-white/60 dark:border-white/10
             "
         >
             <div className="flex gap-2">
@@ -73,8 +73,8 @@ const ControlBar = ({
                         disabled={isLoading}
                         className="
                             w-full pl-3 pr-10 py-2 rounded-xl text-sm
-                            bg-white dark:bg-[#0f172a]
-                            border border-[#e0e0e0] dark:border-[#3c4043]
+                            bg-white/80 dark:bg-[#1a1d23]/80 backdrop-blur-sm
+                            border border-white/60 dark:border-white/10
                             text-[#202124] dark:text-[#e8eaed]
                             placeholder:text-[#5f6368] dark:placeholder:text-[#9aa0a6]
                             outline-none focus:border-primary focus:ring-2 focus:ring-primary/20

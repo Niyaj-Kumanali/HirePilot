@@ -13,12 +13,12 @@ const NotFound = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center relative overflow-hidden bg-[#fafafa] dark:bg-[#0f172a]">
-      {/* Animated background elements */}
+    <div className="min-h-screen flex items-center justify-center relative overflow-hidden">
+      {/* Animated background orbs */}
       {[
-        { top: '10%', left: '10%', size: 200 },
-        { top: '60%', right: '15%', size: 150 },
-        { bottom: '15%', left: '20%', size: 180 },
+        { top: '10%', left: '10%', size: 200, delay: 0 },
+        { top: '60%', right: '15%', size: 150, delay: 1 },
+        { bottom: '15%', left: '20%', size: 180, delay: 2 },
       ].map((pos, i) => (
         <div
           key={i}
@@ -31,8 +31,8 @@ const NotFound = () => {
             left: pos.left,
             right: pos.right,
             bottom: pos.bottom,
-            animation: `float  ${6 + i * 2}s ease-in-out infinite`,
-            animationDelay: `${i * 0.5}s`,
+            animation: `float ${6 + i * 2}s ease-in-out infinite`,
+            animationDelay: `${pos.delay}s`,
           }}
         />
       ))}
@@ -44,7 +44,7 @@ const NotFound = () => {
             {/* 404 Display */}
             <div className="flex flex-row gap-2 items-center">
               <span className="text-[5rem] md:text-[8rem] font-black text-[#202124] dark:text-[#e8eaed]">4</span>
-              <div className="relative w-[60px] md:w-[100px] h-[60px] md:h-[100px] rounded-full border-4 border-primary flex items-center justify-center">
+              <div className="relative w-[60px] md:w-[100px] h-[60px] md:h-[100px] rounded-full border-4 border-primary flex items-center justify-center bg-white/40 dark:bg-[#1a1d23]/40 backdrop-blur-sm">
                 <div
                   className="w-[20px] md:w-[30px] h-[20px] md:h-[30px] rounded-full bg-primary"
                   style={{ animation: 'iconPulse 2s ease-in-out infinite' }}
@@ -66,25 +66,14 @@ const NotFound = () => {
             <div className="flex flex-row gap-2 flex-wrap">
               <button
                 onClick={handleHomeClick}
-                className="
-                  inline-flex items-center gap-2
-                  py-2 px-4 rounded-lg font-semibold text-sm
-                  bg-gradient-to-r from-primary to-secondary text-white
-                  transition-all hover:opacity-90
-                "
+                className="inline-flex items-center gap-2 py-2 px-4 rounded-lg font-semibold text-sm bg-gradient-to-r from-primary to-secondary text-white transition-all hover:opacity-90 shadow-button"
               >
                 <Home size={20} />
                 Back to Home
               </button>
               <button
                 onClick={handleGoBack}
-                className="
-                  inline-flex items-center gap-2
-                  py-2 px-4 rounded-lg font-semibold text-sm
-                  border border-[#e0e0e0] dark:border-[#3c4043]
-                  text-[#202124] dark:text-[#e8eaed]
-                  transition-all hover:bg-black/5 dark:hover:bg-white/5
-                "
+                className="inline-flex items-center gap-2 py-2 px-4 rounded-lg font-semibold text-sm border border-white/60 dark:border-white/10 text-[#202124] dark:text-[#e8eaed] transition-all hover:bg-black/5 dark:hover:bg-white/5 bg-white/60 dark:bg-[#1a1d23]/60 backdrop-blur-sm"
               >
                 <ArrowLeft size={20} />
                 Go Back
@@ -105,14 +94,7 @@ const NotFound = () => {
                   <Link
                     key={to}
                     to={to}
-                    className="
-                      p-2 text-center no-underline
-                      bg-white dark:bg-[#1a1d23]
-                      border border-[#e0e0e0] dark:border-[#3c4043]
-                      rounded-xl
-                      transition-all duration-300
-                      hover:-translate-y-1 hover:shadow-lg
-                    "
+                    className="p-2 text-center no-underline bg-white/80 dark:bg-[#1a1d23]/80 backdrop-blur-md border border-white/60 dark:border-white/10 rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-card-hover"
                   >
                     <div className="flex flex-col gap-1 items-center">
                       <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
@@ -130,7 +112,7 @@ const NotFound = () => {
 
           {/* Illustration */}
           <div className="hidden md:flex justify-center items-center relative">
-            <div style={{ animation: 'float 4s ease-in-out infinite' }}>
+            <div className="bg-white/60 dark:bg-[#1a1d23]/60 backdrop-blur-md rounded-full p-8 border border-white/60 dark:border-white/10 shadow-card" style={{ animation: 'float 4s ease-in-out infinite' }}>
               <svg viewBox="0 0 120 160" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-[200px] h-auto">
                 <defs>
                   <linearGradient id="rocketGradient" x1="0%" y1="0%" x2="100%" y2="100%">

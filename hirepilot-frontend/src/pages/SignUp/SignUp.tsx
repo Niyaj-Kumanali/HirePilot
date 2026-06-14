@@ -143,9 +143,9 @@ const SignUp = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#fafafa] dark:bg-[#0f172a] flex items-center justify-center p-2.5 relative before:fixed before:inset-0 before:bg-[radial-gradient(circle_at_20%_50%,rgba(168,85,247,0.08)_0%,transparent_50%),radial-gradient(circle_at_80%_80%,rgba(99,102,241,0.08)_0%,transparent_50%)] before:pointer-events-none before:z-0">
+    <div className="min-h-screen flex items-center justify-center p-2.5 relative">
       <div className="w-full max-w-[520px] relative z-1">
-        <div className="bg-white dark:bg-[#1a1d23] p-3 sm:p-5 rounded-2xl border border-[#e0e0e0] dark:border-[#3c4043] shadow-lg mb-2.5">
+        <div className="bg-white/80 dark:bg-[#1a1d23]/80 backdrop-blur-md p-3 sm:p-5 rounded-2xl border border-white/60 dark:border-white/10 shadow-card mb-2.5">
           {/* Header */}
           <div className="text-center mb-4">
             <h2 className="text-2xl font-black mb-1 tracking-tight text-[#202124] dark:text-[#e8eaed]">
@@ -244,7 +244,7 @@ const SignUp = () => {
               />
               {formData.password && (
                 <div className="mt-1 flex items-center gap-1">
-                  <div className="flex-1 h-1 rounded-full bg-[#e0e0e0] dark:bg-[#3c4043] overflow-hidden">
+                  <div className="flex-1 h-1 rounded-full bg-white/60 dark:bg-white/10 overflow-hidden">
                     <div className="h-full rounded-full transition-all duration-300" style={{ width: `${getPasswordStrengthValue()}%`, backgroundColor: getPasswordStrengthColor() }} />
                   </div>
                   <span className="text-xs font-bold min-w-[60px]" style={{ color: getPasswordStrengthColor() }}>
@@ -281,9 +281,9 @@ const SignUp = () => {
             </div>
 
             {/* Terms Checkbox */}
-            <div className="bg-[#fafafa] dark:bg-[#0f172a] rounded-xl border border-[#e0e0e0] dark:border-[#3c4043] p-1.5 mt-1.25">
+            <div className="bg-white/40 dark:bg-[#1a1d23]/40 backdrop-blur-sm rounded-xl border border-white/60 dark:border-white/10 p-1.5 mt-1.25">
               <label className="flex items-center gap-2 cursor-pointer">
-                <input type="checkbox" checked={agreedToTerms} onChange={handleInputChange} className="w-4 h-4 rounded border-[#e0e0e0] dark:border-[#3c4043] text-primary focus:ring-primary" />
+                <input type="checkbox" checked={agreedToTerms} onChange={handleInputChange} className="w-4 h-4 rounded border-white/60 dark:border-white/10 text-primary focus:ring-primary" />
                 <span className="text-sm text-[#5f6368] dark:text-[#9aa0a6]">
                   I agree to the{' '}
                   <Link to="/terms-of-service" className="text-primary font-bold no-underline">Terms of Service</Link>
@@ -303,15 +303,7 @@ const SignUp = () => {
             <button
               type="submit"
               disabled={isLoading}
-              className="
-                w-full py-1.75 rounded-xl font-bold text-sm
-                bg-gradient-to-r from-primary to-secondary text-white
-                shadow-[0_8px_24px_rgba(168,85,247,0.3)]
-                hover:-translate-y-0.5 hover:shadow-[0_12px_32px_rgba(168,85,247,0.4)]
-                disabled:opacity-80
-                transition-all duration-200
-                flex items-center justify-center gap-2
-              "
+              className="w-full py-1.75 rounded-xl font-bold text-sm bg-gradient-to-r from-primary to-secondary text-white shadow-button hover:-translate-y-0.5 hover:shadow-card-hover disabled:opacity-80 transition-all duration-200 flex items-center justify-center gap-2"
             >
               {isLoading ? (
                 <>
@@ -326,18 +318,18 @@ const SignUp = () => {
 
           {/* Divider */}
           <div className="flex items-center my-3.5">
-            <div className="flex-1 border-t border-[#e0e0e0] dark:border-[#3c4043]" />
+            <div className="flex-1 border-t border-white/60 dark:border-white/10" />
             <span className="px-3 text-xs font-semibold uppercase tracking-wider text-[#5f6368] dark:text-[#9aa0a6]">
               or continue with
             </span>
-            <div className="flex-1 border-t border-[#e0e0e0] dark:border-[#3c4043]" />
+            <div className="flex-1 border-t border-white/60 dark:border-white/10" />
           </div>
 
           {/* OAuth Buttons */}
           <div className="grid grid-cols-2 gap-1.5 mb-3">
             <button
               onClick={handleSocialAuth}
-              className="flex items-center justify-center gap-2 py-1.75 rounded-xl font-bold text-sm border-2 border-[#e0e0e0] dark:border-[#3c4043] text-[#202124] dark:text-[#e8eaed] bg-transparent hover:border-2 hover:-translate-y-0.5 hover:bg-primary/5 transition-all"
+              className="flex items-center justify-center gap-2 py-1.75 rounded-xl font-bold text-sm border border-white/60 dark:border-white/10 text-[#202124] dark:text-[#e8eaed] bg-white/40 dark:bg-[#1a1d23]/40 backdrop-blur-sm hover:-translate-y-0.5 hover:bg-primary/5 transition-all"
             >
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#1f2937" />
@@ -349,7 +341,7 @@ const SignUp = () => {
             </button>
             <button
               onClick={handleSocialAuth}
-              className="flex items-center justify-center gap-2 py-1.75 rounded-xl font-bold text-sm border-2 border-[#e0e0e0] dark:border-[#3c4043] text-[#202124] dark:text-[#e8eaed] bg-transparent hover:border-2 hover:-translate-y-0.5 hover:bg-primary/5 transition-all"
+              className="flex items-center justify-center gap-2 py-1.75 rounded-xl font-bold text-sm border border-white/60 dark:border-white/10 text-[#202124] dark:text-[#e8eaed] bg-white/40 dark:bg-[#1a1d23]/40 backdrop-blur-sm hover:-translate-y-0.5 hover:bg-primary/5 transition-all"
             >
               <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />

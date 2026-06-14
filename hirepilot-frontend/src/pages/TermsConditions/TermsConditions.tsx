@@ -37,7 +37,7 @@ const TermsConditions: React.FC = () => {
                     />
                 </div>
 
-                <div className="bg-white dark:bg-[#1a1d23] p-3 md:p-5 rounded-2xl border border-[#e0e0e0] dark:border-[#3c4043]">
+                <div className="bg-white/80 dark:bg-[#1a1d23]/80 backdrop-blur-md border border-white/60 dark:border-white/10 p-3 md:p-5 rounded-2xl shadow-card">
                     <div className="flex flex-col gap-4">
                         <section>
                             <h4 className="text-xl font-bold mb-1 text-[#202124] dark:text-[#e8eaed]">1. Agreement to Terms</h4>

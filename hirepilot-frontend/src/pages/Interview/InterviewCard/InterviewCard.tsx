@@ -42,8 +42,8 @@ const InterviewCard = ({ interview, onStartTraining }: InterviewCardProps) => {
                     mt-auto w-full
                     bg-gradient-to-r from-primary to-secondary text-white
                     py-1.25 rounded-[10px] font-bold text-[0.85rem]
-                    shadow-none
-                    hover:-translate-y-px hover:shadow-[0_8px_16px_rgba(168,85,247,0.2)]
+                    shadow-button
+                    hover:-translate-y-px hover:shadow-card-hover
                     transition-all duration-200
                     flex items-center justify-center gap-2
                 "

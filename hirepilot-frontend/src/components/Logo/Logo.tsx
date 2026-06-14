@@ -5,11 +5,13 @@ const Logo = () => {
     return (
         <Link
             to="/"
-            className="flex items-center gap-3 px-4 py-2 bg-white dark:bg-transparent hover:bg-white dark:hover:bg-transparent no-underline"
+            className="flex items-center gap-2.5 no-underline group"
         >
-            <Rocket size={24} className="text-primary" />
-            <span className="text-xl font-black bg-gradient-to-br from-primary to-secondary bg-clip-text text-transparent tracking-tight">
-                HirePilot.
+            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-primary to-secondary flex items-center justify-center shadow-sm transition-transform duration-200 group-hover:scale-105">
+                <Rocket size={18} className="text-white" />
+            </div>
+            <span className="text-lg font-black text-[#202124] dark:text-[#e8eaed] tracking-tight">
+                HirePilot
             </span>
         </Link>
     );
