@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import VisualHeader from '../../components/VisualHeader/VisualHeader';
+import VisualHeader from '../../components/ui/VisualHeader';
 
 const PrivacyPolicy: React.FC = () => {
     useEffect(() => {
@@ -32,7 +32,7 @@ const PrivacyPolicy: React.FC = () => {
                     <VisualHeader
                         badge="Legal"
                         title="Privacy"
-                        gradient_title="Policy"
+                        highlight="Policy"
                         subtitle="Learn how we protect and manage your data at HirePilot."
                     />
                 </div>

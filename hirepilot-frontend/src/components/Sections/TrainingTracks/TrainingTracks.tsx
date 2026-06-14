@@ -1,5 +1,5 @@
 import { Terminal, Code, Layers, BarChart, Settings } from 'lucide-react';
-import VisualHeader from '../../VisualHeader/VisualHeader';
+import VisualHeader from '../../ui/VisualHeader';
 import TTCard from './TTCard/TTCard';
 
 const trainingTracksData = [
@@ -51,7 +51,7 @@ const TrainingTracks = () => {
           <VisualHeader
             badge='Career Paths'
             title='Specialized'
-            gradient_title='Training Tracks'
+            highlight='Training Tracks'
             subtitle='Industry-validated curriculums designed to turn beginners into job-ready engineers.'
           />
         </header>

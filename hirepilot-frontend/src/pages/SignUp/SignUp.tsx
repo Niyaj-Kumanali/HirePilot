@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { authActions } from '../../store/auth/auth.slice';
 import { useAppDispatch } from '../../store/hooks';
 import { AUTH_SERVICE } from '../../api/services/authApi';
-import TextField from '../../components/TextField/TextField';
+import TextField from '../../components/ui/TextField';
 
 const SignUp = () => {
   const [formData, setFormData] = useState({

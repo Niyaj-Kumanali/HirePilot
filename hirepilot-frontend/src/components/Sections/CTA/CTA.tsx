@@ -1,6 +1,6 @@
 import { Play } from "lucide-react";
 import Scanner from "../../Scanner/Scanner";
-import VisualHeader from "../../VisualHeader/VisualHeader";
+import VisualHeader from "../../ui/VisualHeader";
 import { Link } from "react-router-dom";
 
 const CTA = () => {
@@ -40,7 +40,7 @@ const CTA = () => {
               <VisualHeader
                 badge="Free for early adopters"
                 title="Ready to land your"
-                gradient_title="dream job?"
+                highlight="dream job?"
                 subtitle="Master the art of the interview with AI feedback that's actually useful. No fluff, just results."
                 align="left"
               />

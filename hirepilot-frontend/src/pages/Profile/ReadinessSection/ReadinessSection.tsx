@@ -1,7 +1,7 @@
 import React from 'react';
 import { Rocket, Activity, Zap, Shield, Target, type LucideIcon } from 'lucide-react';
 import type { ReadinessMetric } from '../../../store/CurrentUser/currentuser.types';
-import Card from '../../../components/Card/Card';
+import Card from '../../../components/ui/Card';
 
 interface ReadinessSectionProps {
     readiness: ReadinessMetric[];

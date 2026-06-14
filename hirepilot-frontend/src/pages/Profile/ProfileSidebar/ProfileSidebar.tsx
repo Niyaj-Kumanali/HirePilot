@@ -1,8 +1,8 @@
 import { MapPin, Edit, LogOut, Mail, Phone, Camera } from 'lucide-react';
-import Badge from '../../../components/Badge/Badge';
-import Button from '../../../components/Button/Button';
-import ProgressBar from '../../../components/ProgressBar/ProgressBar';
-import Card from '../../../components/Card/Card';
+import Badge from '../../../components/ui/Badge';
+import Button from '../../../components/ui/Button';
+import ProgressBar from '../../../components/ui/ProgressBar';
+import Card from '../../../components/ui/Card';
 import profileImg from '../../../assets/Nawaz_profile_IMG.jpg';
 
 import type { CurrentUserState } from '../../../store/CurrentUser/currentuser.types';

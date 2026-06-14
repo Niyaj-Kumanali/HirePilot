@@ -1,12 +1,19 @@
 import React from 'react';
 
-interface TextFieldProps extends React.InputHTMLAttributes<HTMLInputElement> {
+interface TextFieldProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size'> {
   label?: string;
   error?: string;
   fullWidth?: boolean;
   iconLeft?: React.ReactNode;
   iconRight?: React.ReactNode;
+  size?: 'small' | 'medium' | 'large';
 }
+
+const sizeClasses: Record<string, string> = {
+  small: 'py-1.5 text-xs',
+  medium: 'py-2.5 text-sm',
+  large: 'py-3 text-base',
+};
 
 const TextField = ({
   label,
@@ -14,6 +21,7 @@ const TextField = ({
   fullWidth = false,
   iconLeft,
   iconRight,
+  size = 'medium',
   className = '',
   disabled,
   id,
@@ -46,10 +54,11 @@ const TextField = ({
           id={inputId}
           disabled={disabled}
           className={[
-            'w-full py-2.5 text-sm rounded-xl border outline-none transition-all duration-200',
+            'w-full rounded-xl border outline-none transition-all duration-200',
             'bg-white dark:bg-[#1a1d23]',
             'text-[#202124] dark:text-[#e8eaed]',
             'placeholder:text-[#5f6368] dark:placeholder:text-[#9aa0a6]',
+            sizeClasses[size],
             iconLeft ? 'pl-10' : 'px-4',
             iconRight ? 'pr-10' : '',
             error

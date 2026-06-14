@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import VisualHeader from '../../components/VisualHeader/VisualHeader';
+import VisualHeader from '../../components/ui/VisualHeader';
 
 const TermsConditions: React.FC = () => {
     useEffect(() => {
@@ -32,7 +32,7 @@ const TermsConditions: React.FC = () => {
                     <VisualHeader
                         badge="Legal"
                         title="Terms &"
-                        gradient_title="Conditions"
+                        highlight="Conditions"
                         subtitle="Understanding our agreement and the rules of the HirePilot platform."
                     />
                 </div>

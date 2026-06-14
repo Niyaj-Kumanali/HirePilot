@@ -1,7 +1,7 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { Bell, Briefcase, MessageSquare, Settings, CheckCircle2, Trash2, RotateCcw } from 'lucide-react';
-import VisualHeader from '../../components/VisualHeader/VisualHeader';
-import Dropdown from '../../components/Dropdown/Dropdown';
+import VisualHeader from '../../components/ui/VisualHeader';
+import Dropdown from '../../components/ui/Dropdown';
 import type { Notification } from '../../data/notificationsData';
 import EmptyState from '../../components/EmptyState/EmptyState';
 import NotificationItem from './NotificationItem/NotificationItem';
@@ -126,7 +126,7 @@ const Notifications: React.FC = () => {
           <VisualHeader
             badge={stats.unread > 0 ? `Activity Feed • ${stats.unread} New` : "Activity Feed"}
             title="Stay Updated"
-            gradient_title="with Alerts"
+            highlight="with Alerts"
             subtitle="Manage your notifications and track job updates in one place."
           />
         </div>

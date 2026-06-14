@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { Target, Users, Zap, Shield, Rocket, Trophy } from 'lucide-react';
-import VisualHeader from '../../components/VisualHeader/VisualHeader';
+import VisualHeader from '../../components/ui/VisualHeader';
 
 const AboutUs: React.FC = () => {
     useEffect(() => {
@@ -33,7 +33,7 @@ const AboutUs: React.FC = () => {
                     <VisualHeader
                         badge="Our Story"
                         title="Empowering Future"
-                        gradient_title="Engineers"
+                        highlight="Engineers"
                         subtitle="At HirePilot, we're building the most advanced AI-driven career acceleration platform for the next generation of developers."
                     />
                 </div>

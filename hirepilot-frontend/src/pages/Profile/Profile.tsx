@@ -5,7 +5,7 @@ import { currentUserActions } from '../../store/CurrentUser/currentuser.slice';
 import { authActions } from '../../store/auth/auth.slice';
 import { type CurrentUserState } from '../../store/CurrentUser/currentuser.types';
 import { AUTH_SERVICE } from '../../api/services/authApi';
-import Loading from '../../components/Loading/Loading';
+import Loading from '../../components/ui/Spinner';
 
 // Components
 import EditProfile from './Edit/EditProfile';

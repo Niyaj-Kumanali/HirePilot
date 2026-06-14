@@ -1,5 +1,5 @@
 import { Search, BrainCircuit, BarChartHorizontal, CheckCircle } from "lucide-react";
-import VisualHeader from "../../VisualHeader/VisualHeader";
+import VisualHeader from "../../ui/VisualHeader";
 import HIWCard from "./HIWCard/HIWCard";
 
 const steps = [
@@ -37,7 +37,7 @@ const HowItWorks = () => {
           <VisualHeader
             badge="The Process"
             title="Your Journey to get"
-            gradient_title="Hired"
+            highlight="Hired"
             subtitle="A simple, structured approach to mastering the interview process and landing your dream job."
           />
         </div>

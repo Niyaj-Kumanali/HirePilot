@@ -8,8 +8,8 @@ import JobDetails from './JobDetails/JobDetails';
 import JobsSidebar from './JobsSidebar/JobsSidebar';
 import EmptyState from '../../components/EmptyState/EmptyState';
 import JobCard from './JobCard/JobCard';
-import VisualHeader from '../../components/VisualHeader/VisualHeader';
-import Pagination from '../../components/Pagination/Pagination';
+import VisualHeader from '../../components/ui/VisualHeader';
+import Pagination from '../../components/ui/Pagination';
 import JobToolbar from './JobToolbar/JobToolbar';
 import { useJobFilters, type JobType, type JobLevel } from '../../hooks/useJobFilters';
 
@@ -132,7 +132,7 @@ const Jobs = () => {
               <VisualHeader
                 badge='New opportunities added today'
                 title='Find Your'
-                gradient_title='Dream Job'
+                highlight='Dream Job'
                 subtitle="Discover amazing opportunities and advance your career with HirePilot's curated job board for developers."
               />
             </header>

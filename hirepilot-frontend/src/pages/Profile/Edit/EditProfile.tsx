@@ -3,8 +3,8 @@ import React, { useState } from 'react';
 import { currentUserActions } from '../../../store/CurrentUser/currentuser.slice';
 import type { CurrentUserState, Experience, Skill } from '../../../store/CurrentUser/currentuser.types';
 import { useAppDispatch } from '../../../store/hooks';
-import Button from '../../../components/Button/Button';
-import TextField from '../../../components/TextField/TextField';
+import Button from '../../../components/ui/Button';
+import TextField from '../../../components/ui/TextField';
 
 interface EditProfileProps {
     profileData: CurrentUserState;

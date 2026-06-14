@@ -7,8 +7,7 @@ import SignUp from "../pages/SignUp/SignUp";
 import SignIn from "../pages/SignIn/SignIn";
 import NotFound from "../pages/NotFound/NotFound";
 import Profile from "../pages/Profile/Profile";
-import ProtectedRoute from "../components/ProtectedRoute/ProtectedRoute";
-import AuthRoute from "../components/ProtectedRoute/AuthRoute";
+import GuardRoute from "../components/ui/GuardRoute";
 import Notifications from "../pages/Notifications/Notifications";
 import Messages from "../pages/Messages/Messages";
 import AboutUs from "../pages/AboutUs/AboutUs";
@@ -23,8 +22,8 @@ import MainLayout from "../Layout/MainLayout/MainLayout";
  * 
  * Features:
  * - Nested layouts (MainLayout for primary navigation)
- * - ProtectedRoutes for authenticated content
- * - AuthRoutes for guest-only pages (Login/Signup)
+ * - GuardRoutes for authenticated content
+ * - GuardRoute requireAuth={false}s for guest-only pages (Login/Signup)
  * - Absolute path for immersion simulation (/live-interview)
  */
 export const router = createBrowserRouter([
@@ -45,33 +44,33 @@ export const router = createBrowserRouter([
           {
             path: "/interview",
             element: (
-              <ProtectedRoute>
+              <GuardRoute>
                 <Interview />
-              </ProtectedRoute>
+              </GuardRoute>
             ),
           },
           {
             path: "/profile",
             element: (
-              <ProtectedRoute>
+              <GuardRoute>
                 <Profile />
-              </ProtectedRoute>
+              </GuardRoute>
             ),
           },
           {
             path: "/notifications",
             element: (
-              <ProtectedRoute>
+              <GuardRoute>
                 <Notifications />
-              </ProtectedRoute>
+              </GuardRoute>
             ),
           },
           {
             path: "/messages",
             element: (
-              <ProtectedRoute>
+              <GuardRoute>
                 <Messages />
-              </ProtectedRoute>
+              </GuardRoute>
             ),
           },
           {
@@ -91,26 +90,26 @@ export const router = createBrowserRouter([
       {
         path: "/live-interview",
         element: (
-          <ProtectedRoute>
+          <GuardRoute>
             <TrainingSession />
-          </ProtectedRoute>
+          </GuardRoute>
         ),
       },
       // Auth routes (guest only)
       {
         path: "/signup",
         element: (
-          <AuthRoute>
+          <GuardRoute requireAuth={false}>
             <SignUp />
-          </AuthRoute>
+          </GuardRoute>
         ),
       },
       {
         path: "/signin",
         element: (
-          <AuthRoute>
+          <GuardRoute requireAuth={false}>
             <SignIn />
-          </AuthRoute>
+          </GuardRoute>
         ),
       },
     ]

@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '../../store/hooks';
 import { authActions } from '../../store/auth/auth.slice';
 import { AUTH_SERVICE } from '../../api/services/authApi';
-import TextField from '../../components/TextField/TextField';
+import TextField from '../../components/ui/TextField';
 
 const SignIn = () => {
   const [email, setEmail] = useState('');

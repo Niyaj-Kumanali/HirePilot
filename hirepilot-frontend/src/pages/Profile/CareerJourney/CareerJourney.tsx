@@ -2,7 +2,7 @@ import React from 'react';
 import { Briefcase, ChevronRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import type { Experience } from '../../../store/CurrentUser/currentuser.types';
-import Card from '../../../components/Card/Card';
+import Card from '../../../components/ui/Card';
 
 interface CareerJourneyProps {
     experience: Experience[];

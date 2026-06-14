@@ -1,6 +1,6 @@
 import { ArrowRight, Gauge } from 'lucide-react';
 import type { PrepTopic } from '../../../types/interview';
-import Card from '../../../components/Card/Card';
+import Card from '../../../components/ui/Card';
 
 interface InterviewCardProps {
     interview: PrepTopic;

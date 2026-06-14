@@ -1,6 +1,6 @@
 import { Mic, BarChart3, Target, LineChart } from "lucide-react";
 import FeatureCard from "./FeatureCard/FeatureCard";
-import VisualHeader from "../../VisualHeader/VisualHeader";
+import VisualHeader from "../../ui/VisualHeader";
 
 const features = [
   {
@@ -33,7 +33,7 @@ const Features = () => {
           <VisualHeader
             badge="Core Capabilities"
             title="Everything you need to"
-            gradient_title="succeed."
+            highlight="succeed."
             subtitle="HirePilot combines advanced AI with proven coaching methods to turn your weaknesses into your greatest strengths."
           />
         </div>

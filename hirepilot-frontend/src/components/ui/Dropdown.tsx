@@ -1,12 +1,14 @@
 import { useState, useRef, useEffect } from 'react';
 import { ChevronDown } from 'lucide-react';
+import type { ButtonHTMLAttributes } from 'react';
 
 interface Option {
   label: string;
   value: string;
 }
 
-interface DropdownProps {
+interface DropdownProps
+  extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'onChange' | 'value' | 'type' | 'children'> {
   options: Option[];
   value: string;
   onChange: (value: string) => void;
@@ -14,8 +16,14 @@ interface DropdownProps {
   placeholder?: string;
   error?: string;
   fullWidth?: boolean;
-  className?: string;
+  size?: 'small' | 'medium' | 'large';
 }
+
+const sizeClasses: Record<string, string> = {
+  small: 'px-3 py-1.5 text-xs min-h-8',
+  medium: 'px-4 py-2.5 text-sm min-h-10',
+  large: 'px-5 py-3 text-base min-h-12',
+};
 
 const Dropdown = ({
   options,
@@ -25,7 +33,10 @@ const Dropdown = ({
   placeholder = 'Select...',
   error,
   fullWidth = false,
+  size = 'medium',
   className = '',
+  disabled,
+  ...buttonProps
 }: DropdownProps) => {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
@@ -52,16 +63,20 @@ const Dropdown = ({
 
       <button
         type="button"
+        disabled={disabled}
         onClick={() => setOpen(!open)}
         className={[
-          'w-full flex items-center justify-between gap-2 px-4 py-2.5 text-sm rounded-xl border outline-none transition-all duration-200',
+          'w-full flex items-center justify-between gap-2 rounded-xl border outline-none transition-all duration-200',
           'bg-white dark:bg-[#1a1d23]',
+          sizeClasses[size],
           error
             ? 'border-red-500'
             : 'border-[#e0e0e0] dark:border-[#3c4043] hover:border-primary',
           open && !error && 'border-primary shadow-[0_0_0_4px_rgba(168,85,247,0.1)]',
           selected ? 'text-[#202124] dark:text-[#e8eaed]' : 'text-[#5f6368] dark:text-[#9aa0a6]',
+          disabled && 'opacity-50 cursor-not-allowed',
         ].join(' ')}
+        {...buttonProps}
       >
         <span className="truncate">{selected ? selected.label : placeholder}</span>
         <ChevronDown

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Award } from 'lucide-react';
 import type { Skill } from '../../../store/CurrentUser/currentuser.types';
-import Card from '../../../components/Card/Card';
+import Card from '../../../components/ui/Card';
 
 interface SkillsCloudProps {
     skills: Skill[];

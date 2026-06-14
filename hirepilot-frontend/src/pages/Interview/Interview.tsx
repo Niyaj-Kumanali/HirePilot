@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import VisualHeader from '../../components/VisualHeader/VisualHeader';
+import VisualHeader from '../../components/ui/VisualHeader';
 import InterviewTabNav from './InterviewTabNav/InterviewTabNav';
 import CompletedInterviewsTab from './CompletedInterviewsTab/CompletedInterviewsTab';
 import PracticeTopicsTab from './PracticeTopicsTab/PracticeTopicsTab';
@@ -42,7 +42,7 @@ const Interview = () => {
           <VisualHeader
             badge="Ready to ace it?"
             title="Interview Prep Hub"
-            gradient_title="with AI"
+            highlight="with AI"
             subtitle="Master your next technical round with AI-driven insights and personalized feedback."
           />
         </header>

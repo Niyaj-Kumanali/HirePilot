@@ -1,6 +1,6 @@
 import { MapPin, DollarSign, Clock, TrendingUp, Briefcase, Star, ArrowRight } from 'lucide-react';
 import type Job from '../../../types/job';
-import Card from '../../../components/Card/Card';
+import Card from '../../../components/ui/Card';
 
 interface JobCardProps {
     job: Job;
