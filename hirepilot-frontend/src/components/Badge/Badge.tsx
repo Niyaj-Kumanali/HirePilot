@@ -1,14 +1,24 @@
 import React from 'react';
-import { Chip, alpha, useTheme } from '@mui/material';
 
 interface BadgeProps {
     children: React.ReactNode;
     variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'success' | 'warning' | 'danger' | 'info';
     size?: 'sm' | 'md';
-    iconLeft?: React.ReactElement; // Chip expects ReactElement for icon
+    iconLeft?: React.ReactElement;
     className?: string;
     onClick?: () => void;
 }
+
+const variantClasses: Record<string, string> = {
+    primary: 'bg-primary/10 text-primary',
+    secondary: 'bg-[#f0f0f0] dark:bg-[#2a2d35] text-[#5f6368] dark:text-[#9aa0a6] border border-[#e0e0e0] dark:border-[#3c4043]',
+    outline: 'bg-transparent text-primary border border-primary',
+    ghost: 'bg-transparent text-[#5f6368] dark:text-[#9aa0a6]',
+    success: 'bg-[#e6f4ea] dark:bg-[#1e3525] text-[#1e7e34] dark:text-[#81c995]',
+    warning: 'bg-[#fef7e0] dark:bg-[#332a1a] text-[#e37400] dark:text-[#fdd663]',
+    danger: 'bg-[#fce8e6] dark:bg-[#3c1f1f] text-[#c5221f] dark:text-[#f28b82]',
+    info: 'bg-[#e8f0fe] dark:bg-[#1a2a3d] text-[#1967d2] dark:text-[#8ab4f8]',
+};
 
 const Badge: React.FC<BadgeProps> = ({
     children,
@@ -18,73 +28,23 @@ const Badge: React.FC<BadgeProps> = ({
     className = '',
     onClick
 }) => {
-    const theme = useTheme();
-
-    const getVariantStyles = () => {
-        switch (variant) {
-            case 'primary':
-                return {
-                    bgcolor: alpha(theme.palette.primary.main, 0.1),
-                    color: 'primary.main',
-                };
-            case 'secondary':
-                return {
-                    bgcolor: 'background.paper',
-                    color: 'text.secondary',
-                    border: '1px solid',
-                    borderColor: 'divider',
-                };
-            case 'outline':
-                return {
-                    bgcolor: 'transparent',
-                    color: 'primary.main',
-                    border: '1px solid',
-                    borderColor: 'primary.main',
-                };
-            case 'ghost':
-                return {
-                    bgcolor: 'transparent',
-                    color: 'text.secondary',
-                };
-            case 'success':
-                return {
-                    bgcolor: alpha(theme.palette.success.main, 0.1),
-                    color: 'success.main',
-                };
-            case 'warning':
-                return {
-                    bgcolor: alpha(theme.palette.warning.main, 0.1),
-                    color: 'warning.main',
-                };
-            case 'danger':
-                return {
-                    bgcolor: alpha(theme.palette.error.main, 0.1),
-                    color: 'error.main',
-                };
-            case 'info':
-                return {
-                    bgcolor: alpha(theme.palette.info.main, 0.1),
-                    color: 'info.main',
-                };
-            default:
-                return {};
-        }
-    };
+    const sizeClass = size === 'sm' ? 'h-6 text-[0.7rem]' : 'h-8 text-[0.8rem]';
+    const clickableClass = onClick ? 'cursor-pointer' : '';
 
     return (
-        <Chip
-            label={children}
-            size={size === 'sm' ? 'small' : 'medium'}
-            icon={iconLeft}
-            className={className}
+        <span
             onClick={onClick}
-            sx={{
-                fontWeight: 700,
-                fontSize: size === 'sm' ? '0.7rem' : '0.8rem',
-                height: size === 'sm' ? 24 : 32,
-                ...getVariantStyles(),
-            }}
-        />
+            className={`
+                inline-flex items-center gap-1 font-bold rounded-full px-2.5 select-none
+                ${sizeClass}
+                ${variantClasses[variant] || variantClasses.secondary}
+                ${clickableClass}
+                ${className}
+            `.trim()}
+        >
+            {iconLeft && <span className="flex-shrink-0">{iconLeft}</span>}
+            {children}
+        </span>
     );
 };
 

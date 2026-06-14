@@ -1,73 +1,40 @@
-import { Box, Typography, Button } from "@mui/material";
 import { Link } from "react-router-dom";
 
 const HeroHeader = () => {
     return (
-        <Box sx={{ mb: 4 }}>
-            {/* Main headline */}
-            <Typography
-                variant="h1"
-                sx={{
-                    fontSize: { xs: '2.5rem', md: '3.5rem', lg: '4.5rem' },
-                    fontWeight: 800,
-                    mb: 2,
-                    lineHeight: 1.1,
-                    color: 'text.primary',
-                }}
-            >
+        <div className="mb-4">
+            <h1 className="text-[2.5rem] md:text-[3.5rem] lg:text-[4.5rem] font-extrabold mb-2 leading-[1.1] text-[#202124] dark:text-[#e8eaed]">
                 Train Smarter.
                 <br />
                 Interview Better.
-            </Typography>
+            </h1>
 
-            {/* Subheadline */}
-            <Typography
-                variant="h2"
-                sx={{
-                    fontSize: { xs: '1rem', md: '1.25rem', lg: '1.4rem' },
-                    maxWidth: 700,
-                    mx: 'auto',
-                    mb: 4,
-                    lineHeight: 1.6,
-                    color: 'text.secondary',
-                    fontWeight: 400,
-                }}
-            >
+            <p className="text-[1rem] md:text-[1.25rem] lg:text-[1.4rem] max-w-[700px] mx-auto mb-4 leading-relaxed text-[#5f6368] dark:text-[#9aa0a6] font-normal">
                 Master your next interview with AI-powered mock sessions, real-time
                 feedback, and personalized training paths
-            </Typography>
+            </p>
 
-            <Box sx={{ display: 'flex', justifyContent: 'center', gap: 2, mb: 6, flexWrap: 'wrap' }}>
-                <Button
-                    component={Link}
+            <div className="flex justify-center gap-2 mb-6 flex-wrap">
+                <Link
                     to="/jobs"
-                    variant="outlined"
-                    size="large"
-                    sx={{
-                        py: 1,
-                        px: 4,
-                        fontSize: '1.1rem',
-                        fontWeight: 600,
-                        borderRadius: 50,
-                        borderWidth: 1.5,
-                        borderColor: 'primary.main',
-                        color: 'text.primary',
-                        '&:hover': {
-                            borderColor: 'primary.main',
-                            borderWidth: 1.5,
-                        }
-                    }}
+                    className="
+                        inline-flex items-center justify-center
+                        py-1 px-4 text-[1.1rem] font-semibold
+                        rounded-full border-[1.5px] border-primary
+                        text-[#202124] dark:text-[#e8eaed]
+                        hover:border-primary
+                        transition-colors
+                    "
                 >
                     Browse Jobs
-                </Button>
-            </Box>
+                </Link>
+            </div>
 
-            {/* Social proof */}
-            <Typography variant="body1" color="text.secondary">
-                Join <Box component="span" fontWeight={800} color="text.primary">10,000+</Box> candidates who've improved their
+            <p className="text-[#5f6368] dark:text-[#9aa0a6]">
+                Join <span className="font-extrabold text-[#202124] dark:text-[#e8eaed]">10,000+</span> candidates who've improved their
                 interview skills
-            </Typography>
-        </Box>
+            </p>
+        </div>
     );
 };
 

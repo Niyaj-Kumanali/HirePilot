@@ -1,6 +1,5 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import { Bell } from "lucide-react";
-import { IconButton, Badge, Box } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import NotificationsBadge from "../../NotificationsBadge/NotificationsBadge";
 import { notificationActions } from "../../../store/Notification/notification.slice";
@@ -47,22 +46,26 @@ const NotificationSection = () => {
     }, [isNotificationOpen]);
 
     return (
-        <Box ref={notificationRef} sx={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
-            <IconButton
+        <div ref={notificationRef} className="relative flex items-center">
+            <button
                 onClick={toggleNotification}
-                color="inherit"
+                className="relative p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-200 transition-colors"
+                aria-label="Toggle notifications"
             >
-                <Badge badgeContent={unreadNotificationCount} color="error">
-                    <Bell size={20} />
-                </Badge>
-            </IconButton>
+                {unreadNotificationCount > 0 && (
+                    <span className="absolute -top-0.5 -right-0.5 min-w-[18px] h-[18px] flex items-center justify-center rounded-full bg-red-500 text-white text-[10px] font-bold leading-none px-1">
+                        {unreadNotificationCount > 99 ? '99+' : unreadNotificationCount}
+                    </span>
+                )}
+                <Bell size={20} />
+            </button>
 
             {isNotificationOpen && (
-                <Box sx={{ position: 'absolute', top: 50, right: { xs: -30, sm: 10, md: 0, lg: 0 }, zIndex: 10 }}>
+                <div className="absolute top-[50px] right-0 z-10 max-sm:-right-[30px] sm:right-[10px] md:right-0">
                     <NotificationsBadge setIsNotificationOpen={setIsNotificationOpen} />
-                </Box>
+                </div>
             )}
-        </Box>
+        </div>
     );
 };
 

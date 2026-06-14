@@ -4,7 +4,6 @@ import Button from '../../../components/Button/Button';
 import ProgressBar from '../../../components/ProgressBar/ProgressBar';
 import Card from '../../../components/Card/Card';
 import profileImg from '../../../assets/Nawaz_profile_IMG.jpg';
-import { Box, Stack, Typography, IconButton, Avatar, Divider, useTheme } from '@mui/material';
 
 import type { CurrentUserState } from '../../../store/CurrentUser/currentuser.types';
 import SocialCard from '../SocialCard/SocialCard';
@@ -25,129 +24,88 @@ const ProfileSidebar = ({
     onLogoutClick,
     onImageClick
 }: ProfileSidebarProps) => {
-    const theme = useTheme();
-
     return (
-        <Box component="aside" sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+        <aside className="flex flex-col gap-3">
             <Card>
                 {/* Avatar Section */}
-                <Box sx={{ display: 'flex', justifyContent: 'center', mb: 3 }}>
-                    <Box sx={{ position: 'relative' }}>
-                        <Avatar
-                            src={profileImg}
-                            alt="profile"
-                            sx={{
-                                width: 120,
-                                height: 120,
-                                border: `4px solid ${theme.palette.background.paper}`,
-                                boxShadow: theme.shadows[4],
-                            }}
-                        >
-                            NK
-                        </Avatar>
-                        <IconButton
+                <div className="flex justify-center mb-3">
+                    <div className="relative">
+                        <div className="w-[120px] h-[120px] rounded-full border-4 border-white dark:border-[#1a1d23] shadow-[0_4px_12px_rgba(0,0,0,0.1)] overflow-hidden">
+                            {profileImg ? (
+                                <img src={profileImg} alt="profile" className="w-full h-full object-cover" />
+                            ) : (
+                                <div className="w-full h-full flex items-center justify-center text-2xl font-bold" style={{ background: 'linear-gradient(135deg, #a855f7, #6366f1)', color: 'white' }}>
+                                    NK
+                                </div>
+                            )}
+                        </div>
+                        <button
                             onClick={onImageClick}
-                            size="small"
-                            sx={{
-                                position: 'absolute',
-                                bottom: 0,
-                                right: 0,
-                                bgcolor: 'primary.main',
-                                color: 'white',
-                                '&:hover': {
-                                    bgcolor: 'primary.dark',
-                                },
-                            }}
+                            className="absolute bottom-0 right-0 w-8 h-8 flex items-center justify-center rounded-full bg-primary text-white hover:bg-primary-dark transition-all shadow-md"
                         >
                             <Camera size={18} />
-                        </IconButton>
-                        <Box
-                            sx={{
-                                position: 'absolute',
-                                top: 10,
-                                right: 10,
-                                width: 16,
-                                height: 16,
-                                borderRadius: '50%',
-                                bgcolor: 'success.main',
-                                border: `3px solid ${theme.palette.background.paper}`,
-                            }}
-                        />
-                    </Box>
-                </Box>
+                        </button>
+                        <div className="absolute top-2.5 right-2.5 w-4 h-4 rounded-full bg-[#22c55e] border-3 border-white dark:border-[#1a1d23]" />
+                    </div>
+                </div>
 
                 {/* User Info */}
-                <Stack spacing={1} alignItems="center" sx={{ mb: 3 }}>
-                    <Typography variant="h5" fontWeight={700} textAlign="center">
+                <div className="flex flex-col items-center gap-1 mb-3">
+                    <h5 className="text-lg font-bold text-center text-gray-900 dark:text-gray-100">
                         {profileData.firstName} {profileData.lastName}
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary" textAlign="center">
+                    </h5>
+                    <p className="text-sm text-gray-500 dark:text-gray-400 text-center">
                         {profileData.headline || 'Senior Full Stack Developer'}
-                    </Typography>
+                    </p>
                     <Badge variant="ghost" iconLeft={<MapPin size={14} />}>
                         {profileData.location || 'San Francisco, CA'}
                     </Badge>
-                </Stack>
+                </div>
 
                 {/* Stats */}
-                <Stack direction="row" spacing={2} justifyContent="center" sx={{ mb: 3 }}>
-                    <Stack alignItems="center">
-                        <Typography variant="h6" fontWeight={700}>
-                            {profileData.interviewsCount}
-                        </Typography>
-                        <Typography variant="caption" color="text.secondary">
-                            Interviews
-                        </Typography>
-                    </Stack>
-                    <Divider orientation="vertical" flexItem />
-                    <Stack alignItems="center">
-                        <Typography variant="h6" fontWeight={700}>
-                            {profileData.successRate}%
-                        </Typography>
-                        <Typography variant="caption" color="text.secondary">
-                            Success
-                        </Typography>
-                    </Stack>
-                </Stack>
+                <div className="flex justify-center gap-2 mb-3">
+                    <div className="flex flex-col items-center">
+                        <span className="text-lg font-bold text-gray-900 dark:text-gray-100">{profileData.interviewsCount}</span>
+                        <span className="text-[0.7rem] text-gray-500 dark:text-gray-400">Interviews</span>
+                    </div>
+                    <div className="w-px bg-black/10 dark:bg-white/10" />
+                    <div className="flex flex-col items-center">
+                        <span className="text-lg font-bold text-gray-900 dark:text-gray-100">{profileData.successRate}%</span>
+                        <span className="text-[0.7rem] text-gray-500 dark:text-gray-400">Success</span>
+                    </div>
+                </div>
 
                 {/* Profile Completion */}
-                <Box sx={{ mb: 3 }}>
+                <div className="mb-3">
                     <ProgressBar progress={profileCompletion} showLabel label="Profile Strength" height={8} />
-                </Box>
+                </div>
 
                 {/* Contact Info */}
-                <Stack spacing={1.5} sx={{ mb: 3 }}>
-                    <Stack direction="row" spacing={1.5} alignItems="center">
-                        <Mail size={16} color={theme.palette.text.secondary} />
-                        <Typography variant="body2" color="text.secondary">
-                            {profileData.email}
-                        </Typography>
-                    </Stack>
+                <div className="space-y-1.5 mb-3">
+                    <div className="flex items-center gap-1.5">
+                        <Mail size={16} className="text-gray-500 dark:text-gray-400" />
+                        <span className="text-sm text-gray-500 dark:text-gray-400">{profileData.email}</span>
+                    </div>
                     {profileData.phone && (
-                        <Stack direction="row" spacing={1.5} alignItems="center">
-                            <Phone size={16} color={theme.palette.text.secondary} />
-                            <Typography variant="body2" color="text.secondary">
-                                {profileData.phone}
-                            </Typography>
-                        </Stack>
+                        <div className="flex items-center gap-1.5">
+                            <Phone size={16} className="text-gray-500 dark:text-gray-400" />
+                            <span className="text-sm text-gray-500 dark:text-gray-400">{profileData.phone}</span>
+                        </div>
                     )}
-                    {/* Social Card */}
                     <SocialCard profileData={profileData} />
-                </Stack>
+                </div>
 
                 {/* Actions */}
-                <Stack spacing={2}>
+                <div className="space-y-2">
                     <Button variant="secondary" iconLeft={<Edit size={16} />} onClick={onEditClick} fullWidth>
                         Edit Profile
                     </Button>
                     <Button variant="danger" iconLeft={<LogOut size={16} />} onClick={onLogoutClick} fullWidth>
                         Logout
                     </Button>
-                </Stack>
+                </div>
             </Card>
-
-
-        </Box>
+        </aside>
     );
 };
 

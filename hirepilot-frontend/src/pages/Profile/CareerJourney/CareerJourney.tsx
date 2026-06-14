@@ -2,94 +2,53 @@ import React from 'react';
 import { Briefcase, ChevronRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import type { Experience } from '../../../store/CurrentUser/currentuser.types';
-import { Card, Box, Stack, Typography, Button, useTheme, alpha } from '@mui/material';
+import Card from '../../../components/Card/Card';
 
 interface CareerJourneyProps {
     experience: Experience[];
 }
 
 const CareerJourney: React.FC<CareerJourneyProps> = ({ experience }) => {
-    const theme = useTheme();
-
     return (
-        <Card
-            sx={{
-                p: 4,
-                borderRadius: 3,
-                border: `1px solid ${theme.palette.divider}`,
-            }}
-        >
-            <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ mb: 4 }}>
-                <Stack direction="row" spacing={1.5} alignItems="center">
-                    <Briefcase size={22} color={theme.palette.primary.main} />
-                    <Typography variant="h5" fontWeight={700}>
-                        Career Journey
-                    </Typography>
-                </Stack>
-                <Button
-                    component={Link}
+        <Card className="p-4 rounded-2xl border border-black/10 dark:border-white/10">
+            <div className="flex justify-between items-center mb-4">
+                <div className="flex items-center gap-1.5">
+                    <Briefcase size={22} className="text-primary" />
+                    <h5 className="text-lg font-bold text-gray-900 dark:text-gray-100">Career Journey</h5>
+                </div>
+                <Link
                     to="/jobs"
-                    endIcon={<ChevronRight size={16} />}
-                    sx={{
-                        textTransform: 'none',
-                        fontWeight: 600,
-                        color: 'primary.main',
-                    }}
+                    className="flex items-center gap-1 text-sm font-semibold text-primary hover:text-primary-dark transition-all"
                 >
                     Explore Jobs
-                </Button>
-            </Stack>
+                    <ChevronRight size={16} />
+                </Link>
+            </div>
 
-            <Stack spacing={3}>
+            <div className="space-y-3">
                 {experience.map((exp, i) => (
-                    <Box
+                    <div
                         key={i}
-                        sx={{
-                            position: 'relative',
-                            pl: 4,
-                            '&::before': {
-                                content: '""',
-                                position: 'absolute',
-                                left: 6,
-                                top: 8,
-                                bottom: i === experience.length - 1 ? 'auto' : -24,
-                                width: 2,
-                                bgcolor: alpha(theme.palette.primary.main, 0.2),
-                            },
-                        }}
+                        className="relative pl-4"
                     >
-                        <Box
-                            sx={{
-                                position: 'absolute',
-                                left: 0,
-                                top: 6,
-                                width: 14,
-                                height: 14,
-                                borderRadius: '50%',
-                                bgcolor: 'primary.main',
-                                border: `3px solid ${theme.palette.background.paper}`,
-                                boxShadow: `0 0 0 2px ${alpha(theme.palette.primary.main, 0.2)}`,
-                            }}
+                        {/* Timeline line */}
+                        <div
+                            className="absolute left-1.5 top-2 w-0.5 bg-primary/20"
+                            style={{ bottom: i === experience.length - 1 ? 'auto' : '-1.5rem' }}
                         />
-                        <Stack spacing={0.5}>
-                            <Stack direction="row" justifyContent="space-between" alignItems="flex-start" flexWrap="wrap">
-                                <Typography variant="h6" fontWeight={700}>
-                                    {exp.role}
-                                </Typography>
-                                <Typography variant="body2" color="text.secondary" fontWeight={600}>
-                                    {exp.period}
-                                </Typography>
-                            </Stack>
-                            <Typography variant="body1" color="primary.main" fontWeight={600}>
-                                {exp.company}
-                            </Typography>
-                            <Typography variant="body2" color="text.secondary" sx={{ mt: 1, lineHeight: 1.6 }}>
-                                {exp.description}
-                            </Typography>
-                        </Stack>
-                    </Box>
+                        {/* Timeline dot */}
+                                        <div className="absolute left-0 top-1.5 w-3.5 h-3.5 rounded-full bg-primary border-[3px] border-white dark:border-[#1a1d23] shadow-[0_0_0_2px_rgba(168,85,247,0.2)]" />
+                        <div className="space-y-0.5">
+                            <div className="flex justify-between items-start flex-wrap">
+                                <h6 className="font-bold text-sm text-gray-900 dark:text-gray-100">{exp.role}</h6>
+                                <span className="text-xs font-semibold text-gray-500 dark:text-gray-400">{exp.period}</span>
+                            </div>
+                            <p className="text-sm font-semibold text-primary">{exp.company}</p>
+                            <p className="text-xs text-gray-500 dark:text-gray-400 mt-1 leading-relaxed">{exp.description}</p>
+                        </div>
+                    </div>
                 ))}
-            </Stack>
+            </div>
         </Card>
     );
 };

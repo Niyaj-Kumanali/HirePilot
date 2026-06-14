@@ -1,85 +1,54 @@
 import { Search } from 'lucide-react';
-import { Box, Paper, InputBase, alpha, useTheme } from '@mui/material';
 
 interface SearchBarProps {
-  /** Placeholder text for the search input. */
   placeHolder: string;
-  /** The current search query value. */
   value: string;
-  /** Callback triggered on input change. */
   onChange: (value: string) => void;
 }
 
-/**
- * A specialized Search Input component with hover and focus effects.
- * 
- * Includes a Search icon that changes color on focus and a 
- * paper-style background with shadow and border transitions.
- */
 const SearchBar = ({ placeHolder, value, onChange }: SearchBarProps) => {
-  const theme = useTheme();
-
   return (
-    <Box sx={{ width: '100%', maxWidth: 600, height: '100%', mx: 'auto' }}>
-      <Paper
-        elevation={0}
-        sx={{
-          position: 'relative',
-          display: 'flex',
-          alignItems: 'center',
-          bgcolor: 'background.paper',
-          border: '1px solid',
-          borderColor: 'divider',
-          borderRadius: 4,
-          transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-          boxShadow: theme.shadows[1],
-          p: 1,
-          '&:hover': {
-            borderColor: 'primary.main',
-            boxShadow: theme.shadows[3],
-          },
-          '&:focus-within': {
-            bgcolor: 'background.paper',
-            borderColor: 'primary.main',
-            boxShadow: `0 0 0 4px ${alpha(theme.palette.secondary.main, 0.1)}`,
-            transform: 'translateY(-1px)',
-          }
-        }}
+    <div className="w-full max-w-[600px] h-full mx-auto">
+      <div
+        className="
+          relative flex items-center
+          bg-white dark:bg-[#1a1d23]
+          border border-[#e0e0e0] dark:border-[#3c4043]
+          rounded-2xl p-2
+          shadow-sm
+          transition-all duration-300 ease-[cubic-bezier(0.4,0,0.2,1)]
+          hover:border-primary hover:shadow-md
+          focus-within:bg-white dark:focus-within:bg-[#1a1d23]
+          focus-within:border-primary
+          focus-within:shadow-[0_0_0_4px_rgba(168,85,247,0.1)]
+          focus-within:-translate-y-px
+        "
       >
-        <Box
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            pl: 1.5,
-            color: 'text.secondary',
-            transition: 'color 0.3s ease',
-            '.MuiPaper-root:focus-within &': {
-              color: 'primary.main'
-            }
-          }}
+        <div
+          className="
+            flex items-center justify-center pl-1.5
+            text-[#5f6368] dark:text-[#9aa0a6]
+            transition-colors duration-300
+            [.MuiPaper-root:focus-within_&]:text-primary
+          "
         >
           <Search size={20} />
-        </Box>
-        <InputBase
+        </div>
+        <input
           placeholder={placeHolder}
           value={value}
           onChange={(e) => onChange(e.target.value)}
-          sx={{
-            ml: 1,
-            flex: 1,
-            fontSize: '0.875rem', // approx 14px, typically clearer than 12px
-            fontWeight: 500,
-            color: 'text.primary',
-            '& input::placeholder': {
-              color: 'text.secondary',
-              opacity: 1,
-              fontWeight: 400,
-            }
-          }}
+          className="
+            ml-1 flex-1
+            text-sm font-medium
+            text-[#202124] dark:text-[#e8eaed]
+            bg-transparent border-none outline-none
+            placeholder:text-[#5f6368] dark:placeholder:text-[#9aa0a6]
+            placeholder:font-normal
+          "
         />
-      </Paper>
-    </Box>
+      </div>
+    </div>
   );
 };
 

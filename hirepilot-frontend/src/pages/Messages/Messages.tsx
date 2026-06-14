@@ -1,7 +1,6 @@
 import { useRef, useEffect, useState } from 'react';
 import { Send, Phone, Video, Info, Search, MoreVertical, Paperclip, Smile, CheckCheck, MessageSquare } from 'lucide-react';
 import { useRealTimeChat } from '../../hooks/useRealTimeChat';
-import { Box, Typography, Avatar, TextField, IconButton, Stack, Fade, List, ListItemButton, ListItemAvatar, ListItemText, Badge, Paper, InputAdornment, useTheme, alpha } from '@mui/material';
 
 const Messages = () => {
     const [newMessage, setNewMessage] = useState('');
@@ -16,7 +15,6 @@ const Messages = () => {
     } = useRealTimeChat('conv-1');
 
     const chatEndRef = useRef<HTMLDivElement>(null);
-    const theme = useTheme();
 
     const scrollToBottom = () => {
         chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -33,325 +31,193 @@ const Messages = () => {
     };
 
     return (
-        <Box sx={{ p: { xs: 0, md: 3 }, height: 'calc(100vh - 70px)', display: 'flex', justifyContent: 'center', bgcolor: 'background.default' }}>
-            <Paper
-                elevation={3}
-                sx={{
-                    width: '100%',
-                    maxWidth: 1200,
-                    height: '100%',
-                    display: 'flex',
-                    overflow: 'hidden',
-                    borderRadius: { xs: 0, md: 3 },
-                    bgcolor: 'background.paper',
-                    border: { md: `1px solid ${alpha(theme.palette.divider, 0.1)}` },
-                }}
-            >
+        <div className="p-0 md:p-3 h-[calc(100vh-70px)] flex justify-center bg-white dark:bg-[#0f172a]">
+            <div className="w-full max-w-[1200px] h-full flex overflow-hidden rounded-none md:rounded-2xl bg-white dark:bg-[#1a1d23] border-0 md:border border-black/10 dark:border-white/10 shadow-[0_4px_12px_rgba(0,0,0,0.06)]">
                 {/* Sidebar */}
-                <Box
-                    sx={{
-                        width: { xs: '100%', md: 350 },
-                        borderRight: `1px solid ${theme.palette.divider}`,
-                        display: { xs: activeConversation ? 'none' : 'flex', md: 'flex' },
-                        flexDirection: 'column',
-                        bgcolor: alpha(theme.palette.background.paper, 0.5),
-                        backdropFilter: 'blur(12px)',
-                    }}
+                <div
+                    className={`
+                        w-full md:w-[350px] border-r border-black/10 dark:border-white/10
+                        flex-col bg-white/50 dark:bg-[#1a1d23]/50 backdrop-blur-[12px]
+                        ${activeConversation ? 'hidden md:flex' : 'flex'}
+                    `}
                 >
-                    <Box sx={{ p: 2.5, borderBottom: `1px solid ${theme.palette.divider}` }}>
-                        <Typography variant="h5" fontWeight={800} sx={{ mb: 2, color: 'text.primary' }}>
-                            Messages
-                        </Typography>
-                        <TextField
-                            fullWidth
-                            placeholder="Search chats..."
-                            size="small"
-                            InputProps={{
-                                startAdornment: (
-                                    <InputAdornment position="start">
-                                        <Search size={18} color={theme.palette.text.secondary} />
-                                    </InputAdornment>
-                                ),
-                            }}
-                            sx={{
-                                '& .MuiOutlinedInput-root': {
-                                    borderRadius: 3,
-                                    bgcolor: 'background.paper',
-                                    '& fieldset': { borderColor: 'divider' },
-                                    '&:hover fieldset': { borderColor: 'primary.main' },
-                                }
-                            }}
-                        />
-                    </Box>
+                    <div className="p-2.5 border-b border-black/10 dark:border-white/10">
+                        <h5 className="text-xl font-extrabold mb-2 text-gray-900 dark:text-gray-100">Messages</h5>
+                        <div className="flex items-center gap-2 px-3 py-2 rounded-2xl bg-white dark:bg-[#1a1d23] border border-black/10 dark:border-white/10 focus-within:border-primary">
+                            <Search size={18} className="text-gray-500 dark:text-gray-400" />
+                            <input
+                                type="text"
+                                placeholder="Search chats..."
+                                className="flex-1 bg-transparent border-none outline-none text-sm text-gray-900 dark:text-gray-100"
+                            />
+                        </div>
+                    </div>
 
-                    <List sx={{ flex: 1, overflowY: 'auto', p: 1 }}>
+                    <div className="flex-1 overflow-y-auto p-1 space-y-0.5">
                         {conversations.map((conv) => (
-                            <ListItemButton
+                            <button
                                 key={conv.id}
                                 onClick={() => setSelectedChat(conv.id)}
-                                selected={selectedChat === conv.id}
-                                sx={{
-                                    borderRadius: 3,
-                                    mb: 0.5,
-                                    '&.Mui-selected': {
-                                        bgcolor: alpha(theme.palette.primary.main, 0.1),
-                                        borderLeft: `4px solid ${theme.palette.primary.main}`,
-                                        '&:hover': { bgcolor: alpha(theme.palette.primary.main, 0.15) },
-                                    },
-                                    '&:hover': { bgcolor: alpha(theme.palette.action.hover, 0.5) }
-                                }}
+                                className={`
+                                    w-full flex items-center gap-3 p-2.5 rounded-2xl text-left transition-all
+                                    ${selectedChat === conv.id
+                                        ? 'bg-primary/10 border-l-4 border-l-primary hover:bg-primary/15'
+                                        : 'hover:bg-black/5 dark:hover:bg-white/5'
+                                    }
+                                `}
                             >
-                                <ListItemAvatar>
-                                    <Badge
-                                        overlap="circular"
-                                        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-                                        variant="dot"
-                                        invisible={!conv.participants[0].isOnline}
-                                        sx={{ '& .MuiBadge-badge': { bgcolor: '#22c55e', color: '#22c55e', boxShadow: `0 0 0 2px ${theme.palette.background.paper}` } }}
+                                <div className="relative flex-shrink-0">
+                                    <div
+                                        className="w-10 h-10 rounded-full flex items-center justify-center font-semibold text-white text-sm"
+                                        style={{ background: 'linear-gradient(135deg, #a855f7, #6366f1)' }}
                                     >
-                                        <Avatar
-                                            sx={{
-                                                bgcolor: 'transparent',
-                                                background: `linear-gradient(135deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
-                                                fontWeight: 600,
-                                                color: 'white'
-                                            }}
-                                        >
-                                            {conv.participants[0].name.charAt(0)}
-                                        </Avatar>
-                                    </Badge>
-                                </ListItemAvatar>
-                                <ListItemText
-                                    primary={
-                                        <Stack direction="row" justifyContent="space-between" alignItems="center">
-                                            <Typography variant="subtitle1" fontWeight={700} noWrap sx={{ maxWidth: '70%' }}>
-                                                {conv.participants[0].name}
-                                            </Typography>
-                                            <Typography variant="caption" color="text.secondary">
-                                                {conv.lastMessageTime}
-                                            </Typography>
-                                        </Stack>
-                                    }
-                                    secondary={
-                                        <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ mt: 0.5 }}>
-                                            <Typography variant="body2" color="text.secondary" noWrap sx={{ maxWidth: '80%', opacity: 0.8 }}>
-                                                {conv.lastMessage}
-                                            </Typography>
-                                            {conv.unreadCount > 0 && (
-                                                <Box
-                                                    sx={{
-                                                        bgcolor: 'primary.main',
-                                                        color: 'white',
-                                                        fontSize: '0.7rem',
-                                                        fontWeight: 700,
-                                                        px: 0.75,
-                                                        py: 0.25,
-                                                        borderRadius: 1,
-                                                        lineHeight: 1
-                                                    }}
-                                                >
-                                                    {conv.unreadCount}
-                                                </Box>
-                                            )}
-                                        </Stack>
-                                    }
-                                />
-                            </ListItemButton>
+                                        {conv.participants[0].name.charAt(0)}
+                                    </div>
+                                    {conv.participants[0].isOnline && (
+                                        <div className="absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full bg-[#22c55e] border-2 border-white dark:border-[#1a1d23]" />
+                                    )}
+                                </div>
+                                <div className="flex-1 min-w-0">
+                                    <div className="flex justify-between items-center">
+                                        <span className="font-bold text-sm truncate max-w-[70%] text-gray-900 dark:text-gray-100">
+                                            {conv.participants[0].name}
+                                        </span>
+                                        <span className="text-[0.7rem] text-gray-500 dark:text-gray-400">
+                                            {conv.lastMessageTime}
+                                        </span>
+                                    </div>
+                                    <div className="flex justify-between items-center mt-0.5">
+                                        <span className="text-sm text-gray-500 dark:text-gray-400 truncate max-w-[80%] opacity-80">
+                                            {conv.lastMessage}
+                                        </span>
+                                        {conv.unreadCount > 0 && (
+                                            <span className="bg-primary text-white text-[0.7rem] font-bold px-0.75 py-0.25 rounded leading-none">
+                                                {conv.unreadCount}
+                                            </span>
+                                        )}
+                                    </div>
+                                </div>
+                            </button>
                         ))}
-                    </List>
-                </Box>
+                    </div>
+                </div>
 
                 {/* Chat Area */}
-                <Box
-                    sx={{
-                        flex: 1,
-                        display: { xs: activeConversation ? 'flex' : 'none', md: 'flex' },
-                        flexDirection: 'column',
-                        bgcolor: 'background.default',
-                    }}
+                <div
+                    className={`
+                        flex-1 flex-col bg-white dark:bg-[#0f172a]
+                        ${activeConversation ? 'flex' : 'hidden md:flex'}
+                    `}
                 >
                     {activeConversation ? (
                         <>
-                            <Box
-                                component="header"
-                                sx={{
-                                    p: 2,
-                                    borderBottom: `1px solid ${theme.palette.divider}`,
-                                    display: 'flex',
-                                    justifyContent: 'space-between',
-                                    alignItems: 'center',
-                                    bgcolor: 'background.paper',
-                                }}
-                            >
-                                <Stack direction="row" spacing={2} alignItems="center">
-                                    <Avatar
-                                        sx={{
-                                            bgcolor: 'transparent',
-                                            background: `linear-gradient(135deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
-                                            fontWeight: 600,
-                                            boxShadow: theme.shadows[2]
-                                        }}
+                            {/* Chat Header */}
+                            <header className="p-2 border-b border-black/10 dark:border-white/10 flex justify-between items-center bg-white dark:bg-[#1a1d23]">
+                                <div className="flex items-center gap-2">
+                                    <div
+                                        className="w-10 h-10 rounded-full flex items-center justify-center font-semibold text-white text-sm shadow-[0_2px_8px_rgba(0,0,0,0.08)]"
+                                        style={{ background: 'linear-gradient(135deg, #a855f7, #6366f1)' }}
                                     >
                                         {activeConversation.participants[0].name.charAt(0)}
-                                    </Avatar>
-                                    <Box>
-                                        <Typography variant="subtitle1" fontWeight={700}>
+                                    </div>
+                                    <div>
+                                        <div className="font-bold text-sm text-gray-900 dark:text-gray-100">
                                             {activeConversation.participants[0].name}
-                                        </Typography>
-                                        <Typography variant="caption" fontWeight={600} sx={{ color: activeConversation.participants[0].isOnline ? '#22c55e' : 'text.secondary' }}>
+                                        </div>
+                                        <div className={`text-[0.7rem] font-semibold ${activeConversation.participants[0].isOnline ? 'text-[#22c55e]' : 'text-gray-500 dark:text-gray-400'}`}>
                                             {activeConversation.participants[0].isOnline ? 'Online' : 'Offline'}
-                                        </Typography>
-                                    </Box>
-                                </Stack>
-                                <Stack direction="row" spacing={1}>
-                                    <IconButton size="small"><Phone size={20} /></IconButton>
-                                    <IconButton size="small"><Video size={20} /></IconButton>
-                                    <IconButton size="small"><Info size={20} /></IconButton>
-                                    <IconButton size="small"><MoreVertical size={20} /></IconButton>
-                                </Stack>
-                            </Box>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="flex items-center gap-1">
+                                    <button className="w-9 h-9 flex items-center justify-center rounded-xl text-gray-500 dark:text-gray-400 hover:bg-black/5 dark:hover:bg-white/10"><Phone size={20} /></button>
+                                    <button className="w-9 h-9 flex items-center justify-center rounded-xl text-gray-500 dark:text-gray-400 hover:bg-black/5 dark:hover:bg-white/10"><Video size={20} /></button>
+                                    <button className="w-9 h-9 flex items-center justify-center rounded-xl text-gray-500 dark:text-gray-400 hover:bg-black/5 dark:hover:bg-white/10"><Info size={20} /></button>
+                                    <button className="w-9 h-9 flex items-center justify-center rounded-xl text-gray-500 dark:text-gray-400 hover:bg-black/5 dark:hover:bg-white/10"><MoreVertical size={20} /></button>
+                                </div>
+                            </header>
 
-                            <Box sx={{ flex: 1, overflowY: 'auto', p: 3, display: 'flex', flexDirection: 'column', gap: 2 }}>
+                            {/* Messages */}
+                            <div className="flex-1 overflow-y-auto p-3 flex flex-col gap-2">
                                 {activeMessages.map((msg) => (
-                                    <Fade in={true} key={msg.id} timeout={300}>
-                                        <Box
-                                            sx={{
-                                                display: 'flex',
-                                                gap: 1.5,
-                                                alignSelf: msg.isMe ? 'flex-end' : 'flex-start',
-                                                maxWidth: '80%',
-                                                flexDirection: msg.isMe ? 'row-reverse' : 'row',
-                                            }}
+                                    <div
+                                        key={msg.id}
+                                        className={`flex gap-1.5 ${msg.isMe ? 'flex-row-reverse self-end' : 'self-start'} max-w-[80%]`}
+                                        style={{ animation: 'fadeIn 0.3s ease-out' }}
+                                    >
+                                        {!msg.isMe && (
+                                            <div className="w-8 h-8 rounded-full flex items-center justify-center text-[0.8rem] bg-white dark:bg-[#1a1d23] border border-black/10 dark:border-white/10 text-gray-500 dark:text-gray-400 flex-shrink-0">
+                                                {activeConversation.participants[0].name.charAt(0)}
+                                            </div>
+                                        )}
+                                        <div
+                                            className={`
+                                                p-2 text-sm leading-relaxed
+                                                ${msg.isMe
+                                                    ? 'rounded-[20px_20px_4px_20px] text-white shadow-[0_4px_15px_rgba(168,85,247,0.2)]'
+                                                    : 'rounded-[20px_20px_20px_4px] bg-white dark:bg-[#1a1d23] text-gray-900 dark:text-gray-100 border border-black/10 dark:border-white/10 shadow-[0_1px_3px_rgba(0,0,0,0.06)]'
+                                                }
+                                            `}
+                                            style={msg.isMe ? { background: 'linear-gradient(135deg, #a855f7, #6366f1)' } : undefined}
                                         >
-                                            {!msg.isMe && (
-                                                <Avatar
-                                                    sx={{
-                                                        width: 32,
-                                                        height: 32,
-                                                        fontSize: '0.8rem',
-                                                        bgcolor: 'background.paper',
-                                                        border: `1px solid ${theme.palette.divider}`,
-                                                        color: 'text.secondary'
-                                                    }}
-                                                >
-                                                    {activeConversation.participants[0].name.charAt(0)}
-                                                </Avatar>
-                                            )}
-                                            <Box
-                                                sx={{
-                                                    p: 2,
-                                                    borderRadius: msg.isMe ? '20px 20px 4px 20px' : '20px 20px 20px 4px',
-                                                    bgcolor: msg.isMe ? 'transparent' : 'background.paper',
-                                                    background: msg.isMe ? `linear-gradient(135deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})` : undefined,
-                                                    color: msg.isMe ? 'common.white' : 'text.primary',
-                                                    boxShadow: msg.isMe ? `0 4px 15px ${alpha(theme.palette.primary.main, 0.2)}` : theme.shadows[1],
-                                                    border: !msg.isMe ? `1px solid ${theme.palette.divider}` : 'none',
-                                                }}
-                                            >
-                                                <Typography variant="body2" sx={{ fontSize: '0.95rem', lineHeight: 1.5 }}>
-                                                    {msg.text}
-                                                </Typography>
-                                                <Stack direction="row" justifyContent="flex-end" alignItems="center" spacing={0.5} sx={{ mt: 0.5, opacity: 0.7 }}>
-                                                    <Typography variant="caption" sx={{ fontSize: '0.7rem', color: 'inherit' }}>
-                                                        {msg.timestamp}
-                                                    </Typography>
-                                                    {msg.isMe && <CheckCheck size={14} />}
-                                                </Stack>
-                                            </Box>
-                                        </Box>
-                                    </Fade>
+                                            <div className="text-[0.95rem] leading-relaxed">{msg.text}</div>
+                                            <div className={`flex justify-end items-center gap-0.5 mt-0.5 opacity-70 ${msg.isMe ? '' : ''}`}>
+                                                <span className="text-[0.7rem]" style={{ color: 'inherit' }}>{msg.timestamp}</span>
+                                                {msg.isMe && <CheckCheck size={14} />}
+                                            </div>
+                                        </div>
+                                    </div>
                                 ))}
                                 {isTyping && (
-                                    <Fade in={true} timeout={300}>
-                                        <Box sx={{ display: 'flex', gap: 1.5, alignSelf: 'flex-start' }}>
-                                            <Avatar sx={{ width: 32, height: 32, fontSize: '0.8rem', bgcolor: 'background.paper', border: `1px solid ${theme.palette.divider}`, color: 'text.secondary' }}>
-                                                {activeConversation.participants[0].name.charAt(0)}
-                                            </Avatar>
-                                            <Box sx={{ p: 1.5, borderRadius: '20px 20px 20px 4px', bgcolor: 'background.paper', border: `1px solid ${theme.palette.divider}`, display: 'flex', gap: 0.5, alignItems: 'center' }}>
-                                                <Box sx={{ width: 6, height: 6, bgcolor: 'primary.main', borderRadius: '50%', opacity: 0.6 }} />
-                                                <Box sx={{ width: 6, height: 6, bgcolor: 'primary.main', borderRadius: '50%', opacity: 0.6 }} />
-                                                <Box sx={{ width: 6, height: 6, bgcolor: 'primary.main', borderRadius: '50%', opacity: 0.6 }} />
-                                            </Box>
-                                        </Box>
-                                    </Fade>
+                                    <div className="flex gap-1.5 self-start" style={{ animation: 'fadeIn 0.3s ease-out' }}>
+                                        <div className="w-8 h-8 rounded-full flex items-center justify-center text-[0.8rem] bg-white dark:bg-[#1a1d23] border border-black/10 dark:border-white/10 text-gray-500 dark:text-gray-400 flex-shrink-0">
+                                            {activeConversation.participants[0].name.charAt(0)}
+                                        </div>
+                                        <div className="p-1.5 rounded-[20px_20px_20px_4px] bg-white dark:bg-[#1a1d23] border border-black/10 dark:border-white/10 flex gap-0.5 items-center">
+                                            <div className="w-1.5 h-1.5 rounded-full bg-primary opacity-60 animate-bounce" style={{ animationDelay: '0ms' }} />
+                                            <div className="w-1.5 h-1.5 rounded-full bg-primary opacity-60 animate-bounce" style={{ animationDelay: '150ms' }} />
+                                            <div className="w-1.5 h-1.5 rounded-full bg-primary opacity-60 animate-bounce" style={{ animationDelay: '300ms' }} />
+                                        </div>
+                                    </div>
                                 )}
                                 <div ref={chatEndRef} />
-                            </Box>
+                            </div>
 
-                            <Box
-                                component="footer"
-                                sx={{
-                                    p: 2,
-                                    borderTop: `1px solid ${theme.palette.divider}`,
-                                    display: 'flex',
-                                    gap: 1.5,
-                                    alignItems: 'center',
-                                    bgcolor: 'background.paper'
-                                }}
-                            >
-                                <IconButton size="small"><Paperclip size={20} /></IconButton>
-                                <Box
-                                    sx={{
-                                        flex: 1,
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        bgcolor: alpha(theme.palette.background.default, 0.5),
-                                        border: `1px solid ${theme.palette.divider}`,
-                                        borderRadius: 4,
-                                        px: 2,
-                                        py: 0.5,
-                                        '&:focus-within': {
-                                            borderColor: 'primary.main',
-                                            boxShadow: `0 0 0 2px ${alpha(theme.palette.primary.main, 0.1)}`
-                                        }
-                                    }}
-                                >
+                            {/* Input */}
+                            <footer className="p-2 border-t border-black/10 dark:border-white/10 flex gap-1.5 items-center bg-white dark:bg-[#1a1d23]">
+                                <button className="w-9 h-9 flex items-center justify-center rounded-xl text-gray-500 dark:text-gray-400 hover:bg-black/5 dark:hover:bg-white/10 flex-shrink-0"><Paperclip size={20} /></button>
+                                <div className="flex-1 flex items-center px-2 py-0.5 rounded-2xl border border-black/10 dark:border-white/10 bg-white/50 dark:bg-[#0f172a]/50 focus-within:border-primary focus-within:shadow-[0_0_0_2px_rgba(168,85,247,0.1)]">
                                     <input
                                         type="text"
                                         placeholder="Type a message..."
                                         value={newMessage}
                                         onChange={(e) => setNewMessage(e.target.value)}
                                         onKeyDown={(e) => e.key === 'Enter' && handleSendMessage()}
-                                        style={{
-                                            flex: 1,
-                                            border: 'none',
-                                            background: 'none',
-                                            outline: 'none',
-                                            padding: '8px 0',
-                                            color: theme.palette.text.primary,
-                                            fontSize: '0.95rem'
-                                        }}
+                                        className="flex-1 bg-transparent border-none outline-none py-2 text-[0.95rem] text-gray-900 dark:text-gray-100"
                                     />
-                                    <IconButton size="small" sx={{ color: 'text.secondary', '&:hover': { color: '#fbbf24' } }}><Smile size={20} /></IconButton>
-                                </Box>
-                                <IconButton
+                                    <button className="w-8 h-8 flex items-center justify-center rounded-lg text-gray-500 dark:text-gray-400 hover:text-yellow-400"><Smile size={20} /></button>
+                                </div>
+                                <button
                                     onClick={handleSendMessage}
                                     disabled={!newMessage.trim()}
-                                    sx={{
-                                        bgcolor: 'primary.main',
-                                        color: 'white',
-                                        width: 48,
-                                        height: 48,
-                                        '&:hover': { bgcolor: 'primary.dark' },
-                                        '&.Mui-disabled': { bgcolor: 'action.disabledBackground', color: 'action.disabled' }
-                                    }}
+                                    className="w-12 h-12 flex items-center justify-center rounded-xl bg-primary text-white hover:bg-primary-dark transition-all disabled:opacity-40 disabled:cursor-not-allowed flex-shrink-0"
                                 >
                                     <Send size={20} />
-                                </IconButton>
-                            </Box>
+                                </button>
+                            </footer>
                         </>
                     ) : (
-                        <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 2, color: 'text.secondary' }}>
-                            <Box sx={{ p: 3, bgcolor: alpha(theme.palette.primary.main, 0.1), borderRadius: '50%' }}>
-                                <MessageSquare size={48} color={theme.palette.primary.main} />
-                            </Box>
-                            <Typography variant="h5" fontWeight={700} color="text.primary">Your Messages</Typography>
-                            <Typography variant="body1">Select a conversation to start chatting</Typography>
-                        </Box>
+                        <div className="flex-1 flex flex-col items-center justify-center gap-2 text-gray-500 dark:text-gray-400">
+                            <div className="p-3 rounded-full bg-primary/10">
+                                <MessageSquare size={48} className="text-primary" />
+                            </div>
+                            <h5 className="text-xl font-bold text-gray-900 dark:text-gray-100">Your Messages</h5>
+                            <p className="text-sm">Select a conversation to start chatting</p>
+                        </div>
                     )}
-                </Box>
-            </Paper>
-        </Box>
+                </div>
+            </div>
+        </div>
     );
 };
 

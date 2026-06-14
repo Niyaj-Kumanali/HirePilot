@@ -1,11 +1,29 @@
-import { Button as MuiButton, type ButtonProps as MuiButtonProps, alpha } from '@mui/material';
-import type { Theme } from '@mui/material/styles';
+import React from 'react';
 
-interface ButtonProps extends Omit<MuiButtonProps, 'variant'> {
+interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     variant?: 'primary' | 'secondary' | 'ghost' | 'danger';
+    size?: 'small' | 'medium' | 'large';
     iconLeft?: React.ReactNode;
     iconRight?: React.ReactNode;
+    fullWidth?: boolean;
 }
+
+const sizeClasses: Record<string, string> = {
+    small: 'px-3 py-1.5 text-xs min-h-8',
+    medium: 'px-5 py-2.5 text-sm min-h-10',
+    large: 'px-6 py-3 text-base min-h-12',
+};
+
+const variantClasses: Record<string, string> = {
+    primary:
+        'bg-gradient-to-br from-[#a855f7] to-[#7e22ce] text-white shadow-[0_4px_12px_rgba(168,85,247,0.25)] hover:shadow-[0_6px_16px_rgba(168,85,247,0.35)] hover:-translate-y-0.5 active:translate-y-0',
+    secondary:
+        'bg-transparent text-gray-800 dark:text-gray-200 border border-gray-300 dark:border-gray-600 hover:border-primary hover:text-primary hover:bg-primary/5',
+    ghost:
+        'bg-transparent text-gray-500 dark:text-gray-400 hover:text-primary hover:bg-primary/8',
+    danger:
+        'bg-red-500/10 text-red-500 hover:bg-red-500 hover:text-white',
+};
 
 const Button: React.FC<ButtonProps> = ({
     children,
@@ -15,85 +33,25 @@ const Button: React.FC<ButtonProps> = ({
     iconRight,
     fullWidth = false,
     className = '',
-    sx,
+    disabled,
     ...props
 }) => {
-    // Custom styles based on variant
-    const getVariantStyles = () => {
-        switch (variant) {
-            case 'primary':
-                return {
-                    background: 'linear-gradient(135deg, #a855f7, #7e22ce)', // Matches original purple gradient
-                    color: 'white',
-                    boxShadow: '0 4px 12px rgba(168, 85, 247, 0.25)',
-                    '&:hover': {
-                        background: 'linear-gradient(135deg, #b06bf9, #8b2ed9)',
-                        boxShadow: '0 6px 16px rgba(168, 85, 247, 0.35)',
-                        transform: 'translateY(-2px)',
-                    },
-                    '&:active': {
-                        transform: 'translateY(0)',
-                    }
-                };
-            case 'secondary':
-                return {
-                    bgcolor: 'background.paper',
-                    color: 'text.primary',
-                    border: '1px solid',
-                    borderColor: 'divider',
-                    '&:hover': {
-                        borderColor: 'primary.main',
-                        color: 'primary.main',
-                        bgcolor: (theme: Theme) => alpha(theme.palette.primary.main, 0.05),
-                    }
-                };
-            case 'ghost':
-                return {
-                    bgcolor: 'transparent',
-                    color: 'text.secondary',
-                    boxShadow: 'none',
-                    '&:hover': {
-                        bgcolor: (theme: Theme) => alpha(theme.palette.primary.main, 0.08),
-                        color: 'primary.main',
-                        boxShadow: 'none',
-                    }
-                };
-            case 'danger':
-                return {
-                    bgcolor: (theme: Theme) => alpha(theme.palette.error.main, 0.1),
-                    color: 'error.main',
-                    boxShadow: 'none',
-                    '&:hover': {
-                        bgcolor: 'error.main',
-                        color: 'white',
-                        boxShadow: 'none',
-                    }
-                };
-            default:
-                return {};
-        }
-    };
-
     return (
-        <MuiButton
-            fullWidth={fullWidth}
-            variant={variant === 'ghost' ? 'text' : 'contained'} // Base variant
-            size={size}
-            startIcon={iconLeft}
-            endIcon={iconRight}
-            className={className}
-            sx={{
-                borderRadius: 3,
-                textTransform: 'none',
-                fontWeight: 700,
-                transition: 'all 0.2s cubic-bezier(0.16, 1, 0.3, 1)',
-                ...getVariantStyles(),
-                ...sx
-            }}
+        <button
+            disabled={disabled}
+            className={[
+                'inline-flex items-center justify-center gap-2 rounded-xl font-bold transition-all duration-200 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed',
+                sizeClasses[size],
+                variantClasses[variant],
+                fullWidth ? 'w-full' : '',
+                className,
+            ].join(' ')}
             {...props}
         >
+            {iconLeft && <span className="flex-shrink-0">{iconLeft}</span>}
             {children}
-        </MuiButton>
+            {iconRight && <span className="flex-shrink-0">{iconRight}</span>}
+        </button>
     );
 };
 

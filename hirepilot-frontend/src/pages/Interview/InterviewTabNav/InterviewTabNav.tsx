@@ -1,5 +1,4 @@
 import { Award, TrendingUp } from 'lucide-react';
-import { Tabs, Tab, Box } from '@mui/material';
 
 interface InterviewTabNavProps {
   activeTab: number;
@@ -7,40 +6,33 @@ interface InterviewTabNavProps {
 }
 
 const InterviewTabNav = ({ activeTab, setActiveTab }: InterviewTabNavProps) => {
-
   const tabs = [
     { id: 0, label: 'Practice Topics', icon: TrendingUp },
     { id: 1, label: 'Past History', icon: Award },
-
   ];
 
   return (
-    <Box sx={{ borderBottom: 1, borderColor: 'divider', mb: 3 }}>
-      <Tabs
-        value={activeTab}
-        onChange={(_, newValue) => setActiveTab(newValue)}
-        variant="scrollable"
-        scrollButtons="auto"
-        sx={{
-          '& .MuiTab-root': {
-            minHeight: 56,
-            fontWeight: 600,
-            fontSize: '0.95rem',
-            textTransform: 'none',
-            gap: 1,
-          },
-        }}
-      >
+    <div className="border-b border-[#e0e0e0] dark:border-[#3c4043] mb-3">
+      <div className="flex overflow-x-auto">
         {tabs.map(({ id, label, icon: Icon }) => (
-          <Tab
+          <button
             key={id}
-            label={label}
-            icon={<Icon size={18} />}
-            iconPosition="start"
-          />
+            onClick={() => setActiveTab(id)}
+            className={`
+              flex items-center gap-1 px-4 py-3.5 text-sm font-semibold
+              transition-all duration-200 whitespace-nowrap
+              ${activeTab === id
+                ? 'text-primary border-b-2 border-primary'
+                : 'text-[#5f6368] dark:text-[#9aa0a6] hover:text-primary'
+              }
+            `}
+          >
+            <Icon size={18} />
+            {label}
+          </button>
         ))}
-      </Tabs>
-    </Box>
+      </div>
+    </div>
   );
 };
 

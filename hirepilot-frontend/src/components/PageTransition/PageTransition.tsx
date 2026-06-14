@@ -1,4 +1,3 @@
-import { Fade, Box } from '@mui/material';
 import type { ReactNode } from 'react';
 
 interface PageTransitionProps {
@@ -7,11 +6,9 @@ interface PageTransitionProps {
 
 const PageTransition = ({ children }: PageTransitionProps) => {
     return (
-        <Fade in={true} timeout={400}>
-            <Box sx={{ width: '100%', height: '100%' }}>
-                {children}
-            </Box>
-        </Fade>
+        <div className="w-full h-full animate-[fadeIn_400ms_ease-out]">
+            {children}
+        </div>
     );
 };
 

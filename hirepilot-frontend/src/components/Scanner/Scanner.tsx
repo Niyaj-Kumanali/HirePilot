@@ -1,167 +1,101 @@
-import { Box, Typography, keyframes, alpha, useTheme } from '@mui/material';
-
-const scanAnimation = keyframes`
-  0% { top: -80px; opacity: 0; }
-  50% { opacity: 1; }
-  100% { top: 100%; opacity: 0; }
-`;
-
-const floatAnimation = keyframes`
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
-`;
-
-const pulseAnimation = keyframes`
-  0% { transform: scale(1); opacity: 1; }
-  50% { transform: scale(1.5); opacity: 0.5; }
-  100% { transform: scale(1); opacity: 1; }
-`;
-
-const progressAnimation = keyframes`
-  from { stroke-dasharray: 0, 100; }
-  to { stroke-dasharray: 85, 100; }
-`;
-
 const Scanner = () => {
-    const theme = useTheme();
-
-    const cardStyle = {
-        position: 'absolute',
-        bgcolor: 'background.paper',
-        border: '1px solid',
-        borderColor: 'divider',
-        borderRadius: 4,
-        boxShadow: theme.shadows[3],
-        p: 2,
-        zIndex: 2,
-        animation: `${floatAnimation} 6s ease-in-out infinite`,
-    };
-
-    const skeletonStyle = {
-        height: 8,
-        bgcolor: alpha(theme.palette.text.primary, 0.1),
-        borderRadius: 1,
-        mb: 1,
-    };
-
     return (
-        <Box sx={{ position: 'relative', height: 400, width: 400, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-            <Box sx={{
-                width: '100%',
-                height: '100%',
-                borderRadius: 8,
-                border: '1px solid',
-                borderColor: 'divider',
-                position: 'relative',
-                overflow: 'hidden',
-                boxShadow: `inset 0 2px 10px ${alpha(theme.palette.common.black, 0.02)}`
-            }}>
+        <div className="relative h-[400px] w-[400px] flex justify-center items-center">
+            <div className="w-full h-full rounded-3xl border border-[#e0e0e0] dark:border-[#3c4043] relative overflow-hidden shadow-[inset_0_2px_10px_rgba(0,0,0,0.02)]">
                 {/* Scanning Line Effect */}
-                <Box sx={{
-                    position: 'absolute',
-                    width: '100%',
-                    height: 80,
-                    background: `linear-gradient(to bottom, transparent, ${alpha(theme.palette.primary.main, 0.05)}, ${alpha(theme.palette.primary.main, 0.2)}, transparent)`,
-                    top: -80,
-                    zIndex: 5,
-                    animation: `${scanAnimation} 4s ease-in-out infinite`
-                }} />
+                <div
+                    className="absolute w-full h-20 z-5"
+                    style={{
+                        background: 'linear-gradient(to bottom, transparent, rgba(168,85,247,0.05), rgba(168,85,247,0.2), transparent)',
+                        animation: 'scan-line 4s ease-in-out infinite',
+                    }}
+                />
 
-                {/* Feedback Card */}
-                <Box sx={{
-                    ...cardStyle,
-                    width: 200,
-                    top: 40,
-                    left: 30,
-                }}>
-                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1.5 }}>
-                        <Box sx={{
-                            width: 8,
-                            height: 8,
-                            bgcolor: 'success.main',
-                            borderRadius: '50%',
-                            boxShadow: `0 0 8px ${alpha(theme.palette.success.main, 0.5)}`
-                        }} />
-                        <Typography variant="caption" fontWeight={700} color="text.secondary" sx={{ textTransform: 'uppercase' }}>
+                {/* AI Analysis Card */}
+                <div
+                    className="
+                        absolute w-[200px] top-10 left-[30px] z-10
+                        bg-white dark:bg-[#1a1d23]
+                        border border-[#e0e0e0] dark:border-[#3c4043]
+                        rounded-2xl p-2
+                        shadow-md
+                        animate-[float_6s_ease-in-out_infinite]
+                    "
+                >
+                    <div className="flex items-center gap-1 mb-1.5">
+                        <span
+                            className="w-2 h-2 rounded-full"
+                            style={{
+                                backgroundColor: '#1e7e34',
+                                boxShadow: '0 0 8px rgba(30,126,52,0.5)',
+                            }}
+                        />
+                        <span className="text-[0.75rem] font-bold text-[#5f6368] dark:text-[#9aa0a6] uppercase tracking-wide">
                             AI Analysis
-                        </Typography>
-                    </Box>
-                    <Box sx={{ ...skeletonStyle, width: '100%' }} />
-                    <Box sx={{ ...skeletonStyle, width: '70%' }} />
-                </Box>
+                        </span>
+                    </div>
+                    <div className="h-2 bg-black/10 dark:bg-white/10 rounded mb-1 w-full" />
+                    <div className="h-2 bg-black/10 dark:bg-white/10 rounded w-[70%]" />
+                </div>
 
                 {/* Score Card */}
-                <Box sx={{
-                    ...cardStyle,
-                    width: 120,
-                    bottom: 40,
-                    right: 30,
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    animationDelay: '-2s'
-                }}>
-                    <Box sx={{ width: 60, height: 60, position: 'relative', mb: 1 }}>
-                        <svg viewBox="0 0 36 36">
+                <div
+                    className="
+                        absolute w-[120px] bottom-10 right-[30px] z-10
+                        bg-white dark:bg-[#1a1d23]
+                        border border-[#e0e0e0] dark:border-[#3c4043]
+                        rounded-2xl p-2
+                        shadow-md
+                        flex flex-col items-center
+                        animate-[float_6s_ease-in-out_infinite]
+                    "
+                    style={{ animationDelay: '-2s' }}
+                >
+                    <div className="w-[60px] h-[60px] relative mb-1">
+                        <svg viewBox="0 0 36 36" className="w-full h-full">
                             <path
                                 d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
                                 fill="none"
-                                stroke={theme.palette.divider}
+                                stroke="#e0e0e0"
                                 strokeWidth="3.8"
                             />
                             <path
                                 d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
                                 fill="none"
-                                stroke={theme.palette.primary.main}
+                                stroke="#a855f7"
                                 strokeWidth="3.8"
                                 strokeLinecap="round"
                                 strokeDasharray="85, 100"
-                                style={{ animation: `${progressAnimation} 2s ease-out forwards` }}
+                                style={{ animation: 'scan-progress 2s ease-out forwards' }}
                             />
                         </svg>
-                        <Typography
-                            variant="caption"
-                            sx={{
-                                position: 'absolute',
-                                top: '50%',
-                                left: '50%',
-                                transform: 'translate(-50%, -50%)',
-                                fontWeight: 800,
-                                color: 'primary.main',
-                                fontSize: '0.85rem'
-                            }}
-                        >
+                        <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 font-extrabold text-primary text-[0.85rem]">
                             85%
-                        </Typography>
-                    </Box>
-                    <Typography variant="caption" fontWeight={600} color="text.secondary">
+                        </span>
+                    </div>
+                    <span className="text-[0.75rem] font-semibold text-[#5f6368] dark:text-[#9aa0a6]">
                         Readiness
-                    </Typography>
-                </Box>
+                    </span>
+                </div>
 
                 {/* Insight Bar */}
-                <Box sx={{
-                    ...cardStyle,
-                    width: 160,
-                    top: 160,
-                    right: 20,
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: 1.5,
-                    p: 1.5,
-                    animationDelay: '-4s'
-                }}>
-                    <Box sx={{
-                        width: 10,
-                        height: 10,
-                        bgcolor: 'primary.main',
-                        borderRadius: '50%',
-                        animation: `${pulseAnimation} 2s infinite`
-                    }} />
-                    <Box sx={{ ...skeletonStyle, width: '100%', mb: 0 }} />
-                </Box>
-            </Box>
-        </Box>
+                <div
+                    className="
+                        absolute w-[160px] top-40 right-5 z-10
+                        bg-white dark:bg-[#1a1d23]
+                        border border-[#e0e0e0] dark:border-[#3c4043]
+                        rounded-2xl p-1.5
+                        shadow-md
+                        flex items-center gap-1.5
+                        animate-[float_6s_ease-in-out_infinite]
+                    "
+                    style={{ animationDelay: '-4s' }}
+                >
+                    <span className="w-2.5 h-2.5 rounded-full bg-primary" style={{ animation: 'iconPulse 2s infinite' }} />
+                    <div className="h-2 bg-black/10 dark:bg-white/10 rounded flex-1" />
+                </div>
+            </div>
+        </div>
     );
 };
 

@@ -1,5 +1,4 @@
 import { useRef, useEffect, useState, useCallback } from 'react';
-import { Box } from '@mui/material';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import { useAppDispatch } from '../../../store/hooks';
@@ -8,11 +7,9 @@ import { saveInterviewResult } from '../../../store/Interview/interview.slice';
 import { generateAIQuestion, getPerformanceReport, generateRealTimeInsight } from '../../../utility/aiHelpers';
 import { getAiStream } from '../../../utility/HandleAi';
 
-// Hooks
 import { useSpeech } from '../../../hooks/useSpeech';
 import { useMediaStream } from '../../../hooks/useMediaStream';
 
-// Components
 import SessionHeader from './SessionHeader/SessionHeader';
 import VideoGrid from './VideoGrid/VideoGrid';
 import ControlBar from './ControlBar/ControlBar';
@@ -21,16 +18,6 @@ import ErrorOverlay from './ErrorOverlay/ErrorOverlay';
 
 import type { Message, PerformanceReportData } from '../../../types/interview';
 
-/**
- * The core component for the AI Interview Simulation session.
- * 
- * Manages the entire lifecycle of an interview:
- * 1. Initializes the AI interviewer with a seed message.
- * 2. Streams real-time AI responses using Gemini AI.
- * 3. Provides real-time insights based on candidate input.
- * 4. Manages media streams (video/audio) and speech synthesis.
- * 5. Generates and saves a performance report upon completion.
- */
 const TrainingSession = () => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -42,12 +29,11 @@ const TrainingSession = () => {
   const [userInput, setUserInput] = useState("");
   const [isFinishing, setIsFinishing] = useState(false);
   const [isLocalLoading, setIsLocalLoading] = useState(false);
-  const [timeLeft, setTimeLeft] = useState(1800); // 30 mins
+  const [timeLeft, setTimeLeft] = useState(1800);
   const [report, setReport] = useState<PerformanceReportData | null>(null);
   const [isAudioEnabled, setIsAudioEnabled] = useState(true);
   const [isListening, setIsListening] = useState(false);
 
-  // Real-time Insight State
   const [insight, setInsight] = useState<string | null>(null);
   const [isInsightVisible, setIsInsightVisible] = useState(false);
   const [systemError, setSystemError] = useState<{ title: string; message: string } | null>(null);
@@ -55,7 +41,6 @@ const TrainingSession = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const initializationStarted = useRef(false);
 
-  // Use Custom Hooks
   const { speak, isSpeaking: isAiSpeaking } = useSpeech({ enabled: isAudioEnabled });
   const {
     isMuted,
@@ -65,14 +50,12 @@ const TrainingSession = () => {
     stream
   } = useMediaStream(!!interview);
 
-  // Redirect if no interview data
   useEffect(() => {
     if (!interview) {
       navigate('/interview');
     }
   }, [interview, navigate]);
 
-  // Sync video ref with stream
   useEffect(() => {
     if (videoRef.current && stream) {
       videoRef.current.srcObject = stream;
@@ -101,7 +84,6 @@ const TrainingSession = () => {
 
     const aiMsgId = `ai-${Date.now()}`;
     try {
-      // 1. Get real-time insight while AI is thinking
       const position = interview.position || interview.title || "Candidate";
       const insightText = await generateRealTimeInsight(trimmedInput, position);
       if (insightText) {
@@ -110,7 +92,6 @@ const TrainingSession = () => {
         setTimeout(() => setIsInsightVisible(false), 5000);
       }
 
-      // 2. Start Message Stream
       const streamRes = await getAiStream(trimmedInput, messages);
       let accumulatedText = "";
 
@@ -176,7 +157,6 @@ const TrainingSession = () => {
   const initializeSession = useCallback(async () => {
     if (messages.length > 0 || !interview) return;
 
-    // 1. Seed message to satisfy Gemini's requirement for first message being from 'user'
     const seed: Message = {
       id: 'seed',
       role: 'user',
@@ -227,8 +207,8 @@ const TrainingSession = () => {
   if (!interview) return null;
 
   return (
-    <Box sx={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', bgcolor: 'background.default' }}>
-      <Box sx={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
+    <div className="min-h-screen flex flex-col bg-[#fafafa] dark:bg-[#0f172a]">
+      <div className="flex flex-col flex-1">
         <SessionHeader
           position={interview.position}
           company={interview.company}
@@ -265,7 +245,7 @@ const TrainingSession = () => {
           onSendMessage={handleSendMessage}
           isLoading={isLocalLoading || isAiThinking}
         />
-      </Box>
+      </div>
 
       {report && (
         <PerformanceReport
@@ -282,7 +262,7 @@ const TrainingSession = () => {
           onClose={() => navigate('/interview')}
         />
       )}
-    </Box>
+    </div>
   );
 };
 

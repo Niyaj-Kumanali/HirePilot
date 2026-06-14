@@ -1,5 +1,4 @@
 import { Briefcase } from 'lucide-react';
-import { Box, Typography, keyframes, useTheme, alpha } from '@mui/material';
 
 interface EmptyStateProps {
     title?: string;
@@ -7,84 +6,35 @@ interface EmptyStateProps {
     iconSize?: number;
 }
 
-const float = keyframes`
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
-`;
-
-const pulse = keyframes`
-  0%, 100% { transform: scale(1); opacity: 0.5; filter: blur(4px); }
-  50% { transform: scale(0.8); opacity: 0.2; filter: blur(4px); }
-`;
-
-/**
- * Visual "No Results" or "Empty" placeholder.
- * 
- * Features a floating Briefcase icon animation and a 
- * responsive layout for various container sizes.
- */
 const EmptyState = ({
     title = 'Found nothing here',
     description = 'Try adjusting your filters to find more results',
     iconSize = 64,
 }: EmptyStateProps) => {
-    const theme = useTheme();
-
     return (
-        <Box
-            sx={{
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                p: 3,
-                width: '100%',
-            }}
-        >
-            <Box
-                sx={{
-                    position: 'relative',
-                    width: '100%',
-                    p: { xs: 4, md: 6 },
-                    borderRadius: 7,
-                    textAlign: 'center',
-                }}
-            >
-                <Box
-                    sx={{
-                        display: 'flex',
-                        flexDirection: 'column',
-                        alignItems: 'center',
-                        mb: 4,
-                    }}
-                >
-                    <Box
-                        sx={{
-                            color: 'secondary.main',
-                            animation: `${float} 3s ease-in-out infinite`,
-                        }}
-                    >
+        <div className="flex justify-center items-center p-3 w-full">
+            <div className="relative w-full p-4 md:p-6 rounded-[28px] text-center">
+                <div className="flex flex-col items-center mb-4">
+                    <div className="text-secondary animate-[float_3s_ease-in-out_infinite]">
                         <Briefcase size={iconSize} strokeWidth={1.5} />
-                    </Box>
-                    <Box
-                        sx={{
-                            width: 48,
-                            height: 6,
-                            bgcolor: alpha(theme.palette.primary.main, 0.1),
-                            borderRadius: '50%',
-                            mt: 1.5,
-                            animation: `${pulse} 3s ease-in-out infinite`,
+                    </div>
+                    <div
+                        className="w-12 h-1.5 rounded-full mt-1.5"
+                        style={{
+                            backgroundColor: 'rgba(168,85,247,0.1)',
+                            animation: 'pulse 3s ease-in-out infinite',
                         }}
                     />
-                </Box>
+                </div>
 
-                <Typography variant="h6" fontWeight={700} color="text.primary" gutterBottom>
+                <h3 className="text-lg font-bold text-[#202124] dark:text-[#e8eaed] mb-2">
                     {title}
-                </Typography>
-                <Typography variant="body2" color="text.secondary" sx={{ maxWidth: 400, mx: 'auto', lineHeight: 1.6 }}>
+                </h3>
+                <p className="text-sm text-[#5f6368] dark:text-[#9aa0a6] max-w-[400px] mx-auto leading-relaxed">
                     {description}
-                </Typography>
-            </Box>
-        </Box>
+                </p>
+            </div>
+        </div>
     );
 };
 

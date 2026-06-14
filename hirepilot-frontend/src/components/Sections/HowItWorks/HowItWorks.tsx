@@ -1,63 +1,56 @@
 import { Search, BrainCircuit, BarChartHorizontal, CheckCircle } from "lucide-react";
 import VisualHeader from "../../VisualHeader/VisualHeader";
 import HIWCard from "./HIWCard/HIWCard";
-import { Box, Container, Grid } from '@mui/material';
 
 const steps = [
   {
     step: "01",
     title: "Browse & Choose",
     desc: "Explore jobs and select roles that match your career goals. Get instant readiness scores.",
-    Icon: <Search size={28} />,
+    Icon: <Search size={32} />,
   },
   {
     step: "02",
     title: "Train with AI",
     desc: "Practice with AI-powered mock interviews tailored to your target role and experience level.",
-    Icon: <BrainCircuit size={28} />,
+    Icon: <BrainCircuit size={32} />,
   },
   {
     step: "03",
     title: "Get Insights",
     desc: "Receive detailed feedback on your performance, skill gaps, and areas to improve.",
-    Icon: <BarChartHorizontal size={28} />,
+    Icon: <BarChartHorizontal size={32} />,
   },
   {
     step: "04",
     title: "Apply with Confidence",
     desc: "Once you're interview-ready, apply to jobs knowing you're prepared to succeed.",
-    Icon: <CheckCircle size={28} />,
+    Icon: <CheckCircle size={32} />,
   },
 ];
 
-/**
- * "How It Works" section explaining the 4-step user journey.
- * 
- * Uses `HIWCard` to display each step (Browse, Train, Insights, apply).
- * Animates as a responsive grid of steps.
- */
 const HowItWorks = () => {
   return (
-    <Box component="section" sx={{ py: { xs: 8, md: 4 }, position: 'relative', overflow: 'hidden' }}>
-      <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 1 }}>
-        <Box sx={{ mb: 4, textAlign: 'center' }}>
+    <section className="min-h-[calc(100vh-70px)] flex items-center py-12 md:py-8 relative overflow-hidden">
+      <div className="mx-auto w-full max-w-7xl px-4 relative z-1">
+        <div className="mb-6 text-center">
           <VisualHeader
             badge="The Process"
             title="Your Journey to get"
             gradient_title="Hired"
             subtitle="A simple, structured approach to mastering the interview process and landing your dream job."
           />
-        </Box>
+        </div>
 
-        <Grid container spacing={4} justifyContent="center">
+        <div className="grid grid-cols-12 gap-6 justify-center">
           {steps.map((item) => (
-            <Grid size={{ xs: 12, sm: 6, md: 3 }} key={item.step} sx={{ display: 'flex' }}>
+            <div className="col-span-12 sm:col-span-6 md:col-span-3 flex" key={item.step}>
               <HIWCard {...item} />
-            </Grid>
+            </div>
           ))}
-        </Grid>
-      </Container>
-    </Box>
+        </div>
+      </div>
+    </section>
   );
 };
 

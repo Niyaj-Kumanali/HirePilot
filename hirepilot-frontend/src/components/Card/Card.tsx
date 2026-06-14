@@ -1,46 +1,29 @@
 import React from 'react';
-import { Card as MuiCard, type CardProps as MuiCardProps, alpha, useTheme } from '@mui/material';
 
-interface CardProps extends MuiCardProps {
+interface CardProps {
     children: React.ReactNode;
+    className?: string;
     onClick?: (e: React.MouseEvent<HTMLDivElement>) => void;
 }
 
-const Card: React.FC<CardProps> = ({ children, className = '', onClick, sx, ...props }) => {
-    const theme = useTheme();
+const Card: React.FC<CardProps> = ({ children, className = '', onClick }) => {
     const isClickable = !!onClick;
 
     return (
-        <MuiCard
-            className={className}
+        <div
             onClick={onClick}
-            sx={{
-                background: alpha(theme.palette.background.paper, 0.7),
-                backdropFilter: 'blur(12px)',
-                borderRadius: '20px',
-                border: '1px solid',
-                borderColor: theme.palette.mode === 'light'
-                    ? alpha(theme.palette.common.white, 0.6)
-                    : alpha(theme.palette.common.white, 0.1),
-                p: 3,
-                transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
-                position: 'relative',
-                overflow: 'hidden',
-                cursor: isClickable ? 'pointer' : 'default',
-                ...(isClickable && {
-                    '&:hover': {
-                        transform: 'translateY(-4px)',
-                        bgcolor: 'background.paper',
-                        borderColor: 'primary.main',
-                        boxShadow: theme.shadows[4],
-                    }
-                }),
-                ...sx
-            }}
-            {...props}
+            className={`
+                relative overflow-hidden rounded-[20px] border p-6
+                bg-white/70 dark:bg-[#1a1d23]/70
+                backdrop-blur-[12px]
+                border-white/60 dark:border-white/10
+                transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]
+                ${isClickable ? 'cursor-pointer hover:-translate-y-1 hover:bg-white dark:hover:bg-[#1a1d23] hover:border-primary hover:shadow-lg' : 'cursor-default'}
+                ${className}
+            `.trim()}
         >
             {children}
-        </MuiCard>
+        </div>
     );
 };
 

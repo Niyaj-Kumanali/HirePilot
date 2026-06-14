@@ -1,7 +1,6 @@
 import React, { useState, useEffect, Fragment } from 'react';
 import { notificationActions } from '../../store/Notification/notification.slice';
 import { NOTIFICATION_SERVICE } from '../../api/services/notificationApi';
-import { alpha, Box, Button, CircularProgress, Divider, IconButton, List, ListItem, ListItemButton, Paper, Stack, Typography, useTheme } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { X } from 'lucide-react';
@@ -11,13 +10,11 @@ interface NotificationsBadgeProps {
 }
 
 const NotificationsBadge: React.FC<NotificationsBadgeProps> = ({ setIsNotificationOpen }) => {
-    const theme = useTheme();
     const { notifications, loading, hasFetched } = useAppSelector(state => state.notification);
     const [actionLoading, setActionLoading] = useState(false);
     const dispatch = useAppDispatch();
 
     useEffect(() => {
-        // Only fetch if we haven't fetched yet
         if (!hasFetched) {
             dispatch(notificationActions.setLoading(true));
             NOTIFICATION_SERVICE.fetchNotifications().then(data => {
@@ -48,106 +45,82 @@ const NotificationsBadge: React.FC<NotificationsBadgeProps> = ({ setIsNotificati
 
 
     return (
-        <Paper
-            elevation={20}
-            sx={{
-                width: 360,
-                maxHeight: 520,
-                overflow: 'hidden',
-                borderRadius: '20px',
-                border: '1px solid',
-                borderColor: alpha(theme.palette.divider, 0.1),
-                bgcolor: alpha(theme.palette.background.paper, 0.95),
-                backdropFilter: 'blur(20px)',
-                display: 'flex',
-                flexDirection: 'column',
-                boxShadow: `0 24px 48px -12px ${alpha(theme.palette.common.black, 0.25)}`
-            }}
+        <div
+            className="w-[360px] max-h-[520px] overflow-hidden rounded-2xl border border-gray-200/10 dark:border-gray-700/10 bg-white/95 dark:bg-gray-800/95 backdrop-blur-[20px] flex flex-col shadow-[0_24px_48px_-12px_rgba(0,0,0,0.25)]"
         >
-            <Box sx={{ p: 2, display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid', borderColor: 'divider' }}>
-                <Typography variant="subtitle1" fontWeight={800}>Notifications</Typography>
-                <Stack direction="row" spacing={1}>
+            <div className="p-4 flex justify-between items-center border-b border-gray-200 dark:border-gray-700">
+                <span className="text-sm font-extrabold text-gray-900 dark:text-gray-100">Notifications</span>
+                <div className="flex items-center gap-2">
                     {notifications.length > 0 && (
-                        <Button
-                            size="small"
+                        <button
+                            className="text-xs text-primary hover:text-primary/80 transition-colors bg-transparent border-none cursor-pointer"
                             onClick={handleClearAll}
                             disabled={actionLoading}
-                            sx={{ fontSize: '0.75rem', textTransform: 'none' }}
                         >
                             {actionLoading ? 'Clearing...' : 'Clear All'}
-                        </Button>
+                        </button>
                     )}
-                    <IconButton
-                        size="small"
+                    <button
+                        className="p-1 rounded-full text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors bg-transparent border-none cursor-pointer"
                         onClick={() => setIsNotificationOpen(false)}
-                        sx={{ color: 'text.secondary' }}
+                        aria-label="Close notifications"
                     >
                         <X size={18} />
-                    </IconButton>
-                </Stack>
-            </Box>
+                    </button>
+                </div>
+            </div>
 
-            <List disablePadding sx={{ maxHeight: 400, overflowY: 'auto' }}>
+            <div className="max-h-[400px] overflow-y-auto">
                 {loading ? (
-                    <Box sx={{ p: 4, display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', gap: 2 }}>
-                        <CircularProgress size={30} thickness={5} />
-                        <Typography variant="caption" color="text.secondary">Loading notifications...</Typography>
-                    </Box>
+                    <div className="p-8 flex justify-center items-center flex-col gap-3">
+                        <div className="w-7 h-7 border-3 border-primary border-t-transparent rounded-full animate-spin" />
+                        <span className="text-xs text-gray-500 dark:text-gray-400">Loading notifications...</span>
+                    </div>
                 ) : notifications.length > 0 ? (
                     notifications.map((notification, index) => (
                         <Fragment key={notification.id}>
-                            <ListItem disablePadding>
-                                <ListItemButton
-                                    onClick={() => handleMarkAsRead(notification.id)}
-                                    sx={{
-                                        flexDirection: 'column',
-                                        alignItems: 'flex-start',
-                                        gap: 0.5,
-                                        bgcolor: notification.isRead ? 'transparent' : alpha(theme.palette.primary.main, 0.04)
-                                    }}
-                                >
-                                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, width: '100%' }}>
-                                        {!notification.isRead && (
-                                            <Box sx={{ width: 8, height: 8, borderRadius: '50%', bgcolor: 'primary.main', flexShrink: 0 }} />
-                                        )}
-                                        <Typography variant="body2" fontWeight={notification.isRead ? 500 : 700} color="text.primary">
-                                            {notification.title}
-                                        </Typography>
-                                    </Box>
-                                    <Typography variant="caption" color="text.secondary" sx={{ pl: notification.isRead ? 0 : 2.5 }}>
-                                        {notification.description}
-                                    </Typography>
-                                    <Typography variant="caption" color="text.disabled" sx={{ pl: notification.isRead ? 0 : 2.5, mt: 0.5 }}>
-                                        {notification.time}
-                                    </Typography>
-                                </ListItemButton>
-                            </ListItem>
-                            {index < notifications.length - 1 && <Divider component="li" />}
+                            <button
+                                className="w-full flex flex-col items-start gap-1 px-4 py-3 text-left bg-transparent border-none cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors"
+                                style={{ backgroundColor: notification.isRead ? undefined : 'rgba(168,85,247,0.04)' }}
+                                onClick={() => handleMarkAsRead(notification.id)}
+                            >
+                                <div className="flex items-center gap-1.5 w-full">
+                                    {!notification.isRead && (
+                                        <span className="w-2 h-2 rounded-full bg-primary flex-shrink-0" />
+                                    )}
+                                    <span className={`text-sm ${notification.isRead ? 'font-medium' : 'font-bold'} text-gray-900 dark:text-gray-100`}>
+                                        {notification.title}
+                                    </span>
+                                </div>
+                                <span className={`text-xs text-gray-500 dark:text-gray-400 ${notification.isRead ? '' : 'pl-[18px]'}`}>
+                                    {notification.description}
+                                </span>
+                                <span className={`text-xs text-gray-400 dark:text-gray-500 ${notification.isRead ? '' : 'pl-[18px]'} mt-0.5`}>
+                                    {notification.time}
+                                </span>
+                            </button>
+                            {index < notifications.length - 1 && <hr className="border-gray-100 dark:border-gray-700/50 mx-4" />}
                         </Fragment>
                     ))
                 ) : (
-                    <Box sx={{ p: 4, textAlign: 'center' }}>
-                        <Typography variant="body2" color="text.secondary">
+                    <div className="p-8 text-center">
+                        <span className="text-sm text-gray-500 dark:text-gray-400">
                             No new notifications
-                        </Typography>
-                    </Box>
+                        </span>
+                    </div>
                 )}
-            </List>
+            </div>
 
-            <Box sx={{ p: 1.5, borderTop: '1px solid', borderColor: 'divider', bgcolor: alpha(theme.palette.primary.main, 0.02) }}>
-                <Button
-                    component={RouterLink}
+            <div className="p-3 border-t border-gray-200 dark:border-gray-700 bg-primary/[0.02]">
+                <RouterLink
                     to="/notifications"
-                    fullWidth
-                    variant="text"
-                    size="small"
+                    className="block w-full text-center text-sm font-bold text-primary no-underline py-1.5 rounded hover:bg-primary/5 transition-colors"
                     onClick={() => setIsNotificationOpen(false)}
-                    sx={{ fontWeight: 700, textTransform: 'none' }}
                 >
                     View all notifications
-                </Button>
-            </Box>
-        </Paper>
+                </RouterLink>
+            </div>
+        </div>
     );
 };
 

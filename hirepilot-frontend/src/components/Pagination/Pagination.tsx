@@ -1,6 +1,5 @@
 import React from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { Stack, IconButton, Button, alpha, useTheme } from '@mui/material';
 
 interface PaginationProps {
     currentPage: number;
@@ -9,121 +8,73 @@ interface PaginationProps {
 }
 
 const Pagination: React.FC<PaginationProps> = ({ currentPage, totalPages, onPageChange }) => {
-    const theme = useTheme();
-
     if (totalPages <= 1) return null;
 
     const pages = Array.from({ length: totalPages }, (_, i) => i + 1);
 
-    const glassStyle = {
-        bgcolor: alpha(theme.palette.background.paper, 0.6),
-        backdropFilter: 'blur(8px)',
-        border: '1px solid',
-        borderColor: alpha(theme.palette.divider, 0.1),
-        boxShadow: theme.shadows[1],
-    };
+    const glassClasses =
+        'bg-white/60 dark:bg-[#1a1d23]/60 backdrop-blur-[8px] border border-white/10 dark:border-white/5 shadow-sm';
 
     return (
-        <Stack
-            direction="row"
-            spacing={2}
-            justifyContent="center"
-            alignItems="center"
-            component="nav"
-            aria-label="Pagination Navigation"
-            sx={{ mt: 8, p: 1 }}
-        >
-            <IconButton
+        <nav aria-label="Pagination Navigation" className="flex items-center justify-center gap-2 mt-8 p-1">
+            <button
                 onClick={() => onPageChange(currentPage - 1)}
                 disabled={currentPage === 1}
                 aria-label="Previous Page"
-                sx={{
-                    width: 48,
-                    height: 48,
-                    borderRadius: 3,
-                    ...glassStyle,
-                    '&:hover': {
-                        bgcolor: 'background.paper',
-                        borderColor: 'primary.main',
-                        color: 'primary.main',
-                        boxShadow: theme.shadows[4],
-                        transform: 'translateY(-2px)',
-                    },
-                    '&:disabled': {
-                        opacity: 0.5,
-                        cursor: 'not-allowed',
-                        boxShadow: 'none',
-                    },
-                    transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                }}
+                className={`
+                    w-12 h-12 rounded-xl flex items-center justify-center
+                    ${glassClasses}
+                    transition-all duration-300 ease-[cubic-bezier(0.4,0,0.2,1)]
+                    hover:bg-white dark:hover:bg-[#1a1d23] hover:border-primary hover:text-primary hover:shadow-md hover:-translate-y-0.5
+                    disabled:opacity-50 disabled:cursor-not-allowed disabled:shadow-none disabled:hover:translate-y-0
+                    text-[#5f6368] dark:text-[#9aa0a6]
+                `}
             >
                 <ChevronLeft size={20} />
-            </IconButton>
+            </button>
 
-            <Stack
-                direction="row"
-                spacing={1}
-                sx={{
-                    p: 0.75,
-                    borderRadius: 4,
-                    ...glassStyle,
-                    bgcolor: alpha(theme.palette.background.paper, 0.4),
-                    backdropFilter: 'blur(4px)',
-                }}
+            <div
+                className={`
+                    flex items-center gap-1 p-0.75 rounded-2xl
+                    ${glassClasses}
+                    bg-white/40 dark:bg-[#1a1d23]/40 backdrop-blur-[4px]
+                `}
             >
                 {pages.map(page => (
-                    <Button
+                    <button
                         key={page}
                         onClick={() => onPageChange(page)}
                         aria-current={currentPage === page ? 'page' : undefined}
-                        sx={{
-                            minWidth: 40,
-                            width: 40,
-                            height: 40,
-                            borderRadius: 2.5,
-                            p: 0,
-                            color: currentPage === page ? 'primary.contrastText' : 'text.secondary',
-                            bgcolor: currentPage === page ? 'primary.main' : 'transparent',
-                            fontWeight: 700,
-                            boxShadow: currentPage === page ? `0 4px 12px ${alpha(theme.palette.primary.main, 0.3)}` : 'none',
-                            '&:hover': {
-                                bgcolor: currentPage === page ? 'primary.dark' : alpha(theme.palette.text.primary, 0.05),
-                                color: currentPage === page ? 'primary.contrastText' : 'primary.main',
+                        className={`
+                            min-w-10 w-10 h-10 rounded-[10px] p-0 font-bold text-sm
+                            transition-all duration-200
+                            ${currentPage === page
+                                ? 'bg-primary text-white shadow-[0_4px_12px_rgba(168,85,247,0.3)] hover:bg-primary-dark'
+                                : 'bg-transparent text-[#5f6368] dark:text-[#9aa0a6] hover:bg-black/5 dark:hover:bg-white/5 hover:text-primary'
                             }
-                        }}
+                        `}
                     >
                         {page}
-                    </Button>
+                    </button>
                 ))}
-            </Stack>
+            </div>
 
-            <IconButton
+            <button
                 onClick={() => onPageChange(currentPage + 1)}
                 disabled={currentPage === totalPages}
                 aria-label="Next Page"
-                sx={{
-                    width: 48,
-                    height: 48,
-                    borderRadius: 3,
-                    ...glassStyle,
-                    '&:hover': {
-                        bgcolor: 'background.paper',
-                        borderColor: 'primary.main',
-                        color: 'primary.main',
-                        boxShadow: theme.shadows[4],
-                        transform: 'translateY(-2px)',
-                    },
-                    '&:disabled': {
-                        opacity: 0.5,
-                        cursor: 'not-allowed',
-                        boxShadow: 'none',
-                    },
-                    transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                }}
+                className={`
+                    w-12 h-12 rounded-xl flex items-center justify-center
+                    ${glassClasses}
+                    transition-all duration-300 ease-[cubic-bezier(0.4,0,0.2,1)]
+                    hover:bg-white dark:hover:bg-[#1a1d23] hover:border-primary hover:text-primary hover:shadow-md hover:-translate-y-0.5
+                    disabled:opacity-50 disabled:cursor-not-allowed disabled:shadow-none disabled:hover:translate-y-0
+                    text-[#5f6368] dark:text-[#9aa0a6]
+                `}
             >
                 <ChevronRight size={20} />
-            </IconButton>
-        </Stack>
+            </button>
+        </nav>
     );
 };
 

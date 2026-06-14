@@ -1,4 +1,3 @@
-import { Stack, Box, Typography, useTheme } from "@mui/material";
 import { BrainCircuit, TrendingUp, CheckCircle } from "lucide-react";
 
 const FEATURES = [
@@ -8,35 +7,21 @@ const FEATURES = [
 ];
 
 const HeroFeatures = () => {
-    const theme = useTheme();
-
     return (
-        <Stack
-            direction="row"
-            flexWrap="wrap"
-            justifyContent="center"
-            gap={2}
-            sx={{ mb: 5 }}
-        >
-            {FEATURES.map((feature, index) => (
-                <Box
-                    key={index}
-                    sx={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: 1,
-                        px: 2,
-                        py: 1,
-                        color: 'text.primary'
-                    }}
-                >
-                    <feature.icon size={20} color={theme.palette.warning.main} />
-                    <Typography variant="body1" fontWeight={600}>
-                        {feature.text}
-                    </Typography>
-                </Box>
-            ))}
-        </Stack>
+        <div className="flex flex-row flex-wrap justify-center gap-2 mb-5">
+            {FEATURES.map((feature, index) => {
+                const Icon = feature.icon;
+                return (
+                    <div
+                        key={index}
+                        className="flex items-center gap-1 px-2 py-1 text-[#202124] dark:text-[#e8eaed]"
+                    >
+                        <Icon size={20} className="text-secondary" />
+                        <span className="font-semibold">{feature.text}</span>
+                    </div>
+                );
+            })}
+        </div>
     );
 };
 

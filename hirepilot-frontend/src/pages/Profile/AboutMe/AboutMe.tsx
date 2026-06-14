@@ -1,31 +1,21 @@
 import React from 'react';
 import { User } from 'lucide-react';
-import { Card, Stack, Typography, useTheme } from '@mui/material';
+import Card from '../../../components/Card/Card';
 
 interface AboutMeProps {
     bio: string;
 }
 
 const AboutMe: React.FC<AboutMeProps> = ({ bio }) => {
-    const theme = useTheme();
-
     return (
-        <Card
-            sx={{
-                p: 4,
-                borderRadius: 3,
-                border: `1px solid ${theme.palette.divider}`,
-            }}
-        >
-            <Stack direction="row" spacing={1.5} alignItems="center" sx={{ mb: 3 }}>
-                <User size={22} color={theme.palette.primary.main} />
-                <Typography variant="h5" fontWeight={700}>
-                    About Me
-                </Typography>
-            </Stack>
-            <Typography variant="body1" color="text.secondary" sx={{ lineHeight: 1.7 }}>
+        <Card className="p-4 rounded-2xl border border-black/10 dark:border-white/10">
+            <div className="flex items-center gap-1.5 mb-3">
+                <User size={22} className="text-primary" />
+                <h5 className="text-lg font-bold text-gray-900 dark:text-gray-100">About Me</h5>
+            </div>
+            <p className="text-sm leading-relaxed text-gray-500 dark:text-gray-400">
                 {bio || 'Passionately developing high-impact software solutions with a focus on modern web technologies.'}
-            </Typography>
+            </p>
         </Card>
     );
 };

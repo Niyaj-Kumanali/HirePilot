@@ -1,5 +1,4 @@
 import { useRef, useEffect } from "react";
-import { IconButton, Avatar, Box } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import { authActions } from "../../../store/auth/auth.slice";
@@ -39,15 +38,11 @@ const UserProfileSection = () => {
         return () => document.removeEventListener('mousedown', handleClickOutside);
     }, [isUserMenuOpen, dispatch]);
 
-    const userInitials = currentUser ? `${currentUser.firstName[0]}${currentUser.lastName[0]}` : "";
-
     return (
-        <Box sx={{ position: 'relative', display: 'flex', alignItems: 'center' }} ref={userMenuRef}>
-            <IconButton onClick={handleUserMenuStatus} sx={{ p: 0 }}>
-                <Avatar src={profileImg} alt="Profile">
-                    {userInitials}
-                </Avatar>
-            </IconButton>
+        <div className="relative flex items-center" ref={userMenuRef}>
+            <button onClick={handleUserMenuStatus} className="p-0 rounded-full focus:outline-none">
+                <img src={profileImg} alt="Profile" className="w-9 h-9 rounded-full object-cover" />
+            </button>
 
             {isUserMenuOpen && (
                 <UserMenu
@@ -56,7 +51,7 @@ const UserProfileSection = () => {
                     handleUserMenuStatus={handleUserMenuStatus}
                 />
             )}
-        </Box>
+        </div>
     );
 };
 

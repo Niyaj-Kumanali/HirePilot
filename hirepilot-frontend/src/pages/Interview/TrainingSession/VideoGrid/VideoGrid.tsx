@@ -1,34 +1,15 @@
 import { Sparkles, Lightbulb, User } from 'lucide-react';
-import { Box, Stack, Typography, Card, useTheme, alpha, keyframes } from '@mui/material';
 
 interface VideoGridProps {
-    /** Whether the AI is currently synthesizing speech. */
     isSpeaking: boolean;
-    /** Whether the AI is currently processing/thinking (simulating transcription). */
     isLoading: boolean;
-    /** Whether an AI insight popup should be displayed. */
     isInsightVisible: boolean;
-    /** The content of the AI insight/hint. */
     insight: string | null;
-    /** The content of the last AI message for subtitles. */
     lastAiMessage: string | undefined;
-    /** Reference to the local user's video element. */
     videoRef: React.RefObject<HTMLVideoElement | null>;
-    /** Whether the local user's video is toggled off. */
     isVideoOff: boolean;
-    /** Whether the local user's microphone is muted. */
     isMuted: boolean;
 }
-
-const wave = keyframes`
-  0%, 100% { transform: scaleY(0.5); }
-  50% { transform: scaleY(1); }
-`;
-
-const pulse = keyframes`
-  0%, 100% { transform: scale(1); opacity: 0.8; }
-  50% { transform: scale(1.1); opacity: 1; }
-`;
 
 const VideoGrid = ({
     isSpeaking,
@@ -40,178 +21,103 @@ const VideoGrid = ({
     isVideoOff,
     isMuted
 }: VideoGridProps) => {
-    const theme = useTheme();
-
     return (
-        <Box
-            sx={{
-                display: 'grid',
-                gridTemplateColumns: { xs: '1fr', md: 'repeat(2, 1fr)' },
-                gap: 3,
-                p: 3,
-                flex: 1,
-            }}
-        >
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 p-3 flex-1">
             {/* AI Interviewer View */}
-            <Card
-                sx={{
-                    position: 'relative',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    minHeight: 400,
-                    bgcolor: alpha(theme.palette.background.default, 0.5),
-                    border: `2px solid ${isSpeaking ? theme.palette.primary.main : theme.palette.divider}`,
-                    borderRadius: 3,
-                    overflow: 'hidden',
-                    transition: 'border-color 0.3s',
-                }}
+            <div
+                className="
+                    relative flex items-center justify-center min-h-[400px]
+                    bg-[#fafafa]/50 dark:bg-[#0f172a]/50
+                    border-2 rounded-2xl overflow-hidden transition-colors duration-300
+                "
+                style={{ borderColor: isSpeaking ? '#a855f7' : '#e0e0e0' }}
             >
-                <Stack alignItems="center" spacing={2}>
+                <div className="flex flex-col items-center gap-2">
                     {isLoading && (
-                        <Box
-                            sx={{
-                                position: 'absolute',
-                                width: 200,
-                                height: 200,
-                                borderRadius: '50%',
-                                bgcolor: alpha(theme.palette.primary.main, 0.1),
-                                animation: `${pulse} 2s ease-in-out infinite`,
+                        <div
+                            className="absolute w-[200px] h-[200px] rounded-full"
+                            style={{
+                                backgroundColor: 'rgba(168,85,247,0.1)',
+                                animation: 'pulse-glow 2s ease-in-out infinite',
                             }}
                         />
                     )}
                     <Sparkles
                         size={80}
-                        color={isSpeaking ? theme.palette.primary.main : theme.palette.text.secondary}
-                        style={{ transition: 'color 0.3s' }}
+                        color={isSpeaking ? '#a855f7' : '#5f6368'}
+                        className="transition-colors duration-300"
                     />
-                    <Stack direction="row" spacing={1} alignItems="flex-end">
+                    <div className="flex items-end gap-1">
                         {[...Array(5)].map((_, i) => (
-                            <Box
+                            <div
                                 key={i}
-                                sx={{
-                                    width: 4,
-                                    height: 20,
-                                    bgcolor: theme.palette.primary.main,
-                                    borderRadius: 1,
-                                    animation: isSpeaking ? `${wave} 1s ease-in-out infinite` : 'none',
+                                className="w-1 h-5 rounded-sm bg-primary"
+                                style={{
+                                    animation: isSpeaking ? `wave 1s ease-in-out infinite` : 'none',
                                     animationDelay: `${i * 0.1}s`,
                                 }}
                             />
                         ))}
-                    </Stack>
-                    <Typography variant="caption" color="text.secondary" fontWeight={600}>
+                    </div>
+                    <span className="text-xs font-semibold text-[#5f6368] dark:text-[#9aa0a6]">
                         AI Interviewer
-                    </Typography>
-                </Stack>
+                    </span>
+                </div>
 
                 {/* AI Insight Popup */}
                 {isInsightVisible && (
-                    <Box
-                        sx={{
-                            position: 'absolute',
-                            top: 16,
-                            left: 16,
-                            right: 16,
-                            p: 2,
-                            bgcolor: alpha(theme.palette.info.main, 0.95),
-                            borderRadius: 2,
-                            boxShadow: theme.shadows[4],
-                        }}
+                    <div
+                        className="absolute top-4 left-4 right-4 p-2 rounded-xl shadow-md"
+                        style={{ backgroundColor: 'rgba(2,136,209,0.95)' }}
                     >
-                        <Stack direction="row" spacing={1.5} alignItems="flex-start">
-                            <Lightbulb size={20} color={theme.palette.warning.main} />
-                            <Stack spacing={0.5}>
-                                <Typography variant="caption" fontWeight={700} color="white">
-                                    AI HINT
-                                </Typography>
-                                <Typography variant="body2" color="white">
-                                    {insight}
-                                </Typography>
-                            </Stack>
-                        </Stack>
-                    </Box>
+                        <div className="flex gap-1.5 items-start">
+                            <Lightbulb size={20} color="#f59e0b" />
+                            <div className="flex flex-col gap-0.5">
+                                <span className="text-xs font-bold text-white">AI HINT</span>
+                                <span className="text-sm text-white">{insight}</span>
+                            </div>
+                        </div>
+                    </div>
                 )}
 
                 {/* Subtitles */}
                 {(lastAiMessage || isLoading) && (
-                    <Box
-                        sx={{
-                            position: 'absolute',
-                            bottom: 16,
-                            left: 16,
-                            right: 16,
-                            p: 2,
-                            bgcolor: alpha(theme.palette.background.paper, 0.95),
-                            borderRadius: 2,
-                            textAlign: 'center',
-                        }}
-                    >
-                        <Typography variant="body2" fontWeight={600} color={isLoading ? 'primary.main' : 'text.primary'}>
+                    <div className="absolute bottom-4 left-4 right-4 p-2 rounded-xl bg-white/95 dark:bg-[#1a1d23]/95 text-center">
+                        <span
+                            className="text-sm font-semibold"
+                            style={{ color: isLoading ? '#a855f7' : undefined }}
+                        >
                             {isLoading ? "AI is transcribing your response..." : lastAiMessage}
-                        </Typography>
-                    </Box>
+                        </span>
+                    </div>
                 )}
-            </Card>
+            </div>
 
             {/* User Preview View */}
-            <Card
-                sx={{
-                    position: 'relative',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    minHeight: 400,
-                    bgcolor: 'black',
-                    borderRadius: 3,
-                    overflow: 'hidden',
-                }}
-            >
-                <Box
-                    component="video"
+            <div className="relative flex items-center justify-center min-h-[400px] bg-black rounded-2xl overflow-hidden">
+                <video
                     ref={videoRef}
                     autoPlay
                     playsInline
                     muted
-                    sx={{
-                        width: '100%',
-                        height: '100%',
-                        objectFit: 'cover',
-                        display: isVideoOff ? 'none' : 'block',
-                    }}
+                    className={`w-full h-full object-cover ${isVideoOff ? 'hidden' : 'block'}`}
                 />
                 {isVideoOff && (
-                    <Stack alignItems="center" spacing={2}>
-                        <User size={80} color={theme.palette.text.secondary} />
-                        <Typography variant="body1" color="text.secondary">
-                            Camera Signal Lost
-                        </Typography>
-                    </Stack>
+                    <div className="flex flex-col items-center gap-2">
+                        <User size={80} color="#5f6368" />
+                        <span className="text-[#5f6368]">Camera Signal Lost</span>
+                    </div>
                 )}
-                <Box
-                    sx={{
-                        position: 'absolute',
-                        bottom: 16,
-                        left: 16,
-                        px: 2,
-                        py: 1,
-                        bgcolor: alpha(theme.palette.background.paper, 0.8),
-                        borderRadius: 1,
-                    }}
-                >
-                    <Stack direction="row" spacing={1} alignItems="center">
-                        <Typography variant="body2" fontWeight={600}>
-                            You
-                        </Typography>
+                <div className="absolute bottom-4 left-4 px-2 py-1 rounded-lg bg-white/80 dark:bg-[#1a1d23]/80">
+                    <div className="flex items-center gap-1">
+                        <span className="text-sm font-semibold text-[#202124] dark:text-[#e8eaed]">You</span>
                         {isMuted && (
-                            <Typography variant="caption" color="error.main" fontWeight={600}>
-                                Muted
-                            </Typography>
+                            <span className="text-xs font-semibold text-[#dc2626]">Muted</span>
                         )}
-                    </Stack>
-                </Box>
-            </Card>
-        </Box>
+                    </div>
+                </div>
+            </div>
+        </div>
     );
 };
 

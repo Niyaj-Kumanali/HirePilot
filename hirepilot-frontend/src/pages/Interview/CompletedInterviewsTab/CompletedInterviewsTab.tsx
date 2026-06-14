@@ -1,93 +1,65 @@
 import { FileText } from 'lucide-react';
 import type { CompletedInterview } from '../../../types/interview';
-import { Box, Card, Typography, Stack, useTheme, alpha } from '@mui/material';
 
 interface CompletedInterviewsTabProps {
   interviews: CompletedInterview[];
 }
 
 const CompletedInterviewsTab = ({ interviews }: CompletedInterviewsTabProps) => {
-  const theme = useTheme();
-
   return (
-    <Box
-      sx={{
-        display: 'grid',
-        gridTemplateColumns: { xs: '1fr', md: 'repeat(2, 1fr)', lg: 'repeat(3, 1fr)' },
-        gap: 3,
-      }}
-    >
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
       {interviews.map((interview) => (
-        <Card
+        <div
           key={interview.id}
-          sx={{
-            p: 3,
-            borderRadius: 2,
-            border: `1px solid ${theme.palette.divider}`,
-            transition: 'all 0.3s',
-            '&:hover': {
-              transform: 'translateY(-4px)',
-              boxShadow: `0 12px 24px ${alpha(theme.palette.primary.main, 0.15)}`,
-            },
-          }}
+          className="
+            p-3 rounded-xl border border-[#e0e0e0] dark:border-[#3c4043]
+            bg-white dark:bg-[#1a1d23]
+            transition-all duration-300
+            hover:-translate-y-1 hover:shadow-[0_12px_24px_rgba(168,85,247,0.15)]
+          "
         >
-          <Stack direction="row" justifyContent="space-between" alignItems="flex-start" sx={{ mb: 2 }}>
-            <Box>
-              <Typography variant="h6" fontWeight={700} gutterBottom>
+          <div className="flex justify-between items-start mb-2">
+            <div>
+              <h3 className="text-lg font-bold mb-1 text-[#202124] dark:text-[#e8eaed]">
                 {interview.title}
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                {interview.company} • {interview.position}
-              </Typography>
-            </Box>
-            <Box
-              sx={{
-                width: 56,
-                height: 56,
-                borderRadius: '50%',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                bgcolor: alpha(theme.palette.success.main, 0.1),
-                border: `3px solid ${theme.palette.success.main}`,
-              }}
+              </h3>
+              <p className="text-sm text-[#5f6368] dark:text-[#9aa0a6]">
+                {interview.company} &bull; {interview.position}
+              </p>
+            </div>
+            <div
+              className="w-14 h-14 rounded-full flex items-center justify-center border-[3px]"
+              style={{ backgroundColor: 'rgba(30,126,52,0.1)', borderColor: '#1e7e34' }}
             >
-              <Typography variant="h6" fontWeight={700} color="success.main">
+              <span className="text-lg font-bold text-[#1e7e34]">
                 {interview.score}%
-              </Typography>
-            </Box>
-          </Stack>
+              </span>
+            </div>
+          </div>
 
-          <Box
-            sx={{
-              p: 2,
-              borderRadius: 1.5,
-              bgcolor: alpha(theme.palette.background.default, 0.5),
-              mb: 2,
-            }}
-          >
-            <Stack direction="row" spacing={1} alignItems="center" sx={{ mb: 1 }}>
-              <FileText size={16} />
-              <Typography variant="caption" fontWeight={700} textTransform="uppercase">
+          <div className="p-2 rounded-xl bg-[#fafafa]/50 dark:bg-[#0f172a]/50 mb-2">
+            <div className="flex items-center gap-1 mb-1">
+              <FileText size={16} className="text-[#5f6368] dark:text-[#9aa0a6]" />
+              <span className="text-xs font-bold uppercase text-[#5f6368] dark:text-[#9aa0a6]">
                 Feedback
-              </Typography>
-            </Stack>
-            <Typography variant="body2" color="text.secondary" sx={{ fontStyle: 'italic' }}>
-              "{interview.feedback}"
-            </Typography>
-          </Box>
+              </span>
+            </div>
+            <p className="text-sm text-[#5f6368] dark:text-[#9aa0a6] italic">
+              &ldquo;{interview.feedback}&rdquo;
+            </p>
+          </div>
 
-          <Stack direction="row" justifyContent="space-between" alignItems="center">
-            <Typography variant="caption" color="text.secondary">
+          <div className="flex justify-between items-center">
+            <span className="text-xs text-[#5f6368] dark:text-[#9aa0a6]">
               {interview.date}
-            </Typography>
-            <Typography variant="caption" color="text.secondary">
+            </span>
+            <span className="text-xs text-[#5f6368] dark:text-[#9aa0a6]">
               by {interview.interviewer}
-            </Typography>
-          </Stack>
-        </Card>
+            </span>
+          </div>
+        </div>
       ))}
-    </Box>
+    </div>
   );
 };
 

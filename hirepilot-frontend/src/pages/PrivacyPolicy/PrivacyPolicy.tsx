@@ -1,136 +1,98 @@
 import React, { useEffect } from 'react';
 import VisualHeader from '../../components/VisualHeader/VisualHeader';
-import { Box, Container, Card, Stack, Typography, Link as MuiLink, useTheme, alpha, keyframes } from '@mui/material';
-
-const float = keyframes`
-  0%, 100% { transform: translate(0, 0); }
-  50% { transform: translate(15px, 15px); }
-`;
 
 const PrivacyPolicy: React.FC = () => {
-    const theme = useTheme();
-
     useEffect(() => {
         window.scrollTo(0, 0);
     }, []);
 
     return (
-        <Box sx={{ position: 'relative', minHeight: '100vh', overflow: 'hidden' }}>
+        <div className="relative min-h-screen overflow-hidden">
             {/* Background glows */}
-            <Box
-                sx={{
-                    position: 'absolute',
-                    top: '15%',
-                    right: '10%',
-                    width: 350,
-                    height: 350,
-                    borderRadius: '50%',
-                    background: alpha(theme.palette.primary.main, 0.08),
+            <div
+                className="absolute top-[15%] right-[10%] w-[350px] h-[350px] rounded-full pointer-events-none"
+                style={{
+                    background: 'rgba(168,85,247,0.08)',
                     filter: 'blur(80px)',
-                    animation: `${float} 10s ease-in-out infinite`,
+                    animation: 'floatAround 10s ease-in-out infinite',
                 }}
             />
-            <Box
-                sx={{
-                    position: 'absolute',
-                    bottom: '20%',
-                    left: '5%',
-                    width: 300,
-                    height: 300,
-                    borderRadius: '50%',
-                    background: alpha(theme.palette.secondary.main, 0.08),
+            <div
+                className="absolute bottom-[20%] left-[5%] w-[300px] h-[300px] rounded-full pointer-events-none"
+                style={{
+                    background: 'rgba(99,102,241,0.08)',
                     filter: 'blur(80px)',
-                    animation: `${float} 12s ease-in-out infinite`,
+                    animation: 'floatAround 12s ease-in-out infinite',
                     animationDelay: '1s',
                 }}
             />
 
-            <Container maxWidth="md" sx={{ position: 'relative', py: 8 }}>
-                <Box sx={{ mb: 6 }}>
+            <div className="mx-auto w-full max-w-3xl px-4 relative py-8">
+                <div className="mb-6">
                     <VisualHeader
                         badge="Legal"
                         title="Privacy"
                         gradient_title="Policy"
                         subtitle="Learn how we protect and manage your data at HirePilot."
                     />
-                </Box>
+                </div>
 
-                <Card sx={{ p: { xs: 3, md: 5 }, borderRadius: 3 }}>
-                    <Stack spacing={4}>
-                        <Box component="section">
-                            <Typography variant="h5" fontWeight={700} gutterBottom>
-                                1. Introduction
-                            </Typography>
-                            <Typography variant="body1" color="text.secondary" sx={{ lineHeight: 1.7 }}>
+                <div className="bg-white dark:bg-[#1a1d23] p-3 md:p-5 rounded-2xl border border-[#e0e0e0] dark:border-[#3c4043]">
+                    <div className="flex flex-col gap-4">
+                        <section>
+                            <h4 className="text-xl font-bold mb-1 text-[#202124] dark:text-[#e8eaed]">1. Introduction</h4>
+                            <p className="text-[#5f6368] dark:text-[#9aa0a6] leading-relaxed">
                                 Welcome to HirePilot. We are committed to protecting your personal information and your right to privacy.
                                 If you have any questions or concerns about our policy, or our practices with regards to your personal information, please contact us.
-                            </Typography>
-                        </Box>
+                            </p>
+                        </section>
 
-                        <Box component="section">
-                            <Typography variant="h5" fontWeight={700} gutterBottom>
-                                2. Information We Collect
-                            </Typography>
-                            <Typography variant="body1" color="text.secondary" sx={{ lineHeight: 1.7 }}>
+                        <section>
+                            <h4 className="text-xl font-bold mb-1 text-[#202124] dark:text-[#e8eaed]">2. Information We Collect</h4>
+                            <p className="text-[#5f6368] dark:text-[#9aa0a6] leading-relaxed">
                                 We collect personal information that you provide to us such as name, email address, and professional background when you register on the platform.
                                 We also collect data through your interactions with our AI tools, and mock interviews to improve your experience.
-                            </Typography>
-                        </Box>
+                            </p>
+                        </section>
 
-                        <Box component="section">
-                            <Typography variant="h5" fontWeight={700} gutterBottom>
-                                3. How We Use Your Information
-                            </Typography>
-                            <Stack component="ul" spacing={1} sx={{ pl: 3 }}>
-                                <Typography component="li" variant="body1" color="text.secondary">
-                                    To provide and maintain our Service.
-                                </Typography>
-                                <Typography component="li" variant="body1" color="text.secondary">
-                                    To notify you about changes to our Service.
-                                </Typography>
-                                <Typography component="li" variant="body1" color="text.secondary">
-                                    To provide AI-driven feedback on your interview performance.
-                                </Typography>
-                                <Typography component="li" variant="body1" color="text.secondary">
-                                    To monitor the usage of our Service and detect technical issues.
-                                </Typography>
-                            </Stack>
-                        </Box>
+                        <section>
+                            <h4 className="text-xl font-bold mb-1 text-[#202124] dark:text-[#e8eaed]">3. How We Use Your Information</h4>
+                            <ul className="list-disc pl-8 flex flex-col gap-1">
+                                <li className="text-[#5f6368] dark:text-[#9aa0a6]">To provide and maintain our Service.</li>
+                                <li className="text-[#5f6368] dark:text-[#9aa0a6]">To notify you about changes to our Service.</li>
+                                <li className="text-[#5f6368] dark:text-[#9aa0a6]">To provide AI-driven feedback on your interview performance.</li>
+                                <li className="text-[#5f6368] dark:text-[#9aa0a6]">To monitor the usage of our Service and detect technical issues.</li>
+                            </ul>
+                        </section>
 
-                        <Box component="section">
-                            <Typography variant="h5" fontWeight={700} gutterBottom>
-                                4. Data Security
-                            </Typography>
-                            <Typography variant="body1" color="text.secondary" sx={{ lineHeight: 1.7 }}>
+                        <section>
+                            <h4 className="text-xl font-bold mb-1 text-[#202124] dark:text-[#e8eaed]">4. Data Security</h4>
+                            <p className="text-[#5f6368] dark:text-[#9aa0a6] leading-relaxed">
                                 The security of your data is important to us, but remember that no method of transmission over the Internet, or method of electronic storage is 100% secure.
                                 While we strive to use commercially acceptable means to protect your personal information, we cannot guarantee its absolute security.
-                            </Typography>
-                        </Box>
+                            </p>
+                        </section>
 
-                        <Box component="section">
-                            <Typography variant="h5" fontWeight={700} gutterBottom>
-                                5. Your Privacy Rights
-                            </Typography>
-                            <Typography variant="body1" color="text.secondary" sx={{ lineHeight: 1.7 }}>
+                        <section>
+                            <h4 className="text-xl font-bold mb-1 text-[#202124] dark:text-[#e8eaed]">5. Your Privacy Rights</h4>
+                            <p className="text-[#5f6368] dark:text-[#9aa0a6] leading-relaxed">
                                 You have the right to access, update, or delete the information we have on you. Whenever made possible, you can access, update or request deletion of your personal information directly within your account settings section.
-                            </Typography>
-                        </Box>
+                            </p>
+                        </section>
 
-                        <Box component="section">
-                            <Typography variant="h5" fontWeight={700} gutterBottom>
-                                6. Contact Us
-                            </Typography>
-                            <Typography variant="body1" color="text.secondary" sx={{ lineHeight: 1.7 }}>
+                        <section>
+                            <h4 className="text-xl font-bold mb-1 text-[#202124] dark:text-[#e8eaed]">6. Contact Us</h4>
+                            <p className="text-[#5f6368] dark:text-[#9aa0a6] leading-relaxed">
                                 If you have any questions about this Privacy Policy, please contact us at:{' '}
-                                <MuiLink href="mailto:iamnawazahmad777@gmail.com" color="primary.main" fontWeight={600}>
+                                <a href="mailto:iamnawazahmad777@gmail.com" className="text-primary font-semibold">
                                     iamnawazahmad777@gmail.com
-                                </MuiLink>
-                            </Typography>
-                        </Box>
-                    </Stack>
-                </Card>
-            </Container>
-        </Box>
+                                </a>
+                            </p>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </div>
     );
 };
 

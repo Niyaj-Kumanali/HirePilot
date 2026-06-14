@@ -1,5 +1,4 @@
 import { Timer, Loader, X } from 'lucide-react';
-import { Box, Stack, Typography, Button, IconButton, Chip, useTheme, alpha, keyframes } from '@mui/material';
 
 interface SessionHeaderProps {
     position: string;
@@ -12,11 +11,6 @@ interface SessionHeaderProps {
     canFinish: boolean;
 }
 
-const pulse = keyframes`
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.5; }
-`;
-
 const SessionHeader = ({
     position,
     company,
@@ -27,108 +21,73 @@ const SessionHeader = ({
     isFinishing,
     canFinish
 }: SessionHeaderProps) => {
-    const theme = useTheme();
     const isWarning = timeLeft < 60;
 
     return (
-        <Box
-            component="header"
-            sx={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                p: 3,
-                bgcolor: alpha(theme.palette.background.paper, 0.8),
-                backdropFilter: 'blur(12px)',
-                borderBottom: `1px solid ${theme.palette.divider}`,
-            }}
+        <header
+            className="
+                flex justify-between items-center p-3
+                bg-white/80 dark:bg-[#1a1d23]/80
+                backdrop-blur-[12px]
+                border-b border-[#e0e0e0] dark:border-[#3c4043]
+            "
         >
-            <Stack spacing={1}>
-                <Chip
-                    label={
-                        <Stack direction="row" spacing={0.5} alignItems="center">
-                            <Box
-                                sx={{
-                                    width: 8,
-                                    height: 8,
-                                    borderRadius: '50%',
-                                    bgcolor: 'error.main',
-                                    animation: `${pulse} 2s ease-in-out infinite`,
-                                }}
-                            />
-                            LIVE INTERVIEW
-                        </Stack>
-                    }
-                    size="small"
-                    sx={{
-                        bgcolor: alpha(theme.palette.error.main, 0.1),
-                        color: 'error.main',
-                        fontWeight: 700,
-                        width: 'fit-content',
-                    }}
-                />
-                <Typography variant="h5" fontWeight={700}>
-                    {position}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                    {company}
-                </Typography>
-            </Stack>
+            <div className="flex flex-col gap-1">
+                <span
+                    className="inline-flex items-center gap-0.5 text-xs font-bold rounded-full px-2 py-0.5 w-fit"
+                    style={{ backgroundColor: 'rgba(220,38,38,0.1)', color: '#dc2626' }}
+                >
+                    <span className="w-2 h-2 rounded-full bg-[#dc2626]" style={{ animation: 'iconPulse 2s ease-in-out infinite' }} />
+                    LIVE INTERVIEW
+                </span>
+                <h3 className="text-xl font-bold text-[#202124] dark:text-[#e8eaed]">{position}</h3>
+                <span className="text-sm text-[#5f6368] dark:text-[#9aa0a6]">{company}</span>
+            </div>
 
-            <Box
-                sx={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: 2,
-                    px: 3,
-                    py: 1.5,
-                    borderRadius: 2,
-                    bgcolor: alpha(theme.palette.background.paper, 0.8),
-                    border: `1px solid ${theme.palette.divider}`,
-                }}
+            <div
+                className="
+                    flex items-center gap-2 px-3 py-1.5 rounded-xl
+                    bg-white/80 dark:bg-[#1a1d23]/80
+                    border border-[#e0e0e0] dark:border-[#3c4043]
+                "
             >
-                <Timer size={18} color={isWarning ? theme.palette.warning.main : theme.palette.primary.main} />
-                <Typography
-                    variant="h6"
-                    fontWeight={700}
-                    sx={{
-                        color: isWarning ? 'warning.main' : 'text.primary',
-                        fontVariantNumeric: 'tabular-nums',
-                    }}
+                <Timer size={18} color={isWarning ? '#f59e0b' : '#a855f7'} />
+                <span
+                    className="text-lg font-bold tabular-nums"
+                    style={{ color: isWarning ? '#f59e0b' : undefined }}
                 >
                     {formatTime(timeLeft)}
-                </Typography>
-            </Box>
+                </span>
+            </div>
 
-            <Stack direction="row" spacing={2}>
+            <div className="flex items-center gap-2">
                 {canFinish && (
-                    <Button
-                        variant="contained"
+                    <button
                         onClick={onFinish}
                         disabled={isFinishing}
-                        startIcon={isFinishing ? <Loader size={18} /> : null}
-                        sx={{
-                            background: `linear-gradient(135deg, ${theme.palette.success.main}, ${theme.palette.success.dark})`,
-                        }}
+                        className="
+                            flex items-center gap-2 px-4 py-2 rounded-lg font-bold text-sm
+                            bg-gradient-to-r from-[#16a34a] to-[#15803d] text-white
+                            disabled:opacity-60 transition-all
+                        "
                     >
+                        {isFinishing && <Loader size={18} className="animate-spin" />}
                         {isFinishing ? 'Finishing...' : 'Finish Now'}
-                    </Button>
+                    </button>
                 )}
-                <IconButton
+                <button
                     onClick={onClose}
-                    sx={{
-                        bgcolor: alpha(theme.palette.error.main, 0.1),
-                        color: 'error.main',
-                        '&:hover': {
-                            bgcolor: 'error.main',
-                            color: 'white',
-                        },
-                    }}
+                    className="
+                        w-10 h-10 flex items-center justify-center rounded-lg
+                        bg-[#dc2626]/10 text-[#dc2626]
+                        hover:bg-[#dc2626] hover:text-white
+                        transition-all
+                    "
                 >
                     <X size={20} />
-                </IconButton>
-            </Stack>
-        </Box>
+                </button>
+            </div>
+        </header>
     );
 };
 

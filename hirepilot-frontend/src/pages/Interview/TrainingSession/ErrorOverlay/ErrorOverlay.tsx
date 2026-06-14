@@ -1,5 +1,4 @@
 import { AlertTriangle } from 'lucide-react';
-import { Box, Stack, Typography, Button, useTheme, alpha } from '@mui/material';
 
 interface ErrorOverlayProps {
     error: { title: string; message: string };
@@ -8,74 +7,34 @@ interface ErrorOverlayProps {
 }
 
 const ErrorOverlay = ({ error, onRetry, onClose }: ErrorOverlayProps) => {
-    const theme = useTheme();
-
     return (
-        <Box
-            sx={{
-                position: 'fixed',
-                top: 0,
-                left: 0,
-                right: 0,
-                bottom: 0,
-                bgcolor: alpha(theme.palette.background.default, 0.9),
-                backdropFilter: 'blur(8px)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                zIndex: 9999,
-            }}
-        >
-            <Box
-                sx={{
-                    maxWidth: 500,
-                    p: 4,
-                    bgcolor: 'background.paper',
-                    borderRadius: 3,
-                    border: `1px solid ${theme.palette.divider}`,
-                    boxShadow: theme.shadows[8],
-                }}
-            >
-                <Stack spacing={3} alignItems="center">
-                    <Box
-                        sx={{
-                            width: 80,
-                            height: 80,
-                            borderRadius: '50%',
-                            bgcolor: alpha(theme.palette.error.main, 0.1),
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                        }}
-                    >
-                        <AlertTriangle size={40} color={theme.palette.error.main} />
-                    </Box>
-                    <Stack spacing={1} alignItems="center">
-                        <Typography variant="h5" fontWeight={700}>
-                            {error.title}
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary" textAlign="center">
-                            {error.message}
-                        </Typography>
-                    </Stack>
-                    <Stack direction="row" spacing={2} sx={{ width: '100%' }}>
-                        <Button
-                            variant="contained"
+        <div className="fixed inset-0 z-[9999] flex items-center justify-center" style={{ backgroundColor: 'rgba(15,23,42,0.9)' }}>
+            <div className="max-w-[500px] p-4 bg-white dark:bg-[#1a1d23] rounded-2xl border border-[#e0e0e0] dark:border-[#3c4043] shadow-lg">
+                <div className="flex flex-col gap-3 items-center">
+                    <div className="w-20 h-20 rounded-full flex items-center justify-center" style={{ backgroundColor: 'rgba(220,38,38,0.1)' }}>
+                        <AlertTriangle size={40} color="#dc2626" />
+                    </div>
+                    <div className="flex flex-col gap-1 items-center">
+                        <h4 className="text-xl font-bold text-[#202124] dark:text-[#e8eaed]">{error.title}</h4>
+                        <p className="text-sm text-[#5f6368] dark:text-[#9aa0a6] text-center">{error.message}</p>
+                    </div>
+                    <div className="flex gap-2 w-full">
+                        <button
                             onClick={onRetry}
-                            fullWidth
-                            sx={{
-                                background: `linear-gradient(135deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
-                            }}
+                            className="flex-1 py-2 rounded-xl font-bold text-sm bg-gradient-to-r from-primary to-secondary text-white transition-all"
                         >
                             Try Again
-                        </Button>
-                        <Button variant="outlined" onClick={onClose} fullWidth>
+                        </button>
+                        <button
+                            onClick={onClose}
+                            className="flex-1 py-2 rounded-xl font-bold text-sm border border-[#e0e0e0] dark:border-[#3c4043] text-[#202124] dark:text-[#e8eaed] transition-all"
+                        >
                             Exit Session
-                        </Button>
-                    </Stack>
-                </Stack>
-            </Box>
-        </Box>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
     );
 };
 

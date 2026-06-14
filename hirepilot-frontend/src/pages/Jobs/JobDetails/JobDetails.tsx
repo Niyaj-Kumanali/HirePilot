@@ -2,21 +2,6 @@ import React, { useEffect } from 'react';
 import { X, Briefcase, Building2, Rocket, MapPin, Clock, DollarSign, Users, Star, Sparkles } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import type Job from '../../../types/job';
-import {
-  Dialog,
-  DialogContent,
-  DialogActions,
-  Box,
-  Typography,
-  Button,
-  IconButton,
-  Chip,
-  Stack,
-  useTheme,
-  alpha,
-  Slide
-} from '@mui/material';
-import type { TransitionProps } from '@mui/material/transitions';
 
 interface JobDetailsProps {
   open: boolean;
@@ -24,18 +9,8 @@ interface JobDetailsProps {
   onClose: () => void;
 }
 
-const Transition = React.forwardRef(function Transition(
-  props: TransitionProps & {
-    children: React.ReactElement;
-  },
-  ref: React.Ref<unknown>,
-) {
-  return <Slide direction="up" ref={ref} {...props} />;
-});
-
 const JobDetails: React.FC<JobDetailsProps> = ({ open, job, onClose }) => {
   const navigate = useNavigate();
-  const theme = useTheme();
 
   useEffect(() => {
     if (open) {
@@ -45,7 +20,15 @@ const JobDetails: React.FC<JobDetailsProps> = ({ open, job, onClose }) => {
     }
   }, [open]);
 
-  if (!job) return null;
+  useEffect(() => {
+    const handleEsc = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+    };
+    if (open) window.addEventListener('keydown', handleEsc);
+    return () => window.removeEventListener('keydown', handleEsc);
+  }, [open, onClose]);
+
+  if (!open || !job) return null;
 
   const handleStartAIInterview = () => {
     onClose();
@@ -53,187 +36,108 @@ const JobDetails: React.FC<JobDetailsProps> = ({ open, job, onClose }) => {
   };
 
   return (
-    <Dialog
-      open={open}
-      onClose={onClose}
-      TransitionComponent={Transition}
-      maxWidth="md"
-      fullWidth
-      PaperProps={{
-        sx: {
-          borderRadius: 3,
-          maxHeight: '90vh',
-        }
-      }}
-    >
-      <IconButton
-        onClick={onClose}
-        sx={{
-          position: 'absolute',
-          right: 8,
-          top: 8,
-          zIndex: 1,
-          bgcolor: alpha(theme.palette.background.paper, 0.8),
-          '&:hover': {
-            bgcolor: alpha(theme.palette.background.paper, 0.95),
-          }
-        }}
-      >
-        <X size={24} />
-      </IconButton>
+    <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center">
+      {/* Backdrop */}
+      <div className="absolute inset-0 bg-black/40" onClick={onClose} />
 
-      {/* Header */}
-      <Box
-        sx={{
-          background: `linear-gradient(135deg, ${alpha(theme.palette.primary.main, 0.1)} 0%, ${alpha(theme.palette.secondary.main, 0.1)} 100%)`,
-          p: 4,
-          borderBottom: `1px solid ${theme.palette.divider}`,
-        }}
-      >
-        <Stack direction="row" spacing={2} alignItems="flex-start">
-          <Box
-            sx={{
-              width: 56,
-              height: 56,
-              borderRadius: 2,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              bgcolor: alpha(theme.palette.primary.main, 0.1),
-              color: 'primary.main',
-            }}
-          >
-            <Briefcase size={28} />
-          </Box>
-          <Box sx={{ flex: 1 }}>
-            <Typography variant="h5" fontWeight={700} gutterBottom>
-              {job.title}
-            </Typography>
-            <Stack direction="row" spacing={1} alignItems="center">
-              <Building2 size={16} />
-              <Typography variant="body2" color="text.secondary">
-                {job.company}
-              </Typography>
-            </Stack>
-          </Box>
-          {job.rating && (
-            <Chip
-              icon={<Star size={16} fill="currentColor" />}
-              label={job.rating}
-              size="small"
-              sx={{
-                bgcolor: alpha(theme.palette.warning.main, 0.1),
-                color: 'warning.main',
-                fontWeight: 700,
-              }}
-            />
-          )}
-        </Stack>
-      </Box>
-
-      <DialogContent sx={{ p: 4 }}>
-        {/* Quick Info */}
-        <Stack direction="row" spacing={2} flexWrap="wrap" sx={{ mb: 4 }}>
-          {job.location && (
-            <Chip
-              icon={<MapPin size={18} />}
-              label={job.location}
-              variant="outlined"
-            />
-          )}
-          {job.salary && (
-            <Chip
-              icon={<DollarSign size={18} />}
-              label={job.salary}
-              variant="outlined"
-            />
-          )}
-          {job.type && (
-            <Chip
-              icon={<Clock size={18} />}
-              label={job.type}
-              variant="outlined"
-            />
-          )}
-          {job.level && (
-            <Chip
-              icon={<Users size={18} />}
-              label={job.level}
-              variant="outlined"
-            />
-          )}
-        </Stack>
-
-        {/* Description Section */}
-        <Box sx={{ mb: 4 }}>
-          <Typography variant="h6" fontWeight={700} gutterBottom>
-            About This Role
-          </Typography>
-          <Typography variant="body1" color="text.secondary" sx={{ lineHeight: 1.7 }}>
-            {job.description}
-          </Typography>
-        </Box>
-
-        {/* Skills Section */}
-        <Box>
-          <Typography variant="h6" fontWeight={700} gutterBottom>
-            Required Skills
-          </Typography>
-          <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap>
-            {job.tags.map((tag) => (
-              <Chip
-                key={tag}
-                label={tag}
-                size="small"
-                sx={{
-                  bgcolor: alpha(theme.palette.primary.main, 0.1),
-                  color: 'primary.main',
-                  fontWeight: 600,
-                }}
-              />
-            ))}
-          </Stack>
-        </Box>
-      </DialogContent>
-
-      <DialogActions sx={{ p: 3, gap: 1.5, borderTop: `1px solid ${theme.palette.divider}` }}>
-        <Button
-          variant="outlined"
+      {/* Dialog */}
+      <div className="relative w-full max-w-2xl max-h-[90vh] bg-white dark:bg-[#1a1d23] rounded-2xl shadow-2xl overflow-hidden animate-[slideUp_0.3s_ease-out] flex flex-col">
+        <button
           onClick={onClose}
-          sx={{ borderRadius: 1.5, px: 3 }}
+          className="absolute right-2 top-2 z-10 w-10 h-10 flex items-center justify-center rounded-xl bg-white/80 dark:bg-[#1a1d23]/80 hover:bg-white dark:hover:bg-[#1a1d23] transition-all"
         >
-          Close
-        </Button>
-        <Button
-          variant="outlined"
-          startIcon={<Sparkles size={18} />}
-          onClick={handleStartAIInterview}
-          sx={{
-            borderRadius: 1.5,
-            px: 3,
-            borderColor: 'secondary.main',
-            color: 'secondary.main',
-            '&:hover': {
-              borderColor: 'secondary.dark',
-              bgcolor: alpha(theme.palette.secondary.main, 0.05),
-            }
-          }}
+          <X size={24} />
+        </button>
+
+        {/* Header */}
+        <div
+          className="p-4 border-b border-[#e0e0e0] dark:border-[#3c4043]"
+          style={{ background: 'linear-gradient(135deg, rgba(168,85,247,0.1) 0%, rgba(99,102,241,0.1) 100%)' }}
         >
-          AI Interview
-        </Button>
-        <Button
-          variant="contained"
-          startIcon={<Rocket size={18} />}
-          sx={{
-            borderRadius: 1.5,
-            px: 3,
-            background: `linear-gradient(135deg, ${theme.palette.primary.main} 0%, ${theme.palette.secondary.main} 100%)`,
-          }}
-        >
-          Apply Now
-        </Button>
-      </DialogActions>
-    </Dialog>
+          <div className="flex gap-2 items-start">
+            <div className="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center text-primary flex-shrink-0">
+              <Briefcase size={28} />
+            </div>
+            <div className="flex-1">
+              <h2 className="text-xl font-bold mb-1 text-[#202124] dark:text-[#e8eaed]">{job.title}</h2>
+              <div className="flex items-center gap-1">
+                <Building2 size={16} className="text-[#5f6368] dark:text-[#9aa0a6]" />
+                <span className="text-sm text-[#5f6368] dark:text-[#9aa0a6]">{job.company}</span>
+              </div>
+            </div>
+            {job.rating && (
+              <span className="inline-flex items-center gap-1 text-xs font-bold rounded-full px-2 py-1" style={{ backgroundColor: 'rgba(245,158,11,0.1)', color: '#f59e0b' }}>
+                <Star size={14} fill="currentColor" />
+                {job.rating}
+              </span>
+            )}
+          </div>
+        </div>
+
+        {/* Content */}
+        <div className="p-4 overflow-y-auto flex-1">
+          {/* Quick Info Chips */}
+          <div className="flex flex-wrap gap-2 mb-4">
+            {job.location && (
+              <span className="inline-flex items-center gap-1 text-xs font-semibold px-3 py-1.5 rounded-full border border-[#e0e0e0] dark:border-[#3c4043] text-[#5f6368] dark:text-[#9aa0a6]">
+                <MapPin size={18} /> {job.location}
+              </span>
+            )}
+            {job.salary && (
+              <span className="inline-flex items-center gap-1 text-xs font-semibold px-3 py-1.5 rounded-full border border-[#e0e0e0] dark:border-[#3c4043] text-[#5f6368] dark:text-[#9aa0a6]">
+                <DollarSign size={18} /> {job.salary}
+              </span>
+            )}
+            {job.type && (
+              <span className="inline-flex items-center gap-1 text-xs font-semibold px-3 py-1.5 rounded-full border border-[#e0e0e0] dark:border-[#3c4043] text-[#5f6368] dark:text-[#9aa0a6]">
+                <Clock size={18} /> {job.type}
+              </span>
+            )}
+            {job.level && (
+              <span className="inline-flex items-center gap-1 text-xs font-semibold px-3 py-1.5 rounded-full border border-[#e0e0e0] dark:border-[#3c4043] text-[#5f6368] dark:text-[#9aa0a6]">
+                <Users size={18} /> {job.level}
+              </span>
+            )}
+          </div>
+
+          {/* Description */}
+          <div className="mb-4">
+            <h4 className="text-lg font-bold mb-1 text-[#202124] dark:text-[#e8eaed]">About This Role</h4>
+            <p className="text-[#5f6368] dark:text-[#9aa0a6] leading-relaxed">{job.description}</p>
+          </div>
+
+          {/* Skills */}
+          <div>
+            <h4 className="text-lg font-bold mb-1 text-[#202124] dark:text-[#e8eaed]">Required Skills</h4>
+            <div className="flex flex-wrap gap-1">
+              {job.tags.map((tag) => (
+                <span key={tag} className="text-xs font-semibold px-2 py-1 rounded-full bg-primary/10 text-primary">
+                  {tag}
+                </span>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Actions */}
+        <div className="flex items-center gap-1.5 p-3 border-t border-[#e0e0e0] dark:border-[#3c4043] justify-end">
+          <button onClick={onClose} className="px-3 py-2 rounded-xl text-sm font-semibold border border-[#e0e0e0] dark:border-[#3c4043] text-[#202124] dark:text-[#e8eaed] transition-all">
+            Close
+          </button>
+          <button
+            onClick={handleStartAIInterview}
+            className="px-3 py-2 rounded-xl text-sm font-semibold border border-secondary text-secondary hover:bg-secondary/5 transition-all inline-flex items-center gap-1"
+          >
+            <Sparkles size={18} />
+            AI Interview
+          </button>
+          <button className="px-3 py-2 rounded-xl text-sm font-semibold bg-gradient-to-r from-primary to-secondary text-white inline-flex items-center gap-1 transition-all">
+            <Rocket size={18} />
+            Apply Now
+          </button>
+        </div>
+      </div>
+    </div>
   );
 };
 

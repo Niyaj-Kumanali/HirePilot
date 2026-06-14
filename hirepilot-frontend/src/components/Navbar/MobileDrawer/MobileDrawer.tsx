@@ -1,4 +1,4 @@
-import { Drawer, Box, List, ListItem, Button, Divider } from "@mui/material";
+import React from "react";
 import { Link } from "react-router-dom";
 
 import type { LucideIcon } from "lucide-react";
@@ -16,47 +16,62 @@ interface MobileDrawerProps {
     NAV_ITEMS: { label: string; path: string; icon: LucideIcon }[];
 }
 
-/**
- * Slide-out navigation drawer for mobile screens.
- * 
- * Provides quick access to main navigation links and auth actions 
- * when the screen width is restricted.
- */
 const MobileDrawer: React.FC<MobileDrawerProps> = ({ isMobileOpen, setIsMobileOpen, handleNavigation, isAuthenticated, NAV_ITEMS }) => {
     return (
-        <Drawer
-            anchor="right"
-            open={isMobileOpen}
-            onClose={() => setIsMobileOpen(false)}
-            ModalProps={{ keepMounted: true }}
+        <div
+            className={`fixed inset-0 z-50 transition-opacity duration-300 ${
+                isMobileOpen ? "opacity-100 visible" : "opacity-0 invisible"
+            }`}
         >
-            <Box sx={{ width: 250 }} role="presentation">
-                <List>
+            <div
+                className="absolute inset-0 bg-black/50"
+                onClick={() => setIsMobileOpen(false)}
+            />
+            <div
+                className={`absolute top-0 right-0 h-full w-[250px] bg-white shadow-xl transition-transform duration-300 ease-in-out ${
+                    isMobileOpen ? "translate-x-0" : "translate-x-full"
+                }`}
+                role="presentation"
+            >
+                <ul className="py-2">
                     {NAV_ITEMS.map((item) => {
                         const Icon = item.icon;
                         return (
-                            <ListItem key={item.label} disablePadding>
-                                <Button
-                                    fullWidth
+                            <li key={item.label}>
+                                <button
+                                    className="w-full flex items-center justify-start px-6 py-3 text-gray-800 hover:bg-gray-100 transition-colors uppercase font-medium text-sm"
                                     onClick={() => handleNavigation(item.path)}
-                                    startIcon={<Icon size={20} />}
-                                    sx={{ justifyContent: 'flex-start', px: 3, py: 1.5, color: 'text.primary' }}
                                 >
+                                    <span className="mr-3 flex items-center justify-center">
+                                        <Icon size={20} />
+                                    </span>
                                     {item.label}
-                                </Button>
-                            </ListItem>
+                                </button>
+                            </li>
                         )
                     })}
-                </List>
-                <Divider />
+                </ul>
+                <hr className="border-t border-gray-200" />
                 {!isAuthenticated && (
-                    <Box sx={{ p: 2, display: 'flex', flexDirection: 'column', gap: 1 }}>
-                        <Button component={Link} to="/signin" variant="outlined" fullWidth onClick={() => setIsMobileOpen(false)}>Sign In</Button>
-                        <Button component={Link} to="/signup" variant="contained" fullWidth onClick={() => setIsMobileOpen(false)}>Sign Up</Button>
-                    </Box>
+                    <div className="p-4 flex flex-col gap-2">
+                        <Link
+                            to="/signin"
+                            className="w-full flex items-center justify-center py-1.5 px-4 border border-primary text-primary rounded hover:bg-primary/10 transition-colors uppercase font-medium text-sm"
+                            onClick={() => setIsMobileOpen(false)}
+                        >
+                            Sign In
+                        </Link>
+                        <Link
+                            to="/signup"
+                            className="w-full flex items-center justify-center py-1.5 px-4 bg-primary text-white rounded hover:bg-primary/90 transition-colors shadow uppercase font-medium text-sm"
+                            onClick={() => setIsMobileOpen(false)}
+                        >
+                            Sign Up
+                        </Link>
+                    </div>
                 )}
-            </Box>
-        </Drawer>
+            </div>
+        </div>
     )
 }
 

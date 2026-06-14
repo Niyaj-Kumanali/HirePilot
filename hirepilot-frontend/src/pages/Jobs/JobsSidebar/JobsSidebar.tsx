@@ -1,324 +1,26 @@
 import { X, Filter, RotateCcw, ChevronDown, Pin, PinOff, Check } from 'lucide-react';
 import { useState, useMemo } from 'react';
-import {
-  Box,
-  Drawer,
-  IconButton,
-  Typography,
-  Button,
-  Stack,
-  useTheme,
-  alpha,
-} from '@mui/material';
 
 interface FilterConfig {
-  /** Display label for the filter (e.g. "Location", "Job Type"). */
   label: string;
-  /** The current selected filter value. */
   value: string;
-  /** Callback to update the filter value. */
   onChange: (value: string | number) => void;
-  /** List of available options for this filter. */
   options: string[];
-  /** Lucide icon component to represent the filter. */
   icon: React.ComponentType<{ size: number }>;
 }
 
 interface JobsFiltersSidebarProps {
-  /** Array of filter configurations. */
   filters: FilterConfig[];
-  /** Count of currently active (non-empty) filters. */
   activeFilters: number;
-  /** Callback to clear all active filters. */
   onReset: () => void;
-  /** Mobile drawer state. */
   mobileOpen: boolean;
-  /** Callback to close the mobile drawer. */
   onMobileClose: () => void;
+  showFullContent: boolean;
+  isLocked: boolean;
+  toggleLock: () => void;
+  expandAndLock: () => void;
+  setIsHovered: (hovered: boolean) => void;
 }
-
-/**
- * Enhanced Sidebar for filtering job listings.
- * 
- * Features:
- * - Hover-to-expand behavior on desktop.
- * - Stick/Lock functionality for persistent view.
- * - Dynamic active filter indicator.
- * - Collapsible dropdown categories.
- * - Full Mobile Drawer support.
- */
-const JobsSidebar = ({
-  filters,
-  activeFilters,
-  onReset,
-  mobileOpen,
-  onMobileClose,
-}: JobsFiltersSidebarProps) => {
-  const theme = useTheme();
-  const [isHovered, setIsHovered] = useState(false);
-  const [isLocked, setIsLocked] = useState(false);
-  const [openDropdown, setOpenDropdown] = useState<string | null>(null);
-
-  const toggleLock = () => setIsLocked(!isLocked);
-  const expandAndLock = () => setIsLocked(true);
-
-  const showFullContent = isHovered || isLocked || mobileOpen;
-
-  const sidebarContent = (
-    <Box
-      sx={{
-        height: '100%',
-        display: 'flex',
-        flexDirection: 'column',
-        bgcolor: 'background.paper',
-        background: `linear-gradient(135deg, ${alpha(theme.palette.background.paper, 0.6)} 0%, ${alpha(theme.palette.background.paper, 0.8)} 100%)`,
-        backdropFilter: 'blur(10px)',
-      }}
-    >
-      {/* Header */}
-      <Box
-        sx={{
-          p: 2,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          background: `linear-gradient(90deg, ${alpha(theme.palette.primary.main, 0.03)} 0%, transparent 100%)`,
-        }}
-      >
-        <Stack
-          direction="row"
-          spacing={1.5}
-          alignItems="center"
-          onClick={toggleLock}
-          sx={{ cursor: 'pointer', flex: 1, transition: 'all 0.2s ease' }}
-        >
-          <Box
-            sx={{
-              position: 'relative',
-              p: 1.2,
-              borderRadius: '12px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              background: `linear-gradient(135deg, ${theme.palette.primary.main} 0%, ${alpha(theme.palette.primary.main, 0.7)} 100%)`,
-              color: 'primary.contrastText',
-              boxShadow: `0 8px 16px ${alpha(theme.palette.primary.main, 0.2)}`,
-              transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-              '&:hover': {
-                transform: 'scale(1.05)',
-                boxShadow: `0 12px 24px ${alpha(theme.palette.primary.main, 0.3)}`,
-              },
-            }}
-          >
-            <Filter size={18} strokeWidth={2.5} />
-            {activeFilters > 0 && <Box sx={{ position: 'absolute', top: 0, right: 0, width: '10px', height: '10px', borderRadius: '50%', background: 'green', display: 'flex', justifyContent: 'center', alignItems: 'center', fontSize: '0.4rem' }} > {activeFilters} </Box>}
-          </Box>
-          {showFullContent && (
-            <Box sx={{ flex: 1 }}>
-              <Typography
-                variant="subtitle2"
-                fontWeight={800}
-                sx={{
-                  fontSize: '0.95rem',
-                  background: `linear-gradient(135deg, ${theme.palette.primary.main} 0%, ${theme.palette.secondary.main} 100%)`,
-                  backgroundClip: 'text',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                }}
-              >
-                Filters
-              </Typography>
-            </Box>
-          )}
-        </Stack>
-
-        {showFullContent && (
-          <Stack direction="row" spacing={0.75}>
-            <IconButton
-              size="small"
-              onClick={toggleLock}
-              title={isLocked ? "Unlock Sidebar" : "Lock Sidebar"}
-              sx={{
-                display: { xs: 'none', lg: 'flex' },
-                width: 36,
-                height: 36,
-                borderRadius: '10px',
-                border: `1.5px solid ${alpha(theme.palette.primary.main, 0.2)}`,
-                color: isLocked ? 'primary.main' : 'text.secondary',
-                transition: 'all 0.2s ease',
-                '&:hover': {
-                  background: alpha(theme.palette.primary.main, 0.1),
-                  borderColor: alpha(theme.palette.primary.main, 0.4),
-                },
-              }}
-            >
-              {isLocked ? <Pin size={18} /> : <PinOff size={18} />}
-            </IconButton>
-            <IconButton
-              size="small"
-              onClick={onMobileClose}
-              sx={{
-                display: { xs: 'flex', lg: 'none' },
-                width: 36,
-                height: 36,
-                borderRadius: '10px',
-                border: `1.5px solid ${alpha(theme.palette.divider, 0.6)}`,
-                transition: 'all 0.2s ease',
-                '&:hover': {
-                  background: alpha(theme.palette.error.main, 0.1),
-                  borderColor: theme.palette.error.main,
-                  color: theme.palette.error.main,
-                },
-              }}
-            >
-              <X size={18} />
-            </IconButton>
-          </Stack>
-        )}
-      </Box>
-
-      {/* Filter Body */}
-      <Box
-        sx={{
-          flex: 1,
-          overflowY: 'auto',
-          overflowX: 'hidden',
-          p: 2,
-          display: 'flex',
-          flexDirection: 'column',
-          gap: 1.5,
-          '&::-webkit-scrollbar': {
-            width: '6px',
-          },
-          '&::-webkit-scrollbar-track': {
-            background: 'transparent',
-          },
-          '&::-webkit-scrollbar-thumb': {
-            background: alpha(theme.palette.primary.main, 0.2),
-            borderRadius: '3px',
-            '&:hover': {
-              background: alpha(theme.palette.primary.main, 0.3),
-            },
-          },
-        }}
-      >
-        {filters.map((filter) => (
-          <FilterDropdown
-            key={filter.label}
-            {...filter}
-            compact={!showFullContent}
-            onExpand={expandAndLock}
-            isOpen={openDropdown === filter.label}
-            onToggle={(label) => setOpenDropdown(openDropdown === label ? null : label)}
-          />
-        ))}
-      </Box>
-
-      {/* Footer */}
-      {showFullContent && (
-
-
-        <Box
-          sx={{
-            borderTop: `1px solid ${alpha(theme.palette.divider, 0.6)}`,
-            background: `linear-gradient(90deg, transparent 0%, ${alpha(
-              theme.palette.primary.main,
-              0.02
-            )} 100%)`,
-            p: 2,
-          }}
-        >
-          <Button
-            onClick={onReset}
-            fullWidth
-            startIcon={<RotateCcw size={18} />}
-            disabled={activeFilters === 0}
-            sx={{
-              borderRadius: '10px',
-              fontWeight: 700,
-              py: 1.2,
-              textTransform: 'none',
-              justifyContent: 'center',
-
-              background:
-                activeFilters > 0
-                  ? `linear-gradient(135deg, ${alpha(
-                    theme.palette.error.main,
-                    0.1
-                  )} 0%, ${alpha(theme.palette.error.main, 0.05)} 100%)`
-                  : 'transparent',
-
-              border: `1.5px dashed ${activeFilters > 0
-                ? theme.palette.error.main
-                : alpha(theme.palette.divider, 0.5)
-                }`,
-
-              color:
-                activeFilters > 0
-                  ? theme.palette.error.main
-                  : theme.palette.text.disabled,
-
-              transition: 'all 0.3s ease',
-              whiteSpace: 'nowrap',
-              overflow: 'hidden',
-              textOverflow: 'ellipsis',
-
-              '&:hover': {
-                background: `linear-gradient(135deg, ${alpha(
-                  theme.palette.error.main,
-                  0.15
-                )} 0%, ${alpha(theme.palette.error.main, 0.08)} 100%)`,
-                borderColor: theme.palette.error.main,
-                transform: 'translateY(-2px)',
-              },
-            }}
-          >
-            Clear All
-          </Button>
-        </Box>
-
-      )}
-    </Box>
-  );
-
-  return (
-    <>
-      {/* Desktop Sidebar */}
-      <Box
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
-        sx={{
-          display: { xs: 'none', lg: 'block' },
-          width: showFullContent ? 300 : 72,
-          flexShrink: 0,
-          transition: 'width 0.35s cubic-bezier(0.4, 0, 0.2, 1)',
-          position: 'sticky',
-          top: 70,
-          left: 0,
-          height: 'calc(100vh - 70px)',
-        }}
-      >
-        {sidebarContent}
-      </Box>
-
-      {/* Mobile Drawer */}
-      <Drawer
-        anchor="left"
-        open={mobileOpen}
-        onClose={onMobileClose}
-        sx={{
-          display: { xs: 'block', lg: 'none' },
-          '& .MuiDrawer-paper': {
-            width: 300,
-            background: `linear-gradient(135deg, ${alpha(theme.palette.background.paper, 0.8)} 0%, ${alpha(theme.palette.background.paper, 1)} 100%)`,
-          },
-        }}
-      >
-        {sidebarContent}
-      </Drawer>
-    </>
-  );
-};
 
 interface FilterDropdownProps extends Omit<FilterConfig, 'icon'> {
   icon: React.ComponentType<{ size: number }>;
@@ -339,8 +41,6 @@ const FilterDropdown = ({
   isOpen,
   onToggle,
 }: FilterDropdownProps) => {
-  const theme = useTheme();
-
   const handleTriggerClick = () => {
     if (compact) {
       onExpand();
@@ -360,146 +60,198 @@ const FilterDropdown = ({
   );
 
   return (
-    <Box sx={{ position: 'relative' }}>
-      <Box
-        // fullWidth
+    <div className="relative">
+      <button
         onClick={handleTriggerClick}
-        sx={{
-          display: 'flex',
-          justifyContent: compact ? 'center' : 'space-between',
-          p: 1.5,
-          borderRadius: '12px',
-          background: isActive
-            ? `linear-gradient(135deg, ${alpha(theme.palette.primary.main, 0.12)} 0%, ${alpha(theme.palette.primary.main, 0.05)} 100%)`
-            : alpha(theme.palette.background.paper, 0.4),
-          border: `0.5px solid ${isActive ? alpha(theme.palette.primary.main, 0.4) : alpha(theme.palette.divider, 0.4)}`,
-          color: 'text.primary',
-          transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-          backdropFilter: 'blur(10px)',
-          '&:hover': {
-            background: isActive
-              ? `linear-gradient(135deg, ${alpha(theme.palette.primary.main, 0.15)} 0%, ${alpha(theme.palette.primary.main, 0.08)} 100%)`
-              : alpha(theme.palette.background.paper, 0.6),
-            borderColor: 'primary.main',
-            boxShadow: `0 8px 16px ${alpha(theme.palette.primary.main, 0.1)}`,
-          },
-        }}
+        className={`
+          w-full flex items-center gap-2.5 p-2.5 rounded-xl transition-all duration-200
+          ${compact ? 'justify-center px-2' : 'pl-[19px]'}
+          ${isActive
+            ? 'bg-primary/8 shadow-sm shadow-primary/5'
+            : 'hover:bg-black/[0.03] dark:hover:bg-white/[0.03]'
+          }
+        `}
       >
-        <Stack direction="row" spacing={1.5} alignItems="center" sx={{ flex: 1 }}>
-          <Box
-            sx={{
-              color: isActive ? 'primary.main' : 'text.secondary',
-              display: 'flex',
-              transition: 'color 0.2s ease',
-            }}
-          >
-            <Icon size={18} />
-          </Box>
-          {!compact && (
-            <Box sx={{ flex: 1, textAlign: 'left', minWidth: 0 }}>
-              <Typography
-                variant="caption"
-                display="block"
-                fontWeight={700}
-                sx={{
-                  fontSize: '0.7rem',
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.05em',
-                  whiteSpace: 'nowrap',
-                  overflow: 'hidden',
-                  textOverflow: 'ellipsis',
-                }}
-              >
-                {label}
-              </Typography>
-            </Box>
-          )}
-        </Stack>
+        <div className={`shrink-0 transition-colors ${isActive ? 'text-primary' : 'text-gray-400 dark:text-gray-500'}`}>
+          <Icon size={18} />
+        </div>
         {!compact && (
-          <ChevronDown
-            size={18}
-            style={{
-              transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)',
-              transition: 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-              color: isActive ? theme.palette.primary.main : 'currentColor',
-            }}
-          />
+          <>
+            <div className="flex-1 text-left min-w-0 overflow-hidden">
+              <div className={`text-[11px] font-semibold uppercase tracking-wider whitespace-nowrap transition-colors ${isActive ? 'text-primary' : 'text-gray-500 dark:text-gray-400'}`}>
+                {label}
+              </div>
+              {isActive && (
+                <div className="text-[11px] text-gray-400 dark:text-gray-500 mt-0.5 truncate">
+                  {value}
+                </div>
+              )}
+            </div>
+            <ChevronDown
+              size={15}
+              className={`shrink-0 transition-all duration-200 ${isOpen ? 'rotate-180' : ''} ${isActive ? 'text-primary' : 'text-gray-300 dark:text-gray-600'}`}
+            />
+          </>
         )}
-      </Box>
+      </button>
 
       {!compact && isOpen && (
-        <Box
-          sx={{
-            overflowY: 'auto',
-            position: 'absolute',
-            top: 'calc(100% + 8px)',
-            left: 0,
-            right: 0,
-            zIndex: 10,
-            maxHeight: '180px',
-            borderRadius: '12px',
-            background: `linear-gradient(135deg, ${alpha(theme.palette.background.paper, 0.95)} 0%, ${alpha(theme.palette.background.paper, 0.9)} 100%)`,
-            border: `1.5px solid ${alpha(theme.palette.primary.main, 0.2)}`,
-            boxShadow: `0 12px 32px ${alpha(theme.palette.primary.main, 0.15)}, inset 0 1px 0 ${alpha(theme.palette.common.white, 0.1)}`,
-            backdropFilter: 'blur(12px)',
-            animation: 'slideDown 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-            '@keyframes slideDown': {
-              from: {
-                opacity: 0,
-                transform: 'translateY(-8px)',
-              },
-              to: {
-                opacity: 1,
-                transform: 'translateY(0)',
-              },
-            },
-            '&::-webkit-scrollbar': {
-              width: '6px',
-            },
-            '&::-webkit-scrollbar-track': {
-              background: 'transparent',
-            },
-            '&::-webkit-scrollbar-thumb': {
-              background: alpha(theme.palette.primary.main, 0.2),
-              borderRadius: '3px',
-            },
-          }}
+        <div
+          className="mt-1 p-1 rounded-xl border border-primary/15 bg-white/95 dark:bg-[#1a1d23]/95 backdrop-blur-xl shadow-xl shadow-primary/5 overflow-hidden"
+          style={{ scrollbarWidth: 'thin' }}
         >
           {listItems.map(({ option, label: itemLabel }) => (
-            <Button
+            <button
               key={option || 'all'}
-              fullWidth
               onClick={() => {
                 onChange(option);
                 onToggle(label);
               }}
-              sx={{
-                justifyContent: 'space-between',
-                px: 2,
-                py: 1,
-                textAlign: 'left',
-                borderRadius: 0,
-                color: value === option ? 'primary.main' : 'text.primary',
-                background: value === option
-                  ? alpha(theme.palette.primary.main, 0.1)
-                  : 'transparent',
-                transition: 'all 0.2s ease',
-                '&:hover': {
-                  background: alpha(theme.palette.primary.main, 0.08),
-                },
-                fontSize: '0.7rem',
-                fontWeight: value === option ? 700 : 500,
-              }}
+              className={`
+                w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs transition-all duration-150
+                ${value === option
+                  ? 'bg-primary/10 text-primary font-bold'
+                  : 'text-gray-600 dark:text-gray-300 hover:bg-black/[0.03] dark:hover:bg-white/[0.03]'
+                }
+              `}
             >
-              <Typography variant="body2">{itemLabel}</Typography>
-              {value === option && (
-                <Check size={18} style={{ color: theme.palette.primary.main }} />
-              )}
-            </Button>
+              <span className="whitespace-nowrap">{itemLabel}</span>
+              {value === option && <Check size={14} className="text-primary shrink-0" />}
+            </button>
           ))}
-        </Box>
+        </div>
       )}
-    </Box>
+    </div>
+  );
+};
+
+const JobsSidebar = ({
+  filters,
+  activeFilters,
+  onReset,
+  mobileOpen,
+  onMobileClose,
+  showFullContent,
+  isLocked,
+  toggleLock,
+  expandAndLock,
+  setIsHovered,
+}: JobsFiltersSidebarProps) => {
+  const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+
+  const sidebarContent = (
+    <div className="min-h-[calc(100vh-70px)] flex flex-col">
+      {/* Header */}
+      <div className={`shrink-0 flex items-center px-3 py-2.5 border-b border-black/[0.04] dark:border-white/[0.06] ${showFullContent ? 'justify-between' : 'justify-center'}`}>
+        <div
+          className="flex items-center gap-2 min-w-0 cursor-pointer"
+          style={{ marginLeft: showFullContent ? '8px' : 0 }}
+          onClick={toggleLock}
+        >
+          <div className="relative shrink-0 w-8 h-8 rounded-lg bg-gradient-to-br from-primary to-primary/70 flex items-center justify-center text-white shadow-md shadow-primary/20">
+            <Filter size={16} strokeWidth={2.5} />
+            {activeFilters > 0 && (
+              <span className="absolute -top-1.5 -right-1.5 min-w-[18px] h-[18px] rounded-full bg-emerald-500 flex items-center justify-center text-[10px] font-bold text-white ring-2 ring-white dark:ring-[#1a1d23] px-1">
+                {activeFilters}
+              </span>
+            )}
+          </div>
+          {showFullContent && (
+            <span className="text-sm font-bold text-gray-800 dark:text-gray-200 truncate">
+              Filters
+            </span>
+          )}
+        </div>
+
+        {showFullContent && (
+          <div className="flex items-center gap-1 shrink-0">
+            <button
+              onClick={toggleLock}
+              title={isLocked ? 'Unlock Sidebar' : 'Lock Sidebar'}
+              className={`w-7 h-7 rounded-lg flex items-center justify-center transition-all duration-200 ${
+                isLocked
+                  ? 'text-primary bg-primary/10 hover:bg-primary/15'
+                  : 'text-gray-300 dark:text-gray-600 hover:text-gray-400 dark:hover:text-gray-500 hover:bg-black/[0.03] dark:hover:bg-white/[0.03]'
+              }`}
+            >
+              {isLocked ? <Pin size={14} /> : <PinOff size={14} />}
+            </button>
+          </div>
+        )}
+
+        {mobileOpen && (
+          <button
+            onClick={onMobileClose}
+            className="lg:hidden w-7 h-7 rounded-lg flex items-center justify-center text-gray-400 hover:text-red-500 hover:bg-red-500/10 transition-all"
+          >
+            <X size={16} />
+          </button>
+        )}
+      </div>
+
+      {/* Filter Body */}
+      <div className="flex-1 overflow-y-auto overflow-x-hidden p-2 space-y-1">
+        {filters.map((filter) => (
+          <FilterDropdown
+            key={filter.label}
+            {...filter}
+            compact={!showFullContent}
+            onExpand={expandAndLock}
+            isOpen={openDropdown === filter.label}
+            onToggle={(label) => setOpenDropdown(openDropdown === label ? null : label)}
+          />
+        ))}
+      </div>
+
+      {/* Footer */}
+      {showFullContent && (
+        <div className="shrink-0 px-3 py-2.5 border-t border-black/[0.04] dark:border-white/[0.06]">
+          <button
+            onClick={onReset}
+            disabled={activeFilters === 0}
+            className={`
+              w-full flex items-center justify-center gap-1.5 py-2 rounded-xl text-xs font-semibold
+              transition-all duration-200
+              ${activeFilters > 0
+                ? 'bg-red-500/10 text-red-500 hover:bg-red-500/15 active:scale-[0.97]'
+                : 'text-gray-300 dark:text-gray-600 cursor-not-allowed'
+              }
+            `}
+          >
+            <RotateCcw size={14} />
+            Clear All
+          </button>
+        </div>
+      )}
+    </div>
+  );
+
+  return (
+    <>
+      {/* Desktop Sidebar — sticky within grid */}
+      <div
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+        className="hidden lg:block sticky top-[70px] transition-[width] duration-200 ease-out"
+        style={{ width: showFullContent ? '300px' : '72px' }}
+      >
+        <div className="min-h-[calc(100vh-70px)] rounded-b-2xl border border-black/[0.04] dark:border-white/[0.06] bg-white/80 dark:bg-[#1a1d23]/80 backdrop-blur-xl shadow-lg shadow-black/[0.02] dark:shadow-black/[0.2] overflow-hidden">
+          {sidebarContent}
+        </div>
+      </div>
+
+      {/* Mobile Drawer Overlay */}
+      {mobileOpen && (
+        <div className="fixed inset-0 z-40 lg:hidden">
+          <div className="absolute inset-0 bg-black/30 backdrop-blur-sm" onClick={onMobileClose} />
+          <div className="absolute left-0 top-0 h-full w-[300px] shadow-2xl animate-[slideDown_0.3s_ease-out]">
+            <div className="h-full bg-white/95 dark:bg-[#1a1d23]/95 backdrop-blur-xl border-r border-black/[0.04] dark:border-white/[0.06] overflow-hidden">
+              {sidebarContent}
+            </div>
+          </div>
+        </div>
+      )}
+    </>
   );
 };
 

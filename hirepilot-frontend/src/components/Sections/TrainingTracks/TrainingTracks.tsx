@@ -1,7 +1,6 @@
 import { Terminal, Code, Layers, BarChart, Settings } from 'lucide-react';
 import VisualHeader from '../../VisualHeader/VisualHeader';
 import TTCard from './TTCard/TTCard';
-import { Box, Container, Grid, useTheme } from '@mui/material';
 
 const trainingTracksData = [
   {
@@ -9,7 +8,7 @@ const trainingTracksData = [
     title: 'Backend Developer',
     desc: 'Master APIs, databases, microservices, and system design for scalable applications.',
     icon: <Terminal size={26} />,
-    color: '#8b5cf6', // violet-500 equivalent for "Secondary" theme color usually
+    color: '#6366f1',
     tag: 'Popular',
   },
   {
@@ -44,45 +43,28 @@ const trainingTracksData = [
   },
 ];
 
-/**
- * Specialized Training Tracks section for career paths.
- * 
- * Displays multiple career-focused tracks (Backend, Frontend, etc.) 
- * using `TTCard`. Dynamically injects theme colors for specific tracks.
- */
 const TrainingTracks = () => {
-  const theme = useTheme();
-
-  // Updating the color for the first item to use theme if possible, or keeping hardcoded if strict
-  // The original used var(--theme-color-secondary) which maps to secondary.main usually.
-  // We can inject theme colors into the data if we move data inside component, or just use a hex that matches.
-  // For now I'll use the hardcoded hexes from original array but update the first one.
-  const processedData = trainingTracksData.map(track => ({
-    ...track,
-    color: track.id === 'backend' ? theme.palette.secondary.main : track.color
-  }));
-
   return (
-    <Box component="section" sx={{ py: 4, position: 'relative' }}>
-      <Container maxWidth="lg">
-        <Box component="header" sx={{ mb: 2, textAlign: 'center' }}>
+    <section className="min-h-[calc(100vh-70px)] flex items-center py-12 md:py-8 relative overflow-hidden">
+      <div className="mx-auto w-full max-w-7xl px-4">
+        <header className="mb-6 text-center">
           <VisualHeader
             badge='Career Paths'
             title='Specialized'
             gradient_title='Training Tracks'
             subtitle='Industry-validated curriculums designed to turn beginners into job-ready engineers.'
           />
-        </Box>
+        </header>
 
-        <Grid container spacing={3}>
-          {processedData.map((track, index) => (
-            <Grid size={{ xs: 12, sm: 6, md: 4 }} key={index} sx={{ display: 'flex' }}>
+        <div className="grid grid-cols-12 gap-6">
+          {trainingTracksData.map((track, index) => (
+            <div className="col-span-12 sm:col-span-6 md:col-span-4 flex" key={index}>
               <TTCard {...track} />
-            </Grid>
+            </div>
           ))}
-        </Grid>
-      </Container>
-    </Box>
+        </div>
+      </div>
+    </section>
   );
 };
 

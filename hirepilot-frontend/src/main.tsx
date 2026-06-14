@@ -1,5 +1,5 @@
 import { createRoot } from 'react-dom/client'
-import './index.scss'
+import './index.css'
 import React from 'react'
 import { router } from './router/index.tsx'
 import { RouterProvider } from "react-router-dom";

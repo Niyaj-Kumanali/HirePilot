@@ -1,6 +1,11 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+
+@custom-variant dark (&:where([data-theme="dark"] *));
+
+@theme {
+  --color-primary: #a855f7;
+  --color-secondary: #6366f1;
+}
 
 :root {
   /* Core Theme Colors (Shared) */
@@ -15,28 +20,21 @@
   --text-primary: #1e293b;
   --text-secondary: #64748b;
   --text-light: #f8fafc;
-
   --card-bg: white;
   --card-border: rgba(255, 255, 255, 0.6);
   --glass-bg: rgba(255, 255, 255, 0.7);
   --glass-border: rgba(255, 255, 255, 0.3);
-
   --input-bg: white;
   --input-border: #e2e8f0;
-
   --theme-color-light: #f8fafc;
   --text-color-light: #f8fafc;
   --text-color-dark: #1e293b;
   --sub-text-color: #64748b;
-
-  /* Profile Specific / Universal Aliases */
   --accent: #6366f1;
   --accent-dark: #4f46e5;
   --text-main: #1e293b;
   --text-muted: #64748b;
   --input-bg-alt: #f8fafc;
-
-  /* Shadows */
   --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
   --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
   --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
@@ -47,37 +45,43 @@
   --text-primary: #f8fafc;
   --text-secondary: #94a3b8;
   --text-light: #f8fafc;
-
-  --card-bg: #1e293b;
+  --card-bg: #1a1d23;
   --card-border: rgba(148, 163, 184, 0.1);
-  --glass-bg: rgba(30, 41, 59, 0.7);
+  --glass-bg: rgba(26, 29, 35, 0.7);
   --glass-border: rgba(148, 163, 184, 0.1);
-
   --input-bg: #0f172a;
   --input-border: #334155;
-
-  --theme-color-light: #1e293b;
+  --theme-color-light: #1a1d23;
   --text-color-light: #f8fafc;
   --text-color-dark: #f8fafc;
   --sub-text-color: #94a3b8;
-
-  /* Profile Specific / Universal Aliases */
   --accent: #8b5cf6;
   --accent-dark: #7c3aed;
   --text-main: #f8fafc;
   --text-muted: #94a3b8;
   --input-bg-alt: #1e293b;
-
-  /* Shadows */
   --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
   --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
   --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
 }
 
-body {
-  background: var(--background-color);
-  color: var(--text-primary);
-  transition: background 0.3s ease, color 0.3s ease;
+@layer base {
+  body {
+    background: var(--background-color);
+    color: var(--text-primary);
+    transition: background 0.3s ease, color 0.3s ease;
+    font-family: Inter, system-ui, Arial, sans-serif;
+  }
+
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
+
+  img {
+    width: 100%;
+    height: 100%;
+  }
 }
 
 .glass-panel {
@@ -87,30 +91,6 @@ body {
   border-radius: 1.5rem;
   box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
 }
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-body,
-html {
-  font-family: Inter, system-ui, Arial, sans-serif;
-  background: var(--background-color);
-  color: var(--text-primary);
-}
-
-a {
-  text-decoration: none;
-  color: inherit;
-}
-
-img {
-  width: 100%;
-  height: 100%;
-}
-
 
 .gradient-text {
   background: linear-gradient(90deg,
@@ -122,8 +102,73 @@ img {
   animation: shimmer 3s ease-in-out infinite;
 }
 
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
 
-// Option 5: Luxury Lavender Scrollbar (Premium)
+@keyframes pulse-glow {
+  0% { transform: scale(1); opacity: 1; box-shadow: 0 0 0 0 rgba(168, 85, 247, 0.4); }
+  70% { transform: scale(1); opacity: 1; box-shadow: 0 0 0 6px rgba(168, 85, 247, 0); }
+  100% { transform: scale(1); opacity: 1; box-shadow: 0 0 0 0 rgba(168, 85, 247, 0); }
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes scan-line {
+  0% { top: -80px; opacity: 0; }
+  50% { opacity: 1; }
+  100% { top: 100%; opacity: 0; }
+}
+
+@keyframes scan-progress {
+  from { stroke-dasharray: 0, 100; }
+  to { stroke-dasharray: 85, 100; }
+}
+
+@keyframes iconPulse {
+  0% { transform: scale(1); opacity: 0.5; filter: blur(4px); }
+  50% { transform: scale(0.8); opacity: 0.2; filter: blur(4px); }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes floatAround {
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translate(20px, 20px); }
+}
+
+@keyframes floatAroundReverse {
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translate(-20px, 20px); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+@keyframes slideUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes wave {
+  0%, 100% { transform: scaleY(0.5); }
+  50% { transform: scaleY(1); }
+}
+
 ::-webkit-scrollbar {
   width: 5px;
 }
@@ -146,5 +191,3 @@ img {
 ::-webkit-scrollbar-thumb:active {
   background: linear-gradient(180deg, #c4b5fd 0%, #a855f7 100%);
 }
-
-

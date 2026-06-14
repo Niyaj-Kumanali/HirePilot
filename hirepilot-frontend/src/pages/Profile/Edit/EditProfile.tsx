@@ -3,18 +3,7 @@ import React, { useState } from 'react';
 import { currentUserActions } from '../../../store/CurrentUser/currentuser.slice';
 import type { CurrentUserState, Experience, Skill } from '../../../store/CurrentUser/currentuser.types';
 import { useAppDispatch } from '../../../store/hooks';
-import {
-    Card,
-    Box,
-    Typography,
-    TextField,
-    Button,
-    IconButton,
-    Stack,
-    Divider,
-    useTheme,
-    alpha
-} from '@mui/material';
+import Button from '../../../components/Button/Button';
 
 interface EditProfileProps {
     profileData: CurrentUserState;
@@ -24,7 +13,6 @@ interface EditProfileProps {
 const EditProfile: React.FC<EditProfileProps> = ({ profileData, setIsEditing }) => {
     const [editData, setEditData] = useState<CurrentUserState>(profileData);
     const dispatch = useAppDispatch();
-    const theme = useTheme();
 
     const handleInputChange = <T extends keyof CurrentUserState>(field: T, value: CurrentUserState[T]) => {
         setEditData(prev => ({ ...prev, [field]: value }));
@@ -78,237 +66,174 @@ const EditProfile: React.FC<EditProfileProps> = ({ profileData, setIsEditing }) 
         setIsEditing(false);
     };
 
+    const inputClass = "w-full px-3 py-2 text-sm rounded-xl border border-black/10 dark:border-white/10 bg-transparent text-gray-900 dark:text-gray-100 outline-none focus:border-primary transition-all";
+    const labelClass = "text-xs font-bold text-gray-500 dark:text-gray-400 mb-1 block";
+
     return (
-        <Card
-            sx={{
-                p: 4,
-                borderRadius: 3,
-                border: `1px solid ${theme.palette.divider}`,
-            }}
-        >
+        <div className="p-4 rounded-2xl border border-black/10 dark:border-white/10 bg-white dark:bg-[#1a1d23] shadow-sm">
             {/* Header */}
-            <Box sx={{ mb: 4 }}>
-                <Stack direction="row" spacing={1.5} alignItems="center" sx={{ mb: 1 }}>
-                    <Edit size={22} color={theme.palette.primary.main} />
-                    <Typography variant="h4" fontWeight={700}>
-                        Update Your Identity
-                    </Typography>
-                </Stack>
-                <Typography variant="body2" color="text.secondary">
+            <div className="mb-4">
+                <div className="flex items-center gap-1.5 mb-1">
+                    <Edit size={22} className="text-primary" />
+                    <h4 className="text-2xl font-bold text-gray-900 dark:text-gray-100">Update Your Identity</h4>
+                </div>
+                <p className="text-sm text-gray-500 dark:text-gray-400">
                     Ensure your profile remains competitive and up-to-date.
-                </Typography>
-            </Box>
+                </p>
+            </div>
 
             {/* Basic Info */}
-            <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', md: 'repeat(2, 1fr)' }, gap: 3, mb: 4 }}>
-                <TextField
-                    label="First Name"
-                    value={editData.firstName}
-                    onChange={(e) => handleInputChange('firstName', e.target.value)}
-                    fullWidth
-                />
-                <TextField
-                    label="Last Name"
-                    value={editData.lastName}
-                    onChange={(e) => handleInputChange('lastName', e.target.value)}
-                    fullWidth
-                />
-                <TextField
-                    label="Headline"
-                    value={editData.headline}
-                    onChange={(e) => handleInputChange('headline', e.target.value)}
-                    placeholder="e.g. Senior Full Stack Developer"
-                    fullWidth
-                    sx={{ gridColumn: { xs: 'span 1', md: 'span 2' } }}
-                />
-                <TextField
-                    label="Professional Bio"
-                    value={editData.bio}
-                    onChange={(e) => handleInputChange('bio', e.target.value)}
-                    multiline
-                    rows={4}
-                    fullWidth
-                    sx={{ gridColumn: { xs: 'span 1', md: 'span 2' } }}
-                />
-                <TextField
-                    label="Email"
-                    type="email"
-                    value={editData.email}
-                    onChange={(e) => handleInputChange('email', e.target.value)}
-                    fullWidth
-                />
-                <TextField
-                    label="Phone"
-                    value={editData.phone}
-                    onChange={(e) => handleInputChange('phone', e.target.value)}
-                    fullWidth
-                />
-                <TextField
-                    label="Github URL"
-                    value={editData.github}
-                    onChange={(e) => handleInputChange('github', e.target.value)}
-                    fullWidth
-                />
-                <TextField
-                    label="LinkedIn URL"
-                    value={editData.linkedin}
-                    onChange={(e) => handleInputChange('linkedin', e.target.value)}
-                    fullWidth
-                />
-            </Box>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-4">
+                <div>
+                    <label className={labelClass}>First Name</label>
+                    <input className={inputClass} value={editData.firstName} onChange={(e) => handleInputChange('firstName', e.target.value)} />
+                </div>
+                <div>
+                    <label className={labelClass}>Last Name</label>
+                    <input className={inputClass} value={editData.lastName} onChange={(e) => handleInputChange('lastName', e.target.value)} />
+                </div>
+                <div className="md:col-span-2">
+                    <label className={labelClass}>Headline</label>
+                    <input className={inputClass} value={editData.headline} onChange={(e) => handleInputChange('headline', e.target.value)} placeholder="e.g. Senior Full Stack Developer" />
+                </div>
+                <div className="md:col-span-2">
+                    <label className={labelClass}>Professional Bio</label>
+                    <textarea className={`${inputClass} min-h-[100px] resize-y`} value={editData.bio} onChange={(e) => handleInputChange('bio', e.target.value)} rows={4} />
+                </div>
+                <div>
+                    <label className={labelClass}>Email</label>
+                    <input className={inputClass} type="email" value={editData.email} onChange={(e) => handleInputChange('email', e.target.value)} />
+                </div>
+                <div>
+                    <label className={labelClass}>Phone</label>
+                    <input className={inputClass} value={editData.phone} onChange={(e) => handleInputChange('phone', e.target.value)} />
+                </div>
+                <div>
+                    <label className={labelClass}>Github URL</label>
+                    <input className={inputClass} value={editData.github} onChange={(e) => handleInputChange('github', e.target.value)} />
+                </div>
+                <div>
+                    <label className={labelClass}>LinkedIn URL</label>
+                    <input className={inputClass} value={editData.linkedin} onChange={(e) => handleInputChange('linkedin', e.target.value)} />
+                </div>
+            </div>
 
-            <Divider sx={{ my: 4 }} />
+            <hr className="my-4 border-black/10 dark:border-white/10" />
 
             {/* Experience Section */}
-            <Box sx={{ mb: 4 }}>
-                <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ mb: 3 }}>
-                    <Typography variant="h6" fontWeight={700}>
-                        Experience
-                    </Typography>
-                    <Button
-                        variant="outlined"
-                        size="small"
-                        startIcon={<Plus size={16} />}
-                        onClick={addExperience}
-                    >
+            <div className="mb-4">
+                <div className="flex justify-between items-center mb-3">
+                    <h6 className="font-bold text-base text-gray-900 dark:text-gray-100">Experience</h6>
+                    <Button variant="secondary" size="small" iconLeft={<Plus size={16} />} onClick={addExperience}>
                         Add Experience
                     </Button>
-                </Stack>
+                </div>
 
-                <Stack spacing={3}>
+                <div className="space-y-3">
                     {editData.experience.map((exp, i) => (
-                        <Card
+                        <div
                             key={i}
-                            sx={{
-                                p: 3,
-                                position: 'relative',
-                                border: `1px solid ${theme.palette.divider}`,
-                                bgcolor: alpha(theme.palette.background.default, 0.5),
-                            }}
+                            className="p-3 rounded-xl border border-black/10 dark:border-white/10 bg-white/50 dark:bg-[#0f172a]/50 relative"
                         >
-                            <IconButton
-                                size="small"
+                            <button
                                 onClick={() => removeExperience(i)}
-                                sx={{
-                                    position: 'absolute',
-                                    top: 8,
-                                    right: 8,
-                                }}
+                                className="absolute top-2 right-2 w-8 h-8 flex items-center justify-center rounded-lg text-gray-500 hover:bg-black/10 dark:hover:bg-white/10 transition-all"
                             >
                                 <X size={16} />
-                            </IconButton>
+                            </button>
 
-                            <Stack spacing={2}>
-                                <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', md: 'repeat(2, 1fr)' }, gap: 2 }}>
-                                    <TextField
-                                        label="Job Title"
-                                        value={exp.role}
-                                        onChange={(e) => handleExperienceChange(i, 'role', e.target.value)}
-                                        placeholder="e.g. Senior Software Engineer"
-                                        InputProps={{
-                                            startAdornment: <Briefcase size={14} style={{ marginRight: 8 }} />
-                                        }}
-                                        fullWidth
+                            <div className="space-y-2">
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                                    <div>
+                                        <label className={labelClass}>Job Title</label>
+                                        <div className="flex items-center gap-2 px-3 py-2 rounded-xl border border-black/10 dark:border-white/10">
+                                            <Briefcase size={14} className="text-gray-400 flex-shrink-0" />
+                                            <input
+                                                className="flex-1 bg-transparent border-none outline-none text-sm text-gray-900 dark:text-gray-100"
+                                                value={exp.role}
+                                                onChange={(e) => handleExperienceChange(i, 'role', e.target.value)}
+                                                placeholder="e.g. Senior Software Engineer"
+                                            />
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label className={labelClass}>Company</label>
+                                        <div className="flex items-center gap-2 px-3 py-2 rounded-xl border border-black/10 dark:border-white/10">
+                                            <Building size={14} className="text-gray-400 flex-shrink-0" />
+                                            <input
+                                                className="flex-1 bg-transparent border-none outline-none text-sm text-gray-900 dark:text-gray-100"
+                                                value={exp.company}
+                                                onChange={(e) => handleExperienceChange(i, 'company', e.target.value)}
+                                                placeholder="e.g. Google"
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label className={labelClass}>Time Period</label>
+                                    <div className="flex items-center gap-2 px-3 py-2 rounded-xl border border-black/10 dark:border-white/10">
+                                        <Calendar size={14} className="text-gray-400 flex-shrink-0" />
+                                        <input
+                                            className="flex-1 bg-transparent border-none outline-none text-sm text-gray-900 dark:text-gray-100"
+                                            value={exp.period}
+                                            onChange={(e) => handleExperienceChange(i, 'period', e.target.value)}
+                                            placeholder="e.g. Jan 2022 - Present"
+                                        />
+                                    </div>
+                                </div>
+                                <div>
+                                    <label className={labelClass}>Key Responsibilities & Achievements</label>
+                                    <textarea
+                                        className="w-full px-3 py-2 text-sm rounded-xl border border-black/10 dark:border-white/10 bg-transparent text-gray-900 dark:text-gray-100 outline-none focus:border-primary transition-all min-h-[80px] resize-y"
+                                        value={exp.description}
+                                        onChange={(e) => handleExperienceChange(i, 'description', e.target.value)}
+                                        placeholder="Describe your impact, technologies used, and key projects..."
+                                        rows={3}
                                     />
-                                    <TextField
-                                        label="Company"
-                                        value={exp.company}
-                                        onChange={(e) => handleExperienceChange(i, 'company', e.target.value)}
-                                        placeholder="e.g. Google"
-                                        InputProps={{
-                                            startAdornment: <Building size={14} style={{ marginRight: 8 }} />
-                                        }}
-                                        fullWidth
-                                    />
-                                </Box>
-                                <TextField
-                                    label="Time Period"
-                                    value={exp.period}
-                                    onChange={(e) => handleExperienceChange(i, 'period', e.target.value)}
-                                    placeholder="e.g. Jan 2022 - Present"
-                                    InputProps={{
-                                        startAdornment: <Calendar size={14} style={{ marginRight: 8 }} />
-                                    }}
-                                    fullWidth
-                                />
-                                <TextField
-                                    label="Key Responsibilities & Achievements"
-                                    value={exp.description}
-                                    onChange={(e) => handleExperienceChange(i, 'description', e.target.value)}
-                                    placeholder="Describe your impact, technologies used, and key projects..."
-                                    multiline
-                                    rows={3}
-                                    fullWidth
-                                />
-                            </Stack>
-                        </Card>
+                                </div>
+                            </div>
+                        </div>
                     ))}
-                </Stack>
-            </Box>
+                </div>
+            </div>
 
-            <Divider sx={{ my: 4 }} />
+            <hr className="my-4 border-black/10 dark:border-white/10" />
 
             {/* Skills Section */}
-            <Box sx={{ mb: 4 }}>
-                <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ mb: 3 }}>
-                    <Typography variant="h6" fontWeight={700}>
-                        Skills
-                    </Typography>
-                    <Button
-                        variant="outlined"
-                        size="small"
-                        startIcon={<Plus size={16} />}
-                        onClick={addSkill}
-                    >
+            <div className="mb-4">
+                <div className="flex justify-between items-center mb-3">
+                    <h6 className="font-bold text-base text-gray-900 dark:text-gray-100">Skills</h6>
+                    <Button variant="secondary" size="small" iconLeft={<Plus size={16} />} onClick={addSkill}>
                         Add Skill
                     </Button>
-                </Stack>
+                </div>
 
-                <Box sx={{ display: 'grid', gridTemplateColumns: { xs: 'repeat(2, 1fr)', sm: 'repeat(4, 1fr)', md: 'repeat(4, 1fr)' }, gap: 2 }}>
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
                     {editData.skills.map((skill, i) => (
-                        <Card
+                        <div
                             key={i}
-                            sx={{
-                                p: 2,
-                                display: 'flex',
-                                gap: 1,
-                                alignItems: 'center',
-                                border: `1px solid ${theme.palette.divider}`,
-                                bgcolor: alpha(theme.palette.background.default, 0.5),
-                            }}
+                            className="p-2 flex items-center gap-1 rounded-xl border border-black/10 dark:border-white/10 bg-white/50 dark:bg-[#0f172a]/50"
                         >
-                            <TextField
+                            <input
+                                className="flex-1 bg-transparent border-none outline-none text-sm text-gray-900 dark:text-gray-100 min-w-0"
                                 value={skill.name}
                                 onChange={(e) => handleSkillChange(i, 'name', e.target.value)}
                                 placeholder="Skill name"
-                                size="small"
-                                fullWidth
                             />
-                            <IconButton size="small" onClick={() => removeSkill(i)}>
+                            <button onClick={() => removeSkill(i)} className="w-6 h-6 flex items-center justify-center rounded-lg text-gray-500 hover:bg-black/10 dark:hover:bg-white/10 flex-shrink-0">
                                 <X size={14} />
-                            </IconButton>
-                        </Card>
+                            </button>
+                        </div>
                     ))}
-                </Box>
-            </Box>
+                </div>
+            </div>
 
             {/* Actions */}
-            <Stack direction="row" spacing={2} justifyContent="flex-end">
-                <Button
-                    variant="outlined"
-                    onClick={() => setIsEditing(false)}
-                >
-                    Cancel
-                </Button>
-                <Button
-                    variant="contained"
-                    startIcon={<Save size={18} />}
-                    onClick={handleSave}
-                >
-                    Save Changes
-                </Button>
-            </Stack>
-        </Card>
+            <div className="flex justify-end gap-2">
+                <Button variant="secondary" onClick={() => setIsEditing(false)}>Cancel</Button>
+                <Button variant="primary" iconLeft={<Save size={18} />} onClick={handleSave}>Save Changes</Button>
+            </div>
+        </div>
     );
 };
 

@@ -1,10 +1,10 @@
 import React, { useState, useMemo, useEffect } from 'react';
-import { Bell, Briefcase, MessageSquare, Settings, CheckCircle2, Trash2, RotateCcw } from 'lucide-react';
+import { Bell, Briefcase, MessageSquare, Settings, CheckCircle2, Trash2, RotateCcw, ChevronDown } from 'lucide-react';
 import VisualHeader from '../../components/VisualHeader/VisualHeader';
 import type { Notification } from '../../data/notificationsData';
 import EmptyState from '../../components/EmptyState/EmptyState';
 import NotificationItem from './NotificationItem/NotificationItem';
-import { Box, Container, Stack, Typography, Button, Select, MenuItem, useTheme, alpha, Snackbar, Alert, Chip, CircularProgress } from '@mui/material';
+import Loading from '../../components/Loading/Loading';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { notificationActions } from '../../store/Notification/notification.slice';
 import { NOTIFICATION_SERVICE } from '../../api/services/notificationApi';
@@ -15,7 +15,7 @@ const Notifications: React.FC = () => {
   const [showUndo, setShowUndo] = useState(false);
   const [sortBy, setSortBy] = useState<'recent' | 'unread'>('recent');
   const [actionLoading, setActionLoading] = useState(false);
-  const theme = useTheme();
+  const [sortOpen, setSortOpen] = useState(false);
 
   const { notifications, loading, hasFetched } = useAppSelector(state => state.notification);
   const dispatch = useAppDispatch();
@@ -110,155 +110,125 @@ const Notifications: React.FC = () => {
     return iconMap[type] || <Bell {...props} />;
   };
 
-  return (
-    <Box sx={{ minHeight: '100vh', py: { xs: 8, md: 10 }, bgcolor: 'background.default', position: 'relative', overflowX: 'hidden' }}>
-      {/* Decorative Background */}
-      <Box sx={{
-        position: 'absolute',
-        width: { xs: 400, md: 600, lg: 800 },
-        height: { xs: 400, md: 600, lg: 800 },
-        filter: 'blur(120px)',
-        zIndex: 0,
-        opacity: 0.1,
-        borderRadius: '50%',
-        top: -200,
-        right: -100,
-        bgcolor: 'secondary.main',
-        pointerEvents: 'none',
-      }} />
-      <Box sx={{
-        position: 'absolute',
-        width: { xs: 300, md: 500 },
-        height: { xs: 300, md: 500 },
-        filter: 'blur(120px)',
-        zIndex: 0,
-        opacity: 0.1,
-        borderRadius: '50%',
-        top: -200,
-        left: -100,
-        bgcolor: 'primary.main',
-        pointerEvents: 'none',
-      }} />
+  const sortOptions = [
+    { value: 'recent' as const, label: 'Most Recent' },
+    { value: 'unread' as const, label: 'Unread First' },
+  ];
 
-      <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 1 }}>
-        <Box sx={{ mb: 6 }}>
+  return (
+    <div className="min-h-screen py-8 md:py-10 bg-white dark:bg-[#0f172a] relative overflow-x-hidden">
+      {/* Decorative Background */}
+      <div className="absolute w-[400px] md:w-[600px] lg:w-[800px] h-[400px] md:h-[600px] lg:h-[800px] blur-[120px] z-0 opacity-10 rounded-full top-[-200px] right-[-100px] bg-secondary pointer-events-none" />
+      <div className="absolute w-[300px] md:w-[500px] h-[300px] md:h-[500px] blur-[120px] z-0 opacity-10 rounded-full top-[-200px] left-[-100px] bg-primary pointer-events-none" />
+
+      <div className="mx-auto w-full max-w-5xl px-4 relative z-1">
+        <div className="mb-6">
           <VisualHeader
-            badge={
-              stats.unread > 0
-                ? `Activity Feed • ${stats.unread} New`
-                : "Activity Feed"
-            }
+            badge={stats.unread > 0 ? `Activity Feed • ${stats.unread} New` : "Activity Feed"}
             title="Stay Updated"
             gradient_title="with Alerts"
             subtitle="Manage your notifications and track job updates in one place."
           />
-        </Box>
+        </div>
 
         {/* Controls */}
-        <Stack
-          direction={{ xs: 'column', md: 'row' }}
-          justifyContent="space-between"
-          alignItems={{ xs: 'stretch', md: 'center' }}
-          spacing={3}
-          sx={{ mb: 4 }}
-        >
-          <Stack direction="row" spacing={1} sx={{ p: 0.5, bgcolor: alpha(theme.palette.background.paper, 0.5), borderRadius: 3, backdropFilter: 'blur(10px)', border: '1px solid', borderColor: 'divider' }}>
+        <div className="flex flex-col md:flex-row justify-between items-stretch md:items-center gap-3 mb-4">
+          {/* Filter Tabs */}
+          <div className="flex gap-1 p-0.5 rounded-3xl backdrop-blur-[10px] border border-black/10 dark:border-white/10 bg-white/50 dark:bg-[#1a1d23]/50 w-fit">
             {(['all', 'unread'] as const).map((f) => (
-              <Button
+              <button
                 key={f}
                 onClick={() => setFilter(f)}
-                sx={{
-                  borderRadius: 2.5,
-                  px: 3,
-                  py: 1,
-                  color: filter === f ? 'common.white' : 'text.secondary',
-                  bgcolor: filter === f ? 'primary.main' : 'transparent',
-                  fontWeight: 700,
-                  textTransform: 'capitalize',
-                  '&:hover': {
-                    bgcolor: filter === f ? 'primary.dark' : alpha(theme.palette.primary.main, 0.1),
+                className={`
+                  px-3 py-1 rounded-[10px] font-bold capitalize transition-all duration-200
+                  ${filter === f
+                    ? 'bg-primary text-white'
+                    : 'text-gray-500 dark:text-gray-400 hover:bg-primary/10'
                   }
-                }}
+                `}
               >
                 {f}
-                <Chip
-                  label={f === 'all' ? stats.total : stats.unread}
-                  size="small"
-                  sx={{
-                    ml: 1,
-                    height: 20,
-                    fontSize: '0.7rem',
-                    fontWeight: 800,
-                    bgcolor: filter === f ? 'rgba(255,255,255,0.2)' : alpha(theme.palette.primary.main, 0.1),
-                    color: filter === f ? 'white' : 'primary.main',
-                  }}
-                />
-              </Button>
+                <span
+                  className={`
+                    ml-1 px-1.5 py-0.5 text-[0.7rem] font-extrabold rounded
+                    ${filter === f
+                      ? 'bg-white/20 text-white'
+                      : 'bg-primary/10 text-primary'
+                    }
+                  `}
+                >
+                  {f === 'all' ? stats.total : stats.unread}
+                </span>
+              </button>
             ))}
-          </Stack>
+          </div>
 
-          <Stack direction="row" spacing={2} alignItems="center">
-            <Select
-              value={sortBy}
-              onChange={(e) => setSortBy(e.target.value as 'recent' | 'unread')}
-              size="small"
-              sx={{
-                borderRadius: 2,
-                bgcolor: alpha(theme.palette.background.paper, 0.6),
-                fontWeight: 600,
-                '.MuiSelect-select': { py: 1.2 },
-                fieldset: { borderColor: 'divider' },
-              }}
-            >
-              <MenuItem value="recent">Most Recent</MenuItem>
-              <MenuItem value="unread">Unread First</MenuItem>
-            </Select>
+          {/* Actions */}
+          <div className="flex items-center gap-2">
+            {/* Sort Dropdown */}
+            <div className="relative">
+              <button
+                onClick={() => setSortOpen(!sortOpen)}
+                className="flex items-center gap-1 px-3 py-1.5 rounded-xl font-semibold text-sm bg-white/60 dark:bg-[#1a1d23]/60 border border-black/10 dark:border-white/10 text-gray-700 dark:text-gray-300 hover:border-primary transition-all"
+              >
+                {sortOptions.find(o => o.value === sortBy)?.label}
+                <ChevronDown size={16} className={`transition-transform ${sortOpen ? 'rotate-180' : ''}`} />
+              </button>
+              {sortOpen && (
+                <div className="absolute top-full right-0 mt-1 z-10 w-40 rounded-xl border border-primary/20 bg-white/95 dark:bg-[#1a1d23]/90 backdrop-blur-[12px] shadow-[0_12px_32px_rgba(168,85,247,0.15)] animate-[slideDown_0.2s_ease-out]">
+                  {sortOptions.map(opt => (
+                    <button
+                      key={opt.value}
+                      onClick={() => { setSortBy(opt.value); setSortOpen(false); }}
+                      className={`
+                        w-full text-left px-3 py-2 text-sm font-semibold transition-all
+                        ${sortBy === opt.value ? 'bg-primary/10 text-primary' : 'text-gray-700 dark:text-gray-300 hover:bg-primary/8'}
+                      `}
+                    >
+                      {opt.label}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
 
-            <Button
-              startIcon={<CheckCircle2 size={16} />}
+            <button
               onClick={handleMarkAllAsRead}
               disabled={unreadCount === 0 || actionLoading}
-              sx={{
-                color: 'text.secondary',
-                fontWeight: 600,
-                borderRadius: 2,
-                textTransform: 'none',
-                '&:hover': { color: 'primary.main', bgcolor: alpha(theme.palette.primary.main, 0.1) }
-              }}
+              className="flex items-center gap-1 px-3 py-1.5 rounded-xl font-semibold text-sm text-gray-500 dark:text-gray-400 hover:text-primary hover:bg-primary/10 transition-all disabled:opacity-40"
             >
+              <CheckCircle2 size={16} />
               Mark all read
-            </Button>
+            </button>
 
-            <Button
-              startIcon={actionLoading ? <CircularProgress size={16} color="inherit" /> : <Trash2 size={16} />}
+            <button
               onClick={clearAll}
               disabled={notifications.length === 0 || actionLoading}
-              sx={{
-                color: 'error.main',
-                fontWeight: 600,
-                borderRadius: 2,
-                textTransform: 'none',
-                '&:hover': { bgcolor: alpha(theme.palette.error.main, 0.1) }
-              }}
+              className="flex items-center gap-1 px-3 py-1.5 rounded-xl font-semibold text-sm text-red-500 hover:bg-red-500/10 transition-all disabled:opacity-40"
             >
+              {actionLoading ? (
+                <span className="w-4 h-4 border-2 border-red-500 border-t-transparent rounded-full animate-spin" />
+              ) : (
+                <Trash2 size={16} />
+              )}
               {actionLoading ? 'Clearing...' : 'Clear all'}
-            </Button>
-          </Stack>
-        </Stack>
+            </button>
+          </div>
+        </div>
 
         {/* Notifications List */}
-        <Box sx={{ minHeight: 400 }}>
+        <div className="min-h-[400px]">
           {loading ? (
-            <Box sx={{ display: 'flex', justifyContent: 'center', py: 10 }}>
-              <CircularProgress />
-            </Box>
+            <div className="flex justify-center py-10">
+              <Loading />
+            </div>
           ) : filteredNotifications.length === 0 ? (
             <EmptyState
               title="No notifications yet"
               description={filter === 'unread' ? "You've read everything! Check 'All' for history." : "We'll notify you here when there's activity."}
             />
           ) : (
-            <Stack spacing={0}>
+            <div className="flex flex-col gap-0">
               {filteredNotifications.map((n: Notification) => (
                 <NotificationItem
                   key={n.id}
@@ -268,49 +238,27 @@ const Notifications: React.FC = () => {
                   onRead={handleMarkAsRead}
                 />
               ))}
-            </Stack>
+            </div>
           )}
-        </Box>
+        </div>
 
-        <Snackbar
-          open={showUndo}
-          autoHideDuration={5000}
-          onClose={() => setShowUndo(false)}
-          anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-          sx={{ bottom: { xs: 24, md: 40 } }}
-        >
-          <Alert
-            icon={false}
-            sx={{
-              width: '100%',
-              bgcolor: 'background.paper',
-              color: 'text.primary',
-              border: '1px solid',
-              borderColor: 'divider',
-              borderRadius: 3,
-              boxShadow: theme.shadows[6],
-              alignItems: 'center',
-              py: 1,
-              px: 2
-            }}
-          >
-            <Stack direction="row" alignItems="center" spacing={2}>
-              <Typography variant="body2" fontWeight={600}>Notification removed</Typography>
-              <Button
-                size="small"
-                startIcon={<RotateCcw size={14} />}
+        {/* Undo Snackbar */}
+        {showUndo && (
+          <div className="fixed bottom-6 md:bottom-10 left-1/2 -translate-x-1/2 z-50 animate-[slideDown_0.3s_ease-out]">
+            <div className="flex items-center gap-2 px-4 py-3 rounded-2xl border border-black/10 dark:border-white/10 bg-white dark:bg-[#1a1d23] shadow-[0_8px_24px_rgba(0,0,0,0.12)]">
+              <span className="text-sm font-semibold text-gray-900 dark:text-gray-100">Notification removed</span>
+              <button
                 onClick={undoDelete}
-                variant="contained"
-                sx={{ borderRadius: 2, textTransform: 'none', fontWeight: 700, fontSize: '0.8rem', py: 0.5 }}
+                className="flex items-center gap-1 px-3 py-1 rounded-xl bg-primary text-white text-[0.8rem] font-bold hover:bg-primary-dark transition-all"
               >
+                <RotateCcw size={14} />
                 Undo
-              </Button>
-            </Stack>
-          </Alert>
-        </Snackbar>
-
-      </Container>
-    </Box>
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
   );
 };
 

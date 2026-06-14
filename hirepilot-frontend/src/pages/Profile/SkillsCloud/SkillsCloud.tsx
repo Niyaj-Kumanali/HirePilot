@@ -1,66 +1,30 @@
 import React from 'react';
 import { Award } from 'lucide-react';
 import type { Skill } from '../../../store/CurrentUser/currentuser.types';
-import { Card, Box, Stack, Typography, Chip, useTheme, alpha } from '@mui/material';
+import Card from '../../../components/Card/Card';
 
 interface SkillsCloudProps {
-    /** List of professional skills and their proficiency levels. */
     skills: Skill[];
 }
 
-/**
- * Interactive cloud of skill badges.
- * 
- * Displays skills as chips with color-coded proficiency indicators 
- * (Expert, Advanced, etc.) and hover effects.
- */
 const SkillsCloud: React.FC<SkillsCloudProps> = ({ skills }) => {
-    const theme = useTheme();
-
     return (
-        <Card
-            sx={{
-                p: 4,
-                borderRadius: 3,
-                border: `1px solid ${theme.palette.divider}`,
-            }}
-        >
-            <Stack direction="row" spacing={1.5} alignItems="center" sx={{ mb: 3 }}>
-                <Award size={22} color={theme.palette.primary.main} />
-                <Typography variant="h5" fontWeight={700}>
-                    Technical Expertise
-                </Typography>
-            </Stack>
+        <Card className="p-4 rounded-2xl border border-black/10 dark:border-white/10">
+            <div className="flex items-center gap-1.5 mb-3">
+                <Award size={22} className="text-primary" />
+                <h5 className="text-lg font-bold text-gray-900 dark:text-gray-100">Technical Expertise</h5>
+            </div>
 
-            <Box
-                sx={{
-                    display: 'flex',
-                    flexWrap: 'wrap',
-                    gap: 1.5,
-                }}
-            >
+            <div className="flex flex-wrap gap-1.5">
                 {skills.map((skill, i) => (
-                    <Chip
+                    <span
                         key={i}
-                        label={
-                            <Stack direction="row" spacing={1} alignItems="center">
-
-                                <Typography variant="body2" fontWeight={600}>
-                                    {skill.name}
-                                </Typography>
-                            </Stack>
-                        }
-                        sx={{
-                            px: 1.5,
-                            py: 2.5,
-                            height: 'auto',
-                            bgcolor: alpha(theme.palette.background.default, 0.5),
-                            border: `1px solid ${theme.palette.divider}`,
-                            borderRadius: 2,
-                        }}
-                    />
+                        className="px-3 py-1.5 text-sm font-semibold rounded-xl border border-black/10 dark:border-white/10 bg-white/50 dark:bg-[#0f172a]/50 text-gray-700 dark:text-gray-300"
+                    >
+                        {skill.name}
+                    </span>
                 ))}
-            </Box>
+            </div>
         </Card>
     );
 };

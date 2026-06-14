@@ -1,6 +1,5 @@
 import { Filter } from 'lucide-react';
 import SearchBar from '../../../components/SearchBar/SearchBar';
-import { Box, Button } from '@mui/material';
 
 interface JobToolbarProps {
     searchTerm: string;
@@ -10,42 +9,33 @@ interface JobToolbarProps {
 
 const JobToolbar = ({ searchTerm, onSearchChange, onMobileFilterOpen }: JobToolbarProps) => {
     return (
-        <Box
-            sx={{
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                p: 2,
-                gap: 2,
-                flexWrap: 'wrap',
-                position: 'sticky',
-                top: 70,
-                zIndex: 10,
-                borderBottomLeftRadius: 16,
-                borderBottomRightRadius: 16,
-                ml: {xs: 0, md: 0, lg: "100px"},
-            }}
+        <div
+            className="
+                flex justify-center items-center p-2 gap-2 flex-wrap
+                sticky top-[70px] z-10
+                rounded-b-2xl
+                ml-0 lg:ml-[100px]
+            "
         >
             <SearchBar
                 placeHolder="Search jobs by title, company, or skills..."
                 value={searchTerm}
                 onChange={onSearchChange}
             />
-            <Button
-                variant="outlined"
-                startIcon={<Filter size={16} />}
+            <button
                 onClick={onMobileFilterOpen}
-                sx={{
-                    display: { xs: 'flex', lg: 'none' },
-                    borderRadius: 1.5,
-                    fontWeight: 600,
-                    px: 2.5,
-                    py: 1.25,
-                }}
+                className="
+                    lg:hidden inline-flex items-center gap-1
+                    px-2.5 py-1.25 rounded-xl font-semibold text-sm
+                    border border-[#e0e0e0] dark:border-[#3c4043]
+                    text-[#202124] dark:text-[#e8eaed]
+                    transition-all
+                "
             >
+                <Filter size={16} />
                 Filters
-            </Button>
-        </Box>
+            </button>
+        </div>
     );
 };
 

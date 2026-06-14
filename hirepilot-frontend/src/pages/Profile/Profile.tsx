@@ -4,8 +4,8 @@ import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { currentUserActions } from '../../store/CurrentUser/currentuser.slice';
 import { authActions } from '../../store/auth/auth.slice';
 import { type CurrentUserState } from '../../store/CurrentUser/currentuser.types';
-import { Box, Stack, CircularProgress, Typography } from '@mui/material';
 import { AUTH_SERVICE } from '../../api/services/authApi';
+import Loading from '../../components/Loading/Loading';
 
 // Components
 import EditProfile from './Edit/EditProfile';
@@ -64,74 +64,45 @@ const Profile = () => {
 
   if (isLoading) {
     return (
-      <Box
-        sx={{
-          minHeight: '100vh',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          gap: 2,
-          bgcolor: 'background.default'
-        }}
-      >
-        <CircularProgress size={50} thickness={4} sx={{ color: 'primary.main' }} />
-        <Typography variant="body1" color="text.secondary" fontWeight={600}>
-          Loading your profile...
-        </Typography>
-      </Box>
+      <div className="min-h-screen flex flex-col items-center justify-center gap-2 bg-white dark:bg-[#0f172a]">
+        <Loading />
+        <p className="text-sm font-semibold text-gray-500 dark:text-gray-400">Loading your profile...</p>
+      </div>
     );
   }
 
   return (
-    <Box sx={{ minHeight: '100vh', bgcolor: 'background.default', py: 4 }}>
-      <Box sx={{ maxWidth: 1400, mx: 'auto', px: { xs: 2, md: 4 } }}>
-        {
-          isEditing ? (
-            <EditProfile profileData={profileData} setIsEditing={setIsEditing} />
-          ) : (
-            <Box
-              sx={{
-                display: 'grid',
-                gridTemplateColumns: { xs: '1fr', lg: '320px 1fr' },
-                gap: 4,
-              }}
-            >
-              <Box sx={{
-                position: { xs: 'static', lg: 'sticky' },
-                top: { lg: 100 }, // adjust based on your header height
-                height: { lg: 'fit-content' },
-              }}>
-                <ProfileSidebar
-                  profileData={profileData}
-                  profileCompletion={profileCompletion}
-                  isEditing={isEditing}
-                  onEditClick={() => setIsEditing(true)}
-                  onLogoutClick={handleLogout}
-                  onImageClick={() => setOpenImageDialog(true)}
-                />
-              </Box>
+    <div className="min-h-screen bg-white dark:bg-[#0f172a] py-4">
+      <div className="max-w-[1400px] mx-auto px-2 md:px-4">
+        {isEditing ? (
+          <EditProfile profileData={profileData} setIsEditing={setIsEditing} />
+        ) : (
+          <div className="grid grid-cols-1 lg:grid-cols-[320px_1fr] gap-4">
+            <div className="static lg:sticky lg:top-[100px] lg:h-fit">
+              <ProfileSidebar
+                profileData={profileData}
+                profileCompletion={profileCompletion}
+                isEditing={isEditing}
+                onEditClick={() => setIsEditing(true)}
+                onLogoutClick={handleLogout}
+                onImageClick={() => setOpenImageDialog(true)}
+              />
+            </div>
 
-              <Box component="main">
-                <Stack spacing={3}>
-                  <ReadinessSection readiness={profileData.readiness} />
-                  <AboutMe bio={profileData.bio} />
-                  <CareerJourney experience={profileData.experience} />
-                  <SkillsCloud skills={profileData.skills} />
-                </Stack>
-              </Box>
-            </Box>
-          )
-        }
+            <main className="space-y-3">
+              <ReadinessSection readiness={profileData.readiness} />
+              <AboutMe bio={profileData.bio} />
+              <CareerJourney experience={profileData.experience} />
+              <SkillsCloud skills={profileData.skills} />
+            </main>
+          </div>
+        )}
+      </div>
 
-      </Box>
-
-      {
-        openImageDialog && (
-          <ImageModal onClose={() => setOpenImageDialog(false)} />
-        )
-      }
-    </Box >
+      {openImageDialog && (
+        <ImageModal onClose={() => setOpenImageDialog(false)} />
+      )}
+    </div>
   );
 };
 
