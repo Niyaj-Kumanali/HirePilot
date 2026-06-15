@@ -43,7 +43,7 @@ const ColdEmailCampaign = () => {
 
     useEffect(() => {
         RESUME_SERVICE.getResume()
-            .then((res) => setHasResume(!!res.parsedResume))
+            .then((res) => setHasResume(!!res.fileUrl))
             .catch(() => {})
             .finally(() => setResumeChecking(false));
     }, []);

@@ -38,12 +38,12 @@ public class ResumeController {
         }
 
         try {
-            String parsedJson = resumeService.parseResume(file, email);
+            String fileUrl = resumeService.uploadResume(file, email);
             return ResponseEntity.ok(new ResumeUploadResponse(
-                    null, file.getOriginalFilename(), parsedJson, "Resume uploaded and parsed successfully"));
+                    null, file.getOriginalFilename(), fileUrl, "Resume uploaded successfully"));
         } catch (Exception e) {
             return ResponseEntity.internalServerError()
-                    .body(Map.of("error", "Failed to process resume: " + e.getMessage()));
+                    .body(Map.of("error", "Failed to upload resume: " + e.getMessage()));
         }
     }
 
@@ -53,15 +53,10 @@ public class ResumeController {
         if (email == null) {
             return ResponseEntity.status(401).body(Map.of("error", "Not authenticated"));
         }
-        try {
-            String parsedJson = resumeService.getParsedResume(email);
-            if (parsedJson == null) {
-                return ResponseEntity.ok(Map.of("message", "No resume uploaded yet"));
-            }
-            return ResponseEntity.ok(Map.of("parsedResume", parsedJson));
-        } catch (Exception e) {
-            return ResponseEntity.internalServerError()
-                    .body(Map.of("error", e.getMessage()));
+        String resumeUrl = resumeService.getResumeUrl(email);
+        if (resumeUrl == null) {
+            return ResponseEntity.ok(Map.of("message", "No resume uploaded yet"));
         }
+        return ResponseEntity.ok(Map.of("fileUrl", resumeUrl));
     }
 }

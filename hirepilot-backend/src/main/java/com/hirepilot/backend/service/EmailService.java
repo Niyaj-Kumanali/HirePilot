@@ -53,7 +53,7 @@ public class EmailService {
 
         String experience = req.userExperience() != null && !req.userExperience().isBlank()
                 ? req.userExperience()
-                : (user.getParsedResumeJson() != null ? user.getParsedResumeJson() : "Not specified");
+                : (user.getBio() != null ? user.getBio() : "Not specified");
 
         String prompt = """
             You are a professional career coach. Write a personalized cold email for a job application.

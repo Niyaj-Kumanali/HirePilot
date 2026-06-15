@@ -57,7 +57,7 @@ public class HiringManagerService {
                 ? user.getFirstName() + " " + (user.getLastName() != null ? user.getLastName() : "")
                 : user.getEmail();
         String skills = user.getSkillsJson() != null ? user.getSkillsJson() : "Relevant skills";
-        String experience = user.getParsedResumeJson() != null ? user.getParsedResumeJson() : "Professional experience";
+        String experience = user.getBio() != null ? user.getBio() : "Professional experience";
 
         String prompt = """
             You are a professional career coach. Write a personalized cold email for a job application.

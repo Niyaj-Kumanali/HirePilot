@@ -33,9 +33,6 @@ public class UserEntity {
     @Column(columnDefinition = "TEXT")
     private String skillsJson;
 
-    @Column(columnDefinition = "TEXT")
-    private String parsedResumeJson;
-
     private String resumeFilePath;
 
     private LocalDateTime createdAt;
@@ -82,9 +79,6 @@ public class UserEntity {
 
     public String getSkillsJson() { return skillsJson; }
     public void setSkillsJson(String skillsJson) { this.skillsJson = skillsJson; }
-
-    public String getParsedResumeJson() { return parsedResumeJson; }
-    public void setParsedResumeJson(String parsedResumeJson) { this.parsedResumeJson = parsedResumeJson; }
 
     public String getResumeFilePath() { return resumeFilePath; }
     public void setResumeFilePath(String resumeFilePath) { this.resumeFilePath = resumeFilePath; }
