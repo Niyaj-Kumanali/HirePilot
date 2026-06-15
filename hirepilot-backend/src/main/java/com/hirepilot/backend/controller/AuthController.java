@@ -1,14 +1,18 @@
 package com.hirepilot.backend.controller;
 
-import com.hirepilot.backend.config.jwt.JwtUtil;
-import com.hirepilot.backend.dto.AuthResponse;
-import com.hirepilot.backend.dto.SignInRequest;
-import com.hirepilot.backend.dto.SignUpRequest;
+import com.hirepilot.backend.dto.request.SignInRequest;
+import com.hirepilot.backend.dto.request.SignUpRequest;
+import com.hirepilot.backend.dto.response.ApiResponse;
+import com.hirepilot.backend.dto.response.JwtResponse;
 import com.hirepilot.backend.entity.UserEntity;
-import com.hirepilot.backend.repository.UserRepository;
+import com.hirepilot.backend.security.CurrentUser;
+import com.hirepilot.backend.service.AuthService;
+import jakarta.validation.Valid;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.bcrypt.BCrypt;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -17,79 +21,49 @@ import java.util.Map;
 @RequestMapping("/api/auth")
 public class AuthController {
 
-    private final UserRepository userRepository;
-    private final JwtUtil jwtUtil;
+    private static final Logger log = LoggerFactory.getLogger(AuthController.class);
 
-    public AuthController(UserRepository userRepository, JwtUtil jwtUtil) {
-        this.userRepository = userRepository;
-        this.jwtUtil = jwtUtil;
+    private final AuthService authService;
+
+    public AuthController(AuthService authService) {
+        this.authService = authService;
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<?> signUp(@RequestBody SignUpRequest req) {
-        if (userRepository.existsByEmail(req.email())) {
-            return ResponseEntity.status(HttpStatus.CONFLICT)
-                    .body(Map.of("error", "User already exists"));
-        }
-
-        UserEntity user = new UserEntity();
-        user.setEmail(req.email());
-        user.setPasswordHash(BCrypt.hashpw(req.password(), BCrypt.gensalt()));
-        user.setFirstName(req.firstName());
-        user.setLastName(req.lastName());
-        userRepository.save(user);
-
-        String token = jwtUtil.generateToken(req.email());
+    public ResponseEntity<ApiResponse<JwtResponse>> signUp(@Valid @RequestBody SignUpRequest request) {
+        log.info("POST /api/auth/signup - email: {}", request.getEmail());
+        JwtResponse response = authService.signUp(request);
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(new AuthResponse(token, req.email(), req.firstName(), req.lastName()));
+                .body(ApiResponse.success("User registered successfully", response));
     }
 
     @PostMapping("/signin")
-    public ResponseEntity<?> signIn(@RequestBody SignInRequest req) {
-        UserEntity user = userRepository.findByEmail(req.email())
-                .orElseThrow(() -> new RuntimeException("User not found"));
-
-        if (user == null || !BCrypt.checkpw(req.password(), user.getPasswordHash())) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                    .body(Map.of("error", "Invalid credentials"));
-        }
-
-        System.out.println("Logged in successfully");
-
-        String token = jwtUtil.generateToken(req.email());
-        return ResponseEntity.ok(new AuthResponse(
-                token, user.getEmail(), user.getFirstName(), user.getLastName()));
+    public ResponseEntity<ApiResponse<JwtResponse>> signIn(@Valid @RequestBody SignInRequest request) {
+        log.info("POST /api/auth/signin - email: {}", request.getEmail());
+        JwtResponse response = authService.signIn(request);
+        return ResponseEntity.ok(ApiResponse.success("User signed in successfully", response));
     }
 
     @GetMapping("/me")
-    public ResponseEntity<?> getCurrentUser(
-            @RequestAttribute(value = "email", required = false) String emailAttr) {
-        String email = emailAttr;
-        if (email == null) {
-            var auth = org.springframework.security.core.context.SecurityContextHolder.getContext().getAuthentication();
-            if (auth != null && auth.isAuthenticated() && !"anonymousUser".equals(auth.getPrincipal())) {
-                email = auth.getName();
-            }
-        }
-        if (email == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                    .body(Map.of("error", "Not authenticated"));
-        }
-        UserEntity user = userRepository.findByEmail(email)
-                .orElse(null);
-        if (user == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(Map.of("error", "User not found"));
-        }
-        return ResponseEntity.ok(Map.of(
+    public ResponseEntity<ApiResponse<Map<String, Object>>> getCurrentUser(
+            @CurrentUser org.springframework.security.core.userdetails.User principal) {
+        String email = principal.getUsername();
+        log.debug("GET /api/auth/me - email: {}", email);
+
+        UserEntity user = authService.getCurrentUser(email);
+        Map<String, Object> userData = Map.of(
                 "email", user.getEmail(),
                 "firstName", user.getFirstName() != null ? user.getFirstName() : "",
                 "lastName", user.getLastName() != null ? user.getLastName() : "",
+                "role", user.getRole().name(),
                 "headline", user.getHeadline() != null ? user.getHeadline() : "",
                 "location", user.getLocation() != null ? user.getLocation() : "",
                 "phone", user.getPhone() != null ? user.getPhone() : "",
                 "bio", user.getBio() != null ? user.getBio() : "",
-                "skillsJson", user.getSkillsJson() != null ? user.getSkillsJson() : "[]"
-        ));
+                "skillsJson", user.getSkillsJson() != null ? user.getSkillsJson() : "[]",
+                "resumeFilePath", user.getResumeFilePath() != null ? user.getResumeFilePath() : ""
+        );
+
+        return ResponseEntity.ok(ApiResponse.success("User found", userData));
     }
 }

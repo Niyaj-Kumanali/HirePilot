@@ -1,0 +1,47 @@
+[
+  {
+    "title": "Senior Java Backend Engineer",
+    "description": "We are looking for a Senior Java Backend Engineer to design and build scalable microservices. You will work on high-throughput systems handling millions of requests per day.",
+    "requiredSkills": ["Java", "Spring Boot", "Kafka", "PostgreSQL", "Docker", "Kubernetes"],
+    "location": "Bengaluru, India",
+    "department": "Engineering",
+    "status": "PUBLISHED",
+    "recruiterEmail": "www.niyazkumanali@gmail.com"
+  },
+  {
+    "title": "Frontend React Developer",
+    "description": "Join our frontend team to build responsive, accessible UI components using React and TypeScript. Experience with Tailwind CSS and state management is a plus.",
+    "requiredSkills": ["React", "TypeScript", "Tailwind CSS", "Redux", "Jest"],
+    "location": "Bengaluru, India",
+    "department": "Engineering",
+    "status": "PUBLISHED",
+    "recruiterEmail": "www.niyazkumanali@gmail.com"
+  },
+  {
+    "title": "DevOps Engineer",
+    "description": "Manage CI/CD pipelines, cloud infrastructure on AWS, and container orchestration with Kubernetes. Automate everything.",
+    "requiredSkills": ["AWS", "Docker", "Kubernetes", "Terraform", "Jenkins", "Linux"],
+    "location": "Remote",
+    "department": "Infrastructure",
+    "status": "DRAFT",
+    "recruiterEmail": "www.niyazkumanali@gmail.com"
+  },
+  {
+    "title": "Product Designer",
+    "description": "Design intuitive user experiences for our recruitment platform. Conduct user research, create wireframes, and deliver pixel-perfect mockups in Figma.",
+    "requiredSkills": ["Figma", "User Research", "Wireframing", "Prototyping", "Design Systems"],
+    "location": "Bengaluru, India",
+    "department": "Design",
+    "status": "PUBLISHED",
+    "recruiterEmail": "www.niyazkumanali@gmail.com"
+  },
+  {
+    "title": "Technical Recruiter",
+    "description": "Source and screen top engineering talent. Manage the full recruitment lifecycle from job posting to offer negotiation.",
+    "requiredSkills": ["Technical Sourcing", "Interviewing", "ATS", "Negotiation"],
+    "location": "Mumbai, India",
+    "department": "HR",
+    "status": "PUBLISHED",
+    "recruiterEmail": "iamnawazahmad777@gmail.com"
+  }
+]

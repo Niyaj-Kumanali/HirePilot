@@ -21,6 +21,9 @@ public class UserEntity {
     @Column(nullable = false)
     private String passwordHash;
 
+    @Enumerated(EnumType.STRING)
+    private Role role = Role.CANDIDATE;
+
     private String headline;
 
     private String location;
@@ -34,6 +37,8 @@ public class UserEntity {
     private String skillsJson;
 
     private String resumeFilePath;
+
+    private boolean emailVerified;
 
     private LocalDateTime createdAt;
 
@@ -65,6 +70,9 @@ public class UserEntity {
     public String getPasswordHash() { return passwordHash; }
     public void setPasswordHash(String passwordHash) { this.passwordHash = passwordHash; }
 
+    public Role getRole() { return role; }
+    public void setRole(Role role) { this.role = role; }
+
     public String getHeadline() { return headline; }
     public void setHeadline(String headline) { this.headline = headline; }
 
@@ -82,6 +90,9 @@ public class UserEntity {
 
     public String getResumeFilePath() { return resumeFilePath; }
     public void setResumeFilePath(String resumeFilePath) { this.resumeFilePath = resumeFilePath; }
+
+    public boolean isEmailVerified() { return emailVerified; }
+    public void setEmailVerified(boolean emailVerified) { this.emailVerified = emailVerified; }
 
     public LocalDateTime getCreatedAt() { return createdAt; }
     public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
