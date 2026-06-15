@@ -1,6 +1,8 @@
-import { MapPin, DollarSign, Clock, TrendingUp, Briefcase, Star, ArrowRight, Zap } from 'lucide-react';
+import { useState } from 'react';
+import { MapPin, DollarSign, Clock, TrendingUp, Briefcase, Star, ArrowRight, Zap, Mail } from 'lucide-react';
 import type Job from '../../../types/job';
 import Card from '../../../components/ui/Card';
+import ColdEmailDialog from '../../../components/ColdEmailDialog/ColdEmailDialog';
 
 interface JobCardProps {
     job: Job;
@@ -38,14 +40,14 @@ const getTypeClasses = (type: Job['type']) => {
 
 const JobCard = ({ job, onOpen }: JobCardProps) => {
     const typeClasses = getTypeClasses(job.type);
+    const [showColdEmail, setShowColdEmail] = useState(false);
 
     return (
+        <>
         <Card onClick={() => onOpen(job)} className="p-0 flex flex-col group cursor-pointer overflow-hidden">
-            {/* Top Accent Bar */}
             <div className="h-1 bg-gradient-to-r from-primary to-secondary" />
 
             <div className="p-3.5 flex flex-col gap-3">
-                {/* Header: Logo + Title */}
                 <div className="flex items-start gap-3">
                     <div className={`w-10 h-10 rounded-xl bg-gradient-to-br ${getCompanyColor(job.company)} flex items-center justify-center font-bold text-white text-sm shadow-sm flex-shrink-0`}>
                         {job.company.charAt(0)}
@@ -62,12 +64,10 @@ const JobCard = ({ job, onOpen }: JobCardProps) => {
                     </span>
                 </div>
 
-                {/* Description */}
                 <p className="text-sm text-[#5f6368] dark:text-[#9aa0a6] leading-relaxed line-clamp-2">
                     {job.description}
                 </p>
 
-                {/* Metadata Row */}
                 <div className="flex flex-wrap gap-x-3 gap-y-1.5 text-[0.8rem] font-semibold text-[#5f6368] dark:text-[#9aa0a6]">
                     <span className="flex items-center gap-1">
                         <MapPin size={14} className="text-primary/60" />
@@ -89,7 +89,6 @@ const JobCard = ({ job, onOpen }: JobCardProps) => {
                     )}
                 </div>
 
-                {/* Tags + Rating */}
                 <div className="flex items-center justify-between">
                     <div className="flex gap-1.5 flex-wrap">
                         {job.tags.slice(0, 3).map(tag => (
@@ -114,12 +113,18 @@ const JobCard = ({ job, onOpen }: JobCardProps) => {
                 </div>
             </div>
 
-            {/* Hover Action Bar */}
             <div className="px-3.5 py-2.5 border-t border-white/60 dark:border-white/10 bg-white/40 dark:bg-[#1a1d23]/40 flex items-center justify-between transition-all duration-300 group-hover:bg-primary/[0.04]">
                 <span className="text-sm font-semibold text-[#5f6368] dark:text-[#9aa0a6] group-hover:text-primary transition-colors">
                     View position details
                 </span>
                 <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-all duration-300 translate-x-2 group-hover:translate-x-0">
+                    <button
+                        onClick={(e) => { e.stopPropagation(); setShowColdEmail(true); }}
+                        className="flex items-center gap-1.5 px-3 py-1 rounded-lg bg-white/80 dark:bg-[#1a1d23]/80 border border-white/60 dark:border-white/10 text-xs font-bold text-gray-700 dark:text-gray-300 shadow-sm hover:shadow-button hover:-translate-y-0.5 transition-all"
+                    >
+                        <Mail size={14} />
+                        Cold Email
+                    </button>
                     <button
                         onClick={(e) => { e.stopPropagation(); onOpen(job); }}
                         className="flex items-center gap-1.5 px-3 py-1 rounded-lg bg-gradient-to-r from-primary to-secondary text-white text-xs font-bold shadow-button hover:shadow-card-hover transition-all"
@@ -131,6 +136,16 @@ const JobCard = ({ job, onOpen }: JobCardProps) => {
                 </div>
             </div>
         </Card>
+
+        {showColdEmail && (
+            <ColdEmailDialog
+                jobTitle={job.title}
+                jobCompany={job.company}
+                jobLocation={job.location}
+                onClose={() => setShowColdEmail(false)}
+            />
+        )}
+        </>
     );
 };
 

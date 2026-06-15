@@ -15,6 +15,8 @@ import CareerJourney from './CareerJourney/CareerJourney';
 import SkillsCloud from './SkillsCloud/SkillsCloud';
 import ProfileSidebar from './ProfileSidebar/ProfileSidebar';
 import ImageModal from './ImageModal/ImageModal';
+import ResumeUpload from '../../components/ResumeUpload/ResumeUpload';
+import EmailHistory from '../../components/EmailHistory/EmailHistory';
 
 const Profile = () => {
   const [isEditing, setIsEditing] = useState(false);
@@ -92,8 +94,10 @@ const Profile = () => {
             <main className="space-y-3">
               <ReadinessSection readiness={profileData.readiness} />
               <AboutMe bio={profileData.bio} />
+              <ResumeUpload />
               <CareerJourney experience={profileData.experience} />
               <SkillsCloud skills={profileData.skills} />
+              <EmailHistory />
             </main>
           </div>
         )}

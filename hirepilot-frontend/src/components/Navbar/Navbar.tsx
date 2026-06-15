@@ -2,7 +2,7 @@ import { useState } from "react";
 import {
   Home, Briefcase,
   Menu as MenuIcon, X,
-  Zap,
+  Zap, Mail,
 } from "lucide-react";
 import Logo from "../Logo/Logo";
 import { Link, useLocation, useNavigate } from "react-router-dom";
@@ -16,6 +16,7 @@ const NAV_ITEMS = [
   { label: "Home", path: "/", icon: Home },
   { label: "Jobs", path: "/jobs", icon: Briefcase },
   { label: "AI Interview", path: "/interview", icon: Zap },
+  { label: "Cold Email", path: "/cold-email", icon: Mail },
 ];
 
 export default function Navbar() {

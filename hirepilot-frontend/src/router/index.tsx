@@ -18,6 +18,7 @@ const AboutUs = lazy(() => import("../pages/AboutUs/AboutUs"));
 const PrivacyPolicy = lazy(() => import("../pages/PrivacyPolicy/PrivacyPolicy"));
 const TermsConditions = lazy(() => import("../pages/TermsConditions/TermsConditions"));
 const TrainingSession = lazy(() => import("../pages/Interview/TrainingSession/TrainingSession"));
+const ColdEmailCampaign = lazy(() => import("../pages/ColdEmailCampaign/ColdEmailCampaign"));
 
 /**
  * Global router configuration for HirePilot.
@@ -72,6 +73,14 @@ export const router = createBrowserRouter([
             element: (
               <GuardRoute>
                 <Messages />
+              </GuardRoute>
+            ),
+          },
+          {
+            path: "/cold-email",
+            element: (
+              <GuardRoute>
+                <ColdEmailCampaign />
               </GuardRoute>
             ),
           },

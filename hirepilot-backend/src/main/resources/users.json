@@ -1,0 +1,24 @@
+[
+  {
+    "email": "iamnawazahmad777@gmail.com",
+    "password": "password",
+    "firstName": "Nawaz",
+    "lastName": "Ahmad",
+    "headline": "Full Stack Developer",
+    "location": "Bengaluru, India",
+    "phone": "+91-9876543210",
+    "bio": "Experienced full stack developer with expertise in Spring Boot, React, and cloud technologies.",
+    "skillsJson": "[\"Java\", \"Spring Boot\", \"React\", \"TypeScript\", \"PostgreSQL\", \"Docker\"]"
+  },
+  {
+    "email": "www.niyazkumanali@gmail.com",
+    "password": "password",
+    "firstName": "Niyaz",
+    "lastName": "Ahmad",
+    "headline": "Software Engineer",
+    "location": "Bengaluru, India",
+    "phone": "+91-9876543211",
+    "bio": "Software engineer passionate about building scalable applications.",
+    "skillsJson": "[\"Java\", \"Spring Boot\", \"React\", \"TypeScript\"]"
+  }
+]

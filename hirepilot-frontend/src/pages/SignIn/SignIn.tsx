@@ -40,11 +40,11 @@ const SignIn = () => {
     setIsLoading(true);
     setErrors({});
     AUTH_SERVICE.login({ email, password })
-      .then(() => {
+      .then((res) => {
         setSuccessMessage(`Welcome back! Signed in as ${email}`);
         setEmail(''); setPassword('');
         setTimeout(() => setSuccessMessage(''), 3000);
-        dispatch(authActions.login());
+        dispatch(authActions.login({ token: res.token }));
         navigate("/");
       })
       .catch((err) => {
@@ -56,7 +56,7 @@ const SignIn = () => {
   const handleSocialAuth = () => {
     setIsLoading(true);
     setTimeout(() => {
-      dispatch(authActions.login());
+      dispatch(authActions.login({}));
       navigate('/');
     }, 500);
   };

@@ -1,3 +1,4 @@
 export interface AuthState {
-  isAuthenticated: boolean
+  isAuthenticated: boolean;
+  token: string | null;
 }

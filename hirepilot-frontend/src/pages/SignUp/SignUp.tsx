@@ -64,12 +64,12 @@ const SignUp = () => {
     setIsLoading(true);
     setErrors({});
     AUTH_SERVICE.register(formData)
-      .then(() => {
+      .then((res) => {
         setSuccessMessage(`Welcome ${formData.firstName}! Account created.`);
         setFormData({ firstName: '', lastName: '', email: '', phone: '', password: '', confirmPassword: '' });
         setAgreedToTerms(false); setPasswordStrength('');
         setTimeout(() => setSuccessMessage(''), 3000);
-        dispatch(authActions.login());
+        dispatch(authActions.login({ token: res.token }));
         navigate("/");
       })
       .catch((err) => setErrors({ submit: err.message || 'Registration failed.' }))
@@ -99,7 +99,7 @@ const SignUp = () => {
   const handleSocialAuth = () => {
     setIsLoading(true);
     setTimeout(() => {
-      dispatch(authActions.login());
+      dispatch(authActions.login({}));
       navigate('/');
     }, 500);
   };
