@@ -22,5 +22,17 @@
     "phone": "+91-9876543211",
     "bio": "Software engineer passionate about building scalable applications.",
     "skillsJson": "[\"Java\", \"Spring Boot\", \"React\", \"TypeScript\"]"
+  },
+  {
+    "email": "rahul.sharma@example.com",
+    "password": "password",
+    "firstName": "Rahul",
+    "lastName": "Sharma",
+    "role": "CANDIDATE",
+    "headline": "Java Developer",
+    "location": "Pune, India",
+    "phone": "+91-9876543212",
+    "bio": "Backend developer with 3 years of experience in Java and Spring Boot.",
+    "skillsJson": "[\"Java\", \"Spring Boot\", \"MySQL\", \"Git\"]"
   }
 ]
