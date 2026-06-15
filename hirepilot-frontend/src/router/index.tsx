@@ -110,7 +110,7 @@ export const router = createBrowserRouter([
       {
         path: "/signup",
         element: (
-          <GuardRoute requireAuth={false}>
+          <GuardRoute>
             <SignUp />
           </GuardRoute>
         ),
@@ -118,7 +118,7 @@ export const router = createBrowserRouter([
       {
         path: "/signin",
         element: (
-          <GuardRoute requireAuth={false}>
+          <GuardRoute>
             <SignIn />
           </GuardRoute>
         ),

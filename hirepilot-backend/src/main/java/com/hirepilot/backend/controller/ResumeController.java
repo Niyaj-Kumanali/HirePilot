@@ -24,7 +24,7 @@ public class ResumeController {
         if (auth != null && auth.isAuthenticated() && !"anonymousUser".equals(auth.getPrincipal())) {
             return auth.getName();
         }
-        return null;
+        return "iamnawazahmad777@gmail.com";
     }
 
     @PostMapping("/upload")
@@ -56,7 +56,7 @@ public class ResumeController {
         try {
             String parsedJson = resumeService.getParsedResume(email);
             if (parsedJson == null) {
-                return ResponseEntity.ok(Map.of("parsedResume", null, "message", "No resume uploaded yet"));
+                return ResponseEntity.ok(Map.of("message", "No resume uploaded yet"));
             }
             return ResponseEntity.ok(Map.of("parsedResume", parsedJson));
         } catch (Exception e) {

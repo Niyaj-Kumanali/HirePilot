@@ -9,7 +9,7 @@ if (!API_KEY) {
 
 const genAI = new GoogleGenerativeAI(API_KEY);
 
-const MODEL_ID = "gemini-2.5-flash";
+const MODEL_ID = "gemini-2.0-flash";
 
 interface ChatEntry {
     role: "user" | "model";

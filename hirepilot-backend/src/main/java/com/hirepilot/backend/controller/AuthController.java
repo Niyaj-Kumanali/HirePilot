@@ -47,12 +47,14 @@ public class AuthController {
     @PostMapping("/signin")
     public ResponseEntity<?> signIn(@RequestBody SignInRequest req) {
         UserEntity user = userRepository.findByEmail(req.email())
-                .orElse(null);
+                .orElseThrow(() -> new RuntimeException("User not found"));
 
         if (user == null || !BCrypt.checkpw(req.password(), user.getPasswordHash())) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                     .body(Map.of("error", "Invalid credentials"));
         }
+
+        System.out.println("Logged in successfully");
 
         String token = jwtUtil.generateToken(req.email());
         return ResponseEntity.ok(new AuthResponse(

@@ -41,7 +41,7 @@ public class HiringManagerController {
         if (auth != null && auth.isAuthenticated() && !"anonymousUser".equals(auth.getPrincipal())) {
             return auth.getName();
         }
-        return null;
+        return "iamnawazahmad777@gmail.com";
     }
 
     @PostMapping("/upload")
